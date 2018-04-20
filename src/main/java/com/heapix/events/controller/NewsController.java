@@ -27,7 +27,7 @@ import javax.validation.constraints.NotNull;
  * @author mgergalov
  */
 @RestController
-@RequestMapping("events")
+@RequestMapping("news")
 public class NewsController {
 
     @Autowired
@@ -37,30 +37,30 @@ public class NewsController {
 
 
     @GetMapping
-    public List<News> getAllEvents() {
+    public List<News> getAllNews() {
         return newsService.getAll();
     }
 
     @GetMapping("/{id}")
-    public News getEventInfo(@NotNull @PathVariable String id) throws NotFoundException {
+    public News getNews(@NotNull @PathVariable String id) throws NotFoundException {
         return newsService.findNews(Long.valueOf(id));
     }
 
     @PostMapping
-    public ResponseEntity addEvent(@RequestBody CreateNewsDto newsDto) {
+    public ResponseEntity addNews(@RequestBody CreateNewsDto newsDto) {
         //impl
         CreateResponseBo response = newsService.createNews(newsConverter.toModel(newsDto), newsDto.getCreatorName());
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateEvent(@NotEmpty @RequestBody UpdateNewsDto eventDto, @PathVariable String id) {
+    public ResponseEntity updateNews(@NotEmpty @RequestBody UpdateNewsDto eventDto, @PathVariable String id) {
         //impl
         return new ResponseEntity(newsService.update(eventDto.getBody(), Long.valueOf(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity removeEvent(@PathVariable String id) {
+    public ResponseEntity removeNews(@PathVariable String id) {
         //impl
         newsService.delete(Long.valueOf(id));
         return new ResponseEntity(HttpStatus.OK);
