@@ -7,6 +7,7 @@ import com.heapix.events.controller.converter.EventConverter;
 import com.heapix.events.persistence.model.Event;
 import com.heapix.events.persistence.repository.EventRepository;
 import javassist.NotFoundException;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,6 @@ public class EventServiceImpl implements EventService {
 
     @Autowired
     private EventRepository eventRepository;
-    @Autowired
     private EventConverter eventConverter;
 
     @Override
@@ -36,13 +36,19 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public UpdateResponseBo updateEvent(Event event) {
-        return new UpdateResponseBo(eventRepository.save(eventRepository.getOne(event.getId())).getId());
+    public UpdateResponseBo updateEvent(Event event, Long id) {
+        Event entity = eventRepository.getOne(id);
+        entity.setDate(event.getDate());
+//        entity.setLocation(event.getLocation());
+        entity.setInfo(event.getInfo());
+        entity.setMaxNumberOfRegistrations(event.getMaxNumberOfRegistrations());
+        entity.setMinNumberOfRegistrations(event.getMinNumberOfRegistrations());
+        return new UpdateResponseBo(eventRepository.save(entity).getId());
     }
 
     @Override
     public CreateResponseBo createEvent(Event event) {
-        return null;
+        return new CreateResponseBo(eventRepository.save(event).getId());
     }
 
     @Override

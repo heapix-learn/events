@@ -32,7 +32,6 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
-    @Autowired
     private NewsConverter newsConverter;
 
 
@@ -54,7 +53,7 @@ public class NewsController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateNews(@NotEmpty @RequestBody UpdateNewsDto eventDto, @PathVariable String id) {
+    public ResponseEntity updateNews(@RequestBody UpdateNewsDto eventDto, @PathVariable String id) {
         //impl
         return new ResponseEntity(newsService.update(eventDto.getBody(), Long.valueOf(id)), HttpStatus.OK);
     }
@@ -65,7 +64,6 @@ public class NewsController {
         newsService.delete(Long.valueOf(id));
         return new ResponseEntity(HttpStatus.OK);
     }
-
 
 
 }
