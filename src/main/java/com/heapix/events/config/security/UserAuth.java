@@ -21,6 +21,8 @@ public class UserAuth implements UserDetails {
     }
 
 
+    public Long getId() {return user.getId();}
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return singleton(new SimpleGrantedAuthority(user.getRole().name()));
