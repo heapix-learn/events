@@ -6,8 +6,11 @@ out/
 *.ipr
 *.ips
 
+# Java
+*.jar
+
 #secure files
-src/main/resources/application.properties
+*.properties
 
 # Eclipse
 .settings/
