@@ -5,6 +5,7 @@ import com.heapix.events.controller.bo.EventInfoBo;
 import com.heapix.events.controller.converter.EventConverter;
 import com.heapix.events.controller.dto.CreateEventDto;
 import com.heapix.events.controller.dto.UpdateEventDto;
+import com.heapix.events.persistence.model.Event;
 import com.heapix.events.service.EventService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
-    @Autowired
     private EventConverter eventConverter;
 
 
@@ -55,9 +55,11 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateEvent(@NotEmpty @RequestBody UpdateEventDto eventDto) {
+    public ResponseEntity updateEvent(@NotEmpty @RequestBody UpdateEventDto eventDto,
+                                      @PathVariable String id) {
         //impl
-        return new ResponseEntity(new CreateResponseBo(1l), HttpStatus.OK);
+        Event event = eventConverter.toModel(eventDto);
+        return new ResponseEntity(eventService.updateEvent(event,Long.valueOf(id)), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

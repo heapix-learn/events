@@ -8,25 +8,34 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * @author mgergalov
  */
 @Entity
+@Table(name = "news")
 public class News {
-    public News(String title) {
-        this.title = title;
-    }
 
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @OneToOne
     private Long userId;
     private String title;
     private String body;
     private Date createdDate;
     private Date lastModifiedDate;
+
+    public News() {
+    }
+
+    public News(Long userId, String title, String body, Date createdDate, Date lastModifiedDate) {
+        this.userId = userId;
+        this.title = title;
+        this.body = body;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
+    }
 
     public Long getId() {
         return id;

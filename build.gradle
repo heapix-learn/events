@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.1.RELEASE")
+        classpath 'mysql:mysql-connector-java:5.1.34'
     }
 }
 
@@ -20,6 +21,13 @@ bootJar {
     baseName = 'gs-spring-boot'
     version =  '0.1.0'
 }
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs = [
+            '-Amapstruct.suppressGeneratorTimestamp=true'
+    ]
+}
+
 
 repositories {
     mavenCentral()
@@ -37,5 +45,8 @@ dependencies {
     compile 'io.springfox:springfox-swagger2:2.7.0'
     compile 'io.springfox:springfox-swagger-ui:2.7.0'
     compileOnly 'org.projectlombok:lombok'
+    runtime('mysql:mysql-connector-java')
+    compile 'org.mapstruct:mapstruct-jdk8:1.1.0.Final'
+    compile 'org.mapstruct:mapstruct-processor:1.1.0.Final'
 }
 

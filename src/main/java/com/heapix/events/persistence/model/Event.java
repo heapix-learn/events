@@ -1,18 +1,17 @@
 package com.heapix.events.persistence.model;
 
-import lombok.Data;
-
 import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 /**
  * @author mgergalov
  */
 @Entity
+@Table(name = "event")
 public class Event {
 
     @Id
@@ -20,21 +19,24 @@ public class Event {
     private Long id;
     private String firstName;
     private Date date;
-    private Location location;
+    private String location;
     private String info;
     private int price;
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
 
-    public Event(String firstName, Date date, Location location, String info, int price, int minNumberOfRegistrations,
+    public Event(String firstName, Date date, String location, String info, int price, int minNumberOfRegistrations,
                  int maxNumberOfRegistrations) {
         this.firstName = firstName;
         this.date = date;
-        this.location = location;
+//        this.location = location;
         this.info = info;
         this.price = price;
         this.minNumberOfRegistrations = minNumberOfRegistrations;
         this.maxNumberOfRegistrations = maxNumberOfRegistrations;
+    }
+
+    public Event() {
     }
 
     @Override
@@ -43,16 +45,12 @@ public class Event {
                 "id=" + id +
                 ", firstName='" + firstName + '\'' +
                 ", date=" + date +
-                ", location=" + location +
+//                ", location=" + location +
                 ", info='" + info + '\'' +
                 ", price=" + price +
                 ", minNumberOfRegistrations=" + minNumberOfRegistrations +
                 ", maxNumberOfRegistrations=" + maxNumberOfRegistrations +
                 '}';
-    }
-
-
-    public Event() {
     }
 
     public Long getId() {
@@ -79,11 +77,11 @@ public class Event {
         this.date = date;
     }
 
-    public Location getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
