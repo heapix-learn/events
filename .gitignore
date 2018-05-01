@@ -1,0 +1,55 @@
+# IntelliJ
+.idea/
+out/
+*.iws
+*.iml
+*.ipr
+*.ips
+
+#secure files
+*.properties
+
+# Eclipse
+.settings/
+.metadata/
+.classpath
+.project
+
+# Generated
+target/
+javadoc/
+bin/
+log/
+classes/
+
+# Misc.
+.DS_Store
+*.swp
+*.swo
+
+# configuration files
+
+# Gradle
+.gradle/
+build
+
+.DS_Store
+node_modules
+/dist
+
+# local env files
+.env.local
+.env.*.local
+
+# Log files
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
