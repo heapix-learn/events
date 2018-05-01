@@ -11,6 +11,8 @@ out/
 
 #secure files
 *.properties
+.propertioes
+application.properties
 
 # Eclipse
 .settings/
