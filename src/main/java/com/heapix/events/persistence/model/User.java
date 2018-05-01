@@ -30,14 +30,23 @@ public class User {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String phone1, String phone2, UserRole role, String annotations) {
+    public User(String firstName, String lastName, String password, String email, String phone1, String phone2, UserRole role, String annotations) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.phone1 = phone1;
         this.phone2 = phone2;
         this.role = role;
         this.annotations = annotations;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public Long getId() {
