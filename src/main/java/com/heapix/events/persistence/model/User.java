@@ -23,6 +23,7 @@ public class User {
     private String email;
     private String phone1;
     private String phone2;
+    private String password;
     private UserRole role;
     private String annotations;
 
