@@ -5,18 +5,20 @@
         <form class="col s12" @submit.prevent="signIn">
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email">
+              <input id="email" type="email" v-validate="'required|email'" name="email">
               <label for="email">Email</label>
+              <span class="helper-text" data-error="wrong" data-success="right">{{errors.first('email')}}</span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="password" type="password">
+              <input id="password" type="password" v-validate="'required'" name="password">
               <label for="password">Password</label>
+              <span class="helper-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
             </div>
           </div>
           <div class="center-align submit-buttons">
-            <a @click="signIn" class="waves-effect waves-light btn-large green">Login</a>
+            <a @click="signIn" :class="{disabled: this.errors.items.length > 0}" class="waves-effect waves-light btn-large green">Login</a>
             <router-link to="signup" class="btn-flat green-text">Don't have account?</router-link>
           </div>
         </form>
@@ -37,7 +39,8 @@ export default {
     ...mapActions([
       'signIn',
     ])
-  }
+  },
+
 }
 </script>
 

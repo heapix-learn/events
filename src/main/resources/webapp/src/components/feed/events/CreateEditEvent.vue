@@ -8,33 +8,33 @@
       <div class="row">
         <div class="input-field col s12">
           <input id="event-title" type="text" class="validate" v-model="eventData.title">
-          <label for="event-title">Title</label>
+          <label :class="{active: eventData.title}" for="event-title">Title</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
           <input id="event-date" type="text" v-model="eventData.date">
-          <label for="event-date">Date</label>
+          <label :class="{active: eventData.date}" for="event-date">Date</label>
         </div>
         <div class="input-field col s6">
           <input id="event-time" type="text" v-model="eventData.time">
-          <label for="event-time">Time</label>
+          <label :class="{active: eventData.time}" for="event-time">Time</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
           <input id="event-location" type="text" class="validate" v-model="eventData.location">
-          <label for="event-location">Location</label>
+          <label :class="{active: eventData.location}" for="event-location">Location</label>
         </div>
         <div class="input-field col s6">
           <input id="event-price" type="text" class="validate" v-model="eventData.price">
-          <label for="event-price">Price</label>
+          <label :class="{active: eventData.price}" for="event-price">Price</label>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
           <textarea id="event-description" class="materialize-textarea" v-model="eventData.description"></textarea>
-          <label for="event-text">Description</label>
+          <label :class="{active: eventData.description}" for="event-text">Description</label>
         </div>
       </div>
       <div class="row">
@@ -49,11 +49,11 @@
         </div>
         <div class="input-field col s4">
           <input id="event-cap-min" type="text" class="validate" v-model="eventData.capacityMin">
-          <label for="event-location">Min capacity</label>
+          <label :class="{active: eventData.capacityMin}" for="event-cap-min">Min capacity</label>
         </div>
         <div class="input-field col s4">
           <input id="event-cam-max" type="text" class="validate" v-model="eventData.capacityMax">
-          <label for="event-location">Max capacity</label>
+          <label :class="{active: eventData.capacityMax}" for="event-cam-max">Max capacity</label>
         </div>
       </div>        
     </form>
@@ -62,10 +62,10 @@
 
     <!-- <registration-form></registration-form> -->
     <div class="row">
-      <div v-for="(label, index) in regLabels" :key="index">
+      <div v-for="(label, index) in eventData.labels" :key="index">
         <div class="input-field col offset-s3 s5">
           <input :id="label + '-reg-form'" type="text" v-model="label.label">
-          <label :for="label + '-reg-form'">Input name</label>
+          <label :class="{active: label.label}" :for="label + '-reg-form'">Input name</label>
         </div>
 
         <div class="input-props col s4 valign-wrapper">
@@ -86,7 +86,7 @@
 
 <script>
 import Modal from '../../utils/Modal.vue'
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'CreateEditEvent',
@@ -102,17 +102,21 @@ export default {
         capacityMin: '',
         capacityMax: '',
         role: '',
+        labels: [
+          {label: ''}
+        ]
       },
-      regLabels: [
-        {
-          label: ''
-        }
-      ],
       isEdit: this.$route.path.match(/edit/)
     }
   },
   components: {
     Modal
+  },
+  computed: {
+    ...mapGetters([
+      'getEventById',
+      'getEventPreview'
+    ])
   },
   methods: {
     ...mapActions([
@@ -122,19 +126,28 @@ export default {
       this.$router.go(-1);
     },
     previewEvent() {
-      this.setEventPreview({...this.eventData, labels: this.regLabels})
+      this.setEventPreview({...this.eventData, labels: this.eventData.labels})
       this.$router.push('/events/preview')
     },
     addField() {
-      this.regLabels.push({label: ''})
+      this.eventData.labels.push({label: ''})
     },
     removeField(i) {
-      this.regLabels.splice(i, 1)
+      this.eventData.labels.splice(i, 1)
     }
   },
   mounted() {
     M.FormSelect.init(document.querySelector('select'));
     M.Modal.init(document.querySelectorAll('.modal'));
+
+    if (this.isEdit) {
+      this.eventData = this.getEventById(this.$route.params.id * 1)
+    } else {
+      const previewEvent = this.getEventPreview;
+      if (previewEvent) {
+        this.eventData = previewEvent
+      }
+    } 
   },
 }
 </script>

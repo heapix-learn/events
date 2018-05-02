@@ -18,18 +18,20 @@
           </div>
           <div class="card-action">
             <router-link class="green-text" :to="'../'">Back</router-link>
-            <a v-if="!showRegistration" @click.prevent="openRegistration" class="green-text">Registration</a>
+            <a v-if="!showRegistration" @click="openRegistration" class="green-text reg-button">Registration</a>
           </div>
         </div>
       </div>
     </div>
     <div v-if="showRegistration" class="row">
       <div class="col s12">
+        <h5 class="center">Register for the event</h5>
         <form @submit.prevent>
-          <div v-for="(label, index) in event.labels" :key="index">
+          <div v-for="(label, index) in event.labels" v-if="label !== ''" :key="index">
             <input :id="label.label + '-reg-form'" type="text" v-model="eventRegistrationForm[label.label]">
             <label :for="label.label + '-reg-form'">{{label.label}}</label>
           </div>
+          <a v-if="!$route.path.match('preview')" @click="eventSignUp" class="waves-effect green waves-light btn event-btn-signup col s2 offset-s5">Sign up</a>
         </form>
       </div>
     </div>
@@ -68,10 +70,13 @@ export default {
   },
   methods: {
     ...mapGetters([
-      'getEventPreview'
+      'getEventPreview',
     ]),
     openRegistration() {
       this.showRegistration = true
+    },
+    eventSignUp() {
+      this.$router.push('/events')
     }
   },
   mounted() {
@@ -99,5 +104,12 @@ export default {
   font-weight: bold;
   font-size: 1.1em;
 }
+.reg-button {
+  cursor: pointer;
+}
+.event-btn-signup {
+  margin-top: 10px;
+}
+
 </style>
       

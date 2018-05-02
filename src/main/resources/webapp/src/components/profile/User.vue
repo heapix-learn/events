@@ -31,30 +31,40 @@
               <form class="col s10">
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_name" type="text" v-model="newFirstName">
+                    <input id="first_name" type="text" v-model="newUser.firstName">
                     <label class="active text-green" for="first_name"><span class="required-field">First Name</span></label>
                   </div>
                   <div class="input-field col s6">
-                    <input id="last_name" type="text" v-model="newLastName">
+                    <input id="last_name" type="text" v-model="newUser.lastName">
                     <label class="active" for="last_name"><span class="required-field">Last Name</span></label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_phone" type="text" v-model="newFirstPhone">
+                    <input id="first_phone" type="text" v-model="newUser.firstPhone">
                     <label class="active text-green" for="first_phone"><span class="required-field">Phone number</span></label>
                   </div>
                   <div class="input-field col s6">
-                    <input id="secondary_phone" type="text" v-model="newLastPhone">
-                    <label for="secondary_phone">Phone number</label>
+                    <input id="secondary_phone" type="text" v-model="newUser.lastPhone">
+                    <label class="active" for="secondary_phone">Phone number</label>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <input id="email" type="email" v-model="newEmail">
+                    <input id="email" type="email" v-model="newUser.email">
                     <label class="active" for="email"><span class="required-field">Email</span></label>
                   </div>
                 </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <select v-model="newUser.role">
+                      <option value="Member">Member</option>
+                      <option value="Moderator">Moderator</option>
+                      <option value="Administrator">Administrator</option>
+                    </select>
+                    <label><span class="required-field">Role</span></label>
+                  </div>
+                </div>                
               </form>
             </div>
           <a class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1 modal-trigger" href="#unsub">Unsubscribe</a>
@@ -73,11 +83,14 @@ export default {
   name: 'User',
   data () {
     return {
-      newFirstName: '',
-      newLastName: '',
-      newFirstPhone: '',
-      newLastPhone: '',
-      newEmail: ''
+      newUser: {
+        firstName: '',
+        lastName: '',
+        firstPhone: '',
+        lastPhone: '',
+        email: '',
+        role: '',
+      }
     }
   },
   methods: {
@@ -89,19 +102,23 @@ export default {
     },
     unsubscribe() {
       this.submitEditting();
-    }
-  },
-  watch: {
-    
+    },
+    setUserData() {
+      this.newUser = this.$store.getters.userById(this.$route.params.id * 1)
+    },
+    editState() {
+      this.$router.push({query: {edit: 'true'}})
+      M.Modal.init(document.querySelectorAll('.modal'));
+      M.FormSelect.init(document.querySelector('select'));
+      this.setUserData()
+    },
+
   },
   computed: {
     user() {
       return this.$store.getters.userById(this.$route.params.id * 1)
     },
     isEdit() {
-      console.log(
-        this.$route.query.edit
-      )
       return this.$route.query.edit
     }
   },
@@ -110,9 +127,12 @@ export default {
   },
   mounted() {
       M.Modal.init(document.querySelectorAll('.modal'));
+      M.FormSelect.init(document.querySelector('select'));
+      this.setUserData()
   },
   updated() {
-      M.Modal.init(document.querySelectorAll('.modal'));
+    M.Modal.init(document.querySelectorAll('.modal'));
+    M.FormSelect.init(document.querySelector('select'));
   }
 }
 </script>

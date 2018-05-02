@@ -33,6 +33,10 @@ export default new Router({
       component: CreateEditEvent
     },
     {
+      path: '/events/edit/:id',
+      component: CreateEditEvent
+    },
+    {
       path: '/events/preview',
       component: EventPreview
     },
@@ -65,7 +69,7 @@ export default new Router({
       component: User
     },
     {
-      path: '/users/:id?edit',
+      path: '/users/:id?edit=true',
       component: User
     },
     {
