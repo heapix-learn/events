@@ -5,20 +5,21 @@
         <form class="col s12" @submit.prevent="signIn">
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email" v-validate="'required|email'" name="email">
+              <input id="email" type="email" v-model="email" v-validate="'required|email'" name="email">
               <label for="email">Email</label>
-              <span class="helper-text" data-error="wrong" data-success="right">{{errors.first('email')}}</span>
+              <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('email')}}</span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="password" type="password" v-validate="'required'" name="password">
+              <input id="password" type="password" v-model="password" v-validate="'required'" name="password">
               <label for="password">Password</label>
-              <span class="helper-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
+              <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
             </div>
           </div>
+          <div v-if="serverError" class="server-error center red-text">{{serverError}}</div>
           <div class="center-align submit-buttons">
-            <a @click="signIn" :class="{disabled: this.errors.items.length > 0}" class="waves-effect waves-light btn-large green">Login</a>
+            <a @click="signIn" :class="{disabled: errors.items.length > 0 || !email || !password || isLoading}" class="waves-effect waves-light btn-large green">Login</a>
             <router-link to="signup" class="btn-flat green-text">Don't have account?</router-link>
           </div>
         </form>
@@ -28,18 +29,32 @@
 
 <script>
 import AuthView from './AuthView.vue'
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Login',
   components: {
     AuthView
   },
+  data() {
+    return {
+      email: '',
+      password: '',
+      serverError: 'Invalid email/password',
+    }
+  },
   methods: {
     ...mapActions([
       'signIn',
     ])
   },
+  computed: {
+    ...mapGetters([
+      'isLoading'
+    ])
+  },
+  mounted() {
+  }
 
 }
 </script>
@@ -56,6 +71,9 @@ export default {
 }
 .submit-buttons a:first-child {
   margin-right: 10px;
+}
+.server-error {
+  padding-bottom: 20px;
 }
 
 </style>
