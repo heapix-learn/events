@@ -19,7 +19,7 @@
           </div>
           <div v-if="serverError" class="server-error center red-text">{{serverError}}</div>
           <div class="center-align submit-buttons">
-            <a @click="signInPost" :class="{disabled: errors.items.length > 0 || !email || !password || isLoading}" class="waves-effect waves-light btn-large green">Login</a>
+            <a @click="signInPost" :class="{disabled: errors.items.length > 0 || disabledByFields}" class="waves-effect waves-light btn-large green">Login</a>
             <router-link to="signup" class="btn-flat green-text">Don't have account?</router-link>
           </div>
         </form>
@@ -49,9 +49,9 @@ export default {
     ]),
     signInPost() {
       this.signIn({email: this.email, password: this.password})
-      .catch(rej => {
-        this.serverError = rej.error
-      })
+        .catch(rej => {
+          this.serverError = rej.error
+        })
     },
 
   },
@@ -59,7 +59,10 @@ export default {
     ...mapGetters([
       'isLoading',
       'loginError'
-    ])
+    ]),
+    disabledByFields() {
+      return !this.email || !this.password || this.isLoading
+    }
   },
   mounted() {
   }

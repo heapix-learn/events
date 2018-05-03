@@ -5,29 +5,33 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s6">
-              <input id="first_name" type="text">
-              <label class="text-green" for="first_name"><span class="required-field">First Name</span></label>
+              <input @input="serverError = ''" id="first-name" type="text" v-model="user.firstName" v-validate="'required|alpha'" name="firstName">
+              <label class="text-green" for="first-name"><span class="required-field">First Name</span></label>
+              <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('firstName')}}</span>
             </div>
             <div class="input-field col s6">
-              <input id="last_name" type="text">
-              <label for="last_name">Last Name</label>
+              <input @input="serverError = ''" id="last-name" type="text" v-model="user.lastName" v-validate="'alpha'" name="lastName">
+              <label for="last-name">Last Name</label>
+              <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('lastName')}}</span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email">
+              <input @input="serverError = ''" id="email" type="email" v-model="user.email" v-validate="'required|email'" name="email">
               <label for="email"><span class="required-field">Email</span></label>
+              <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('email')}}</span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="password" type="password">
+              <input @input="serverError = ''"  id="password" type="password" v-model="user.password" v-validate="'required'" name="password">
               <label for="password"><span class="required-field">Password</span></label>
+              <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
             </div>
           </div>
           <div class="center-align submit-buttons">
-            <a class="waves-effect waves-light btn-large green">Sign Up!</a>
-            <router-link to="login" class="btn-flat green-text">Already have account?</router-link>
+            <a @click="signUpPost" :class="{disabled: errors.items.length > 0 || disabledByFields}"  class="waves-effect waves-light btn-large green">Sign Up!</a>
+            <router-link to="login" class="btn-flat green-text">Already have account? {{disabledByFields}}</router-link>
           </div>
         </form>
       </div>
@@ -36,11 +40,42 @@
 
 <script>
 import AuthView from './AuthView'
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Signup',
   components: {
     AuthView
+  },
+  data () {
+    return {
+      user: {
+        email: '',
+        firstName: '',
+        lastName: '',
+        password: '',
+      },
+      serverError: '',
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'isLoading'
+    ]),
+    disabledByFields() {
+      return !this.user.email || !this.user.password || this.user.isLoading || !this.user.firstName
+    }
+  },
+  methods: {
+    ...mapActions([
+      'signUp'
+    ]),
+    signUpPost() {
+      this.signUp(this.user)
+        .catch(rej => {
+          this.serverError = rej.error
+        })
+    }
   }
 }
 </script>

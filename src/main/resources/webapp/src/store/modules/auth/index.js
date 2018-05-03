@@ -16,7 +16,6 @@ export default {
   state: {
     isLogged: false,
     isLoading: false,
-    loginError: '',
     loggedUser
   },
   getters: {
@@ -24,7 +23,6 @@ export default {
     isLoading: state => state.isLoading,
     loggedUserId: state => state.loggedUser.id,
     loggedUserRole: state => state.loggedUser.role,
-    loginError: state => state.loginError,
   },
   mutations: {
     setIsLogged(state, isLogged) {
@@ -33,9 +31,6 @@ export default {
     toggleLoading(state) {
       state.isLoading = !state.isLoading;
     },
-    loginError(state, error) {
-      state.loginError = error
-    }
   },
   actions: {
     signIn({commit}, payload) {
@@ -47,7 +42,7 @@ export default {
             return res
           })
           .catch(rej => {
-            commit('loginError', rej)
+            console.log(rej)
             return rej
           })
           .then(res => {
@@ -65,6 +60,22 @@ export default {
           })
           .catch(rej => {
             commit('logoutError', rej)
+            return rej
+          })
+          .then(res => {
+            commit('toggleLoading')
+            return res
+          })
+    },
+    signUp({commit}, payload) {
+        commit('toggleLoading')
+        return axios.get(`${url}/photos`)
+          .then(res => {
+            router.push({path: '/'})
+            return res
+          })
+          .catch(rej => {
+            console.log(rej)
             return rej
           })
           .then(res => {
