@@ -29,6 +29,7 @@ export default {
         price: '10',
         capacityMin: '20',
         capacityMax: '100',
+        labels: []
       },
     ],
     preview: null
@@ -50,7 +51,9 @@ export default {
   },
   mutations: {
     setEventPreview(state, payload) {
+      const labels = payload.labels.filter(i => {if (i.label !== '') return i})
       state.preview = payload
+      state.preview.labels = labels
     },
     clearEventPreview(state) {
       state.preview = null

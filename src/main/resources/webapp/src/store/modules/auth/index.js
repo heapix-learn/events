@@ -22,6 +22,7 @@ export default {
     isLogged: state => state.isLogged,
     isLoading: state => state.isLoading,
     loggedUserId: state => state.loggedUser.id,
+    loggedUserName: state => state.loggedUser.firstName,
     loggedUserRole: state => state.loggedUser.role,
   },
   mutations: {
@@ -41,7 +42,7 @@ export default {
         return axios.get(`${url}/photos`)
           .then(res => {
             commit('setIsLogged', true)
-            commit('setUser', res.user)
+            // commit('setUser', res.user)
             router.push({path: '/'})
             return res
           })

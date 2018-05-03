@@ -4,7 +4,7 @@
       <div class="create-event-buttons row center">
         <a @click="publish" class="waves-effect green waves-light btn">Publish</a>
         <a @click="cancel" class="waves-effect red lighten-2 red btn">Cancel</a>
-    </div>
+      </div>
   </div>
 </template>
 <script>
