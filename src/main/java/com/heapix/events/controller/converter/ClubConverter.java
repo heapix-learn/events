@@ -18,5 +18,5 @@ public interface ClubConverter {
 
     EventInfoBo toInfoBo(Club club);
 
-    List<ClubInfoBo> toDtos(List<Club> clubs);
+ //   List<ClubInfoBo> toDtos(List<Club> clubs);
 }

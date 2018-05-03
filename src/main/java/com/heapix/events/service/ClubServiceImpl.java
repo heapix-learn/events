@@ -38,7 +38,7 @@ public class ClubServiceImpl implements ClubService {
 
     @Override
     public List<ClubInfoBo> getAll() {
-        return clubConverter.toDtos(clubRepo.findAll());
+        return null; //}clubConverter.toDtos(clubRepo.findAll());
     }
 
     @Override
