@@ -87,8 +87,6 @@ export default {
             this.$router.push('/events')
           }
         })
-      // return
-      // this.$router.push('/events')
     },
     inputOnBlur() {
       for (let key in this.eventRegistrationForm) {
@@ -103,10 +101,6 @@ export default {
   },
   mounted() {
     M.Modal.init(document.querySelectorAll('.modal'));
-    // this.$validateAll().catch(() => {});
-    // this.event.labels.map((label) => {
-    //   this.eventRegistrationForm[label.label] = ''
-    // })
   }
 }
 </script>
