@@ -28,6 +28,9 @@ export default {
     setIsLogged(state, isLogged) {
       state.isLogged = isLogged
     },
+    setUser(state, user) {
+      state.loggedUser = user
+    },
     toggleLoading(state) {
       state.isLoading = !state.isLoading;
     },
@@ -38,6 +41,7 @@ export default {
         return axios.get(`${url}/photos`)
           .then(res => {
             commit('setIsLogged', true)
+            commit('setUser', res.user)
             router.push({path: '/'})
             return res
           })
