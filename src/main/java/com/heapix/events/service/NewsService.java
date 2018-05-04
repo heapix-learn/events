@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface NewsService {
 
-    CreateResponseBo createNews(News news, String userName);
+    CreateResponseBo createNews(News news, Long userId);
     List<News> getAll();
     News findNews(Long id);
     UpdateResponseBo update(String body, Long newsId);
