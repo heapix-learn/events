@@ -31,4 +31,5 @@ public enum UserRole {
     public String getDescription() {
         return description;
     }
+
 }
