@@ -8,6 +8,7 @@ export default {
     isLogged: false,
     isLoading: false,
     loggedUser: {},
+    authToken: '',
   },
   getters: {
     isLogged: state => state.isLogged,
@@ -23,6 +24,9 @@ export default {
     setUser(state, user) {
       state.loggedUser = user
     },
+    setAuthToken(state, token) {
+      state.authToken = token
+    },
     toggleLoading(state) {
       state.isLoading = !state.isLoading;
     },
@@ -34,6 +38,7 @@ export default {
           .then(res => {
             commit('setIsLogged', true)
             commit('setUser', res.user)
+            commit('setAuthToken', res.token)
             router.push({path: '/'})
             return res
           })
