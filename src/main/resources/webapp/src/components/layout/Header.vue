@@ -18,7 +18,7 @@
                   <li><a @click="$store.dispatch('signOut')">Logout</a></li>
                 </ul>
               </li>
-              <li><a class="dropdown-trigger" data-target="dropdown1">Profile<i class="material-icons right">arrow_drop_down</i></a></li>
+              <li><a class="dropdown-trigger" data-target="dropdown1">{{loggedUserName}}<i class="material-icons right">arrow_drop_down</i></a></li>
             </template>
             
             <template v-else>
@@ -45,6 +45,7 @@ export default {
     ...mapGetters([
       'isLogged',
       'loggedUserId',
+      'loggedUserName',
       'role'
     ]),
   },

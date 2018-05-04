@@ -141,6 +141,9 @@ export default {
 .profile {
   height: 100%;
 }
+.profile .col.s12 {
+  margin-top: 18px;
+}
 .card-panel {
   position: relative;
 }

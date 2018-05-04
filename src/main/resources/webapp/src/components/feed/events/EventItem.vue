@@ -27,11 +27,12 @@
       <div class="col s12">
         <h5 class="center">Register for the event</h5>
         <form @submit.prevent>
-          <div v-for="(label, index) in event.labels" v-if="label !== ''" :key="index">
-            <input :id="label.label + '-reg-form'" type="text" v-model="eventRegistrationForm[label.label]">
+          <div class="input-field" v-for="(label, index) in event.labels" :key="index">
+            <input @blur="inputOnBlur" :id="label.label + '-reg-form'" type="text" v-model="eventRegistrationForm[label.label]" v-validate="'required'" :name="label.label">
             <label :for="label.label + '-reg-form'">{{label.label}}</label>
+            <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first(label.label)}}</span>
           </div>
-          <a v-if="!$route.path.match('preview')" @click="eventSignUp" class="waves-effect green waves-light btn event-btn-signup col s2 offset-s5">Sign up</a>
+          <a v-if="!$route.path.match('preview')" @click="eventSignUp" :class="{disabled: errors.items.length > 0}" class="waves-effect green waves-light btn event-btn-signup col s2 offset-s5">Sign up</a>
         </form>
       </div>
     </div>
@@ -47,7 +48,10 @@ export default {
   data() {
     return {
       showRegistration: false,
-      eventRegistrationForm: {}
+      eventRegistrationForm: {
+
+      },
+      isSignUpFieldsEmpty: true,
     }
   },
   computed: {
@@ -55,7 +59,6 @@ export default {
       if (this.$route.path.match('/events/preview')) {
         const event = this.getEventPreview();
         if (event !== null) {
-          console.log(event)
           return event;
         } else {
           this.$router.go(-1)
@@ -63,7 +66,7 @@ export default {
       } else {
         return this.$store.getters.getEventById(this.$route.params.id * 1)
       }
-    }
+    },
   },
   components: {
     Modal
@@ -76,7 +79,24 @@ export default {
       this.showRegistration = true
     },
     eventSignUp() {
-      this.$router.push('/events')
+      this.$validator.validateAll()
+        .then(() => {
+          if (this.errors.items.length > 0) {
+            return
+          } else {
+            this.$router.push('/events')
+          }
+        })
+    },
+    inputOnBlur() {
+      for (let key in this.eventRegistrationForm) {
+        if (this.eventRegistrationForm[key] === '') {
+          this.isSignUpFieldsEmpty = true;
+          return
+        }
+      }
+      this.isSignUpFieldsEmpty = false
+      return
     }
   },
   mounted() {

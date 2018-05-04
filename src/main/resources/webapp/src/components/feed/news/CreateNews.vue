@@ -6,30 +6,33 @@
     <form @submit.prevent class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input id="news-title" type="text" class="validate" v-model="title">
+          <input id="news-title" type="text" v-model="title" v-validate="'required'" name="Title">
           <label :class="{active: title}" for="news-title">Title</label>
+          <span class="helper-text red-text" >{{errors.first('Title')}}</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="news-text" class="materialize-textarea active" v-model="text"></textarea>
+          <textarea id="news-text" class="materialize-textarea active" v-model="text" v-validate="'required'" name="Text"/>
           <label :class="{active: text}" for="news-text">Text</label>
+          <span class="helper-text red-text">{{errors.first('Text')}}</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <select id="news-role" v-model="role">
+          <select id="news-role" v-model="role" v-validate="'required'" name="Role">
             <option value="All">All</option>
             <option value="Members">Members</option>
             <option value="Moders">Moders</option>
             <option value="Admins">Admins</option>
           </select>
           <label for="news-role">Visible for</label>
+          <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('Role')}}</span>
         </div>
       </div>        
     </form>
     <div class="create-news-buttons row center">
-      <a @click="previewNews" class="waves-effect green waves-light btn">Preview</a>
+      <a @click="previewNews" :class="{disabled: errors.items.length > 0 || disabledByFields}" class="waves-effect green waves-light btn">Preview</a>
       <a class="waves-effect red lighten-2 red btn modal-trigger" href="#modal">Cancel</a>
       <a v-if="isEdit" class="waves-effect red darken-2 red btn modal-trigger" href="#modal-delete">Delete</a>
     </div>
@@ -66,7 +69,10 @@ import { mapActions, mapGetters } from 'vuex';
     computed: {
       ...mapGetters([
         'getNewsById'
-      ])
+      ]),
+      disabledByFields() {
+        return !this.title || !this.text || !this.role
+      }
     },
     name: 'NewsCreator',
     mounted() {
@@ -88,11 +94,20 @@ import { mapActions, mapGetters } from 'vuex';
     },
     components: {
       Modal,
+    },
+    beforeRouteLeave (to, from, next) {
+      if (to.path !== '/news/preview') {
+        this.clearNewsPreview()
+      }
+      next()
     }
   }
 </script>
 
 <style>
+.create-news-form {
+  margin-top: 18px;
+}
 .create-news-buttons a{
   margin-left: 5px;
   margin-right: 5px;

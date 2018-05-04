@@ -4,63 +4,71 @@
     <modal modalId="modal-delete" title="Please confirm deletion" @confirm="abort"></modal>
 
     <h4 class="center">Event body</h4>
-    <form @submit.prevent class="col s12">
+    <form @submit.prevent="previewEvent" class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input id="event-title" type="text" class="validate" v-model="eventData.title">
+          <input id="event-title" type="text" class="validate" v-model="eventData.title" v-validate="'required'" name="Title">
           <label :class="{active: eventData.title}" for="event-title">Title</label>
+          <span class="helper-text red-text" >{{errors.first('Title')}}</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input id="event-date" type="text" v-model="eventData.date">
+          <input id="event-date" type="text" v-model="eventData.date" v-validate="'required'" name="Date">
           <label :class="{active: eventData.date}" for="event-date">Date</label>
+          <span class="helper-text red-text" >{{errors.first('Date')}}</span>
         </div>
         <div class="input-field col s6">
-          <input id="event-time" type="text" v-model="eventData.time">
+          <input id="event-time" type="text" v-model="eventData.time" v-validate="'required'" name="Time">
           <label :class="{active: eventData.time}" for="event-time">Time</label>
+          <span class="helper-text red-text" >{{errors.first('Time')}}</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input id="event-location" type="text" class="validate" v-model="eventData.location">
+          <input id="event-location" type="text" class="validate" v-model="eventData.location" v-validate="'required'" name="Location">
           <label :class="{active: eventData.location}" for="event-location">Location</label>
+          <span class="helper-text red-text" >{{errors.first('Location')}}</span>
         </div>
         <div class="input-field col s6">
-          <input id="event-price" type="text" class="validate" v-model="eventData.price">
+          <input id="event-price" type="text" class="validate" v-model="eventData.price" v-validate="'required|decimal'" name="Price">
           <label :class="{active: eventData.price}" for="event-price">Price</label>
+          <span class="helper-text red-text" >{{errors.first('Price')}}</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="event-description" class="materialize-textarea" v-model="eventData.description"></textarea>
+          <textarea id="event-description" class="materialize-textarea" v-model="eventData.description" v-validate="'required'" name="Description"/>
           <label :class="{active: eventData.description}" for="event-text">Description</label>
+          <span class="helper-text red-text" >{{errors.first('Description')}}</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s4">
-          <select id="event-role" v-model="eventData.role">
+          <select id="event-role" v-model="eventData.role" v-validate="'required'" name="Role">
             <option value="All">All</option>
             <option value="Members">Members</option>
             <option value="Moders">Moders</option>
             <option value="Admins">Admins</option>
           </select>
           <label for="event-role">Visible for</label>
+          <span class="helper-text red-text" >{{errors.first('Role')}}</span>
         </div>
         <div class="input-field col s4">
-          <input id="event-cap-min" type="text" class="validate" v-model="eventData.capacityMin">
+          <input id="event-cap-min" type="text" class="validate" v-model="eventData.capacityMin" v-validate="'digits'" name="Min capacity">
           <label :class="{active: eventData.capacityMin}" for="event-cap-min">Min capacity</label>
+          <span class="helper-text red-text" >{{errors.first('Min capacity')}}</span>
         </div>
         <div class="input-field col s4">
-          <input id="event-cam-max" type="text" class="validate" v-model="eventData.capacityMax">
+          <input id="event-cam-max" type="text" class="validate" v-model="eventData.capacityMax" v-validate="'digits'" name="Max capacity">
           <label :class="{active: eventData.capacityMax}" for="event-cam-max">Max capacity</label>
+          <span class="helper-text red-text" >{{errors.first('Max capacity')}}</span>
         </div>
       </div>        
     </form>
 
     <h4 class="center">Event registration</h4>
 
-    <!-- <registration-form></registration-form> -->
     <div class="row">
       <div v-for="(label, index) in eventData.labels" :key="index">
         <div class="input-field col offset-s3 s5">
@@ -77,7 +85,7 @@
     <hr>
 
     <div class="create-event-buttons row center">
-      <a @click="previewEvent" class="waves-effect green waves-light btn">Preview</a>
+      <a @click="previewEvent" :class="{disabled: errors.items.length > 0 || disabledByFields}" class="waves-effect green waves-light btn">Preview</a>
       <a class="waves-effect red lighten-2 red btn modal-trigger" href="#modal">Cancel</a>
       <a v-if="isEdit" class="waves-effect red darken-2 red btn modal-trigger" href="#modal-delete">Delete</a>
     </div>
@@ -116,7 +124,11 @@ export default {
     ...mapGetters([
       'getEventById',
       'getEventPreview'
-    ])
+    ]),
+    disabledByFields() {
+      const data = this.eventData
+      return !data.title || !data.location || !data.description || !data.date || !data.time || !data.price
+    }
   },
   methods: {
     ...mapActions([
