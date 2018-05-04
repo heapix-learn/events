@@ -2,6 +2,7 @@ package com.heapix.events.service;
 
 import com.heapix.events.controller.bo.CreateResponseBo;
 import com.heapix.events.controller.bo.UpdateResponseBo;
+import com.heapix.events.controller.dto.ChangePasswordDto;
 import com.heapix.events.controller.dto.UserUpdateDto;
 import com.heapix.events.persistence.model.User;
 import com.heapix.events.persistence.model.enums.UserRole;
@@ -74,5 +75,18 @@ public class UserServiceImpl implements UserService {
     public void allowRegistration(Long userId) {
         User entity = userRepository.getOne(userId);
         entity.setRole(UserRole.MEMBER_USER.getId());
+    }
+
+    @Override
+    public User changePassword(ChangePasswordDto password, Long userId) throws Exception {
+        User user = findUser(userId);
+        if(!encoder.encode(password.getOldPassword()).equals(user.getPassword())) {
+            throw new Exception("current password is invalid");
+        }
+        if(!password.getNewPassword().equals(password.getOldPassword())){
+            throw new Exception("Password does not match the confirm password");
+        }
+        user.setPassword(encoder.encode(password.getNewPassword()));
+        return userRepository.save(user);
     }
 }

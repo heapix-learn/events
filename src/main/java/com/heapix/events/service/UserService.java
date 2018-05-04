@@ -2,6 +2,7 @@ package com.heapix.events.service;
 
 import com.heapix.events.controller.bo.CreateResponseBo;
 import com.heapix.events.controller.bo.UpdateResponseBo;
+import com.heapix.events.controller.dto.ChangePasswordDto;
 import com.heapix.events.controller.dto.UserUpdateDto;
 import com.heapix.events.persistence.model.User;
 
@@ -20,5 +21,6 @@ public interface UserService {
     List<User> getUnregisteredUsers();
     List<User> getRegisteredUsers();
     void allowRegistration(Long userId);
+    User changePassword(ChangePasswordDto password, Long userId) throws Exception;
 
 }
