@@ -9,6 +9,6 @@ import com.heapix.events.controller.dto.NewEventRegistrationDto;
 public interface EventRegistrationService {
 
     CreateResponseBo registerEvent(NewEventRegistrationDto eventRegistration);
-    void unregisterEvent(Long eventId);
+    void unregisterEvent(Long eventId, Long userId);
 
 }

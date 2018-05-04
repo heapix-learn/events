@@ -54,7 +54,7 @@ public class AuthController {
         User alreadyExist = userRepo.findByEmail(user.getEmail());
         if (alreadyExist == null) {
             user.setPassword(encoder.encode(user.getPassword()));
-            user.setRole(UserRole.MEMBER_USER);
+            user.setRole(UserRole.MEMBER_USER.getId());
             return userRepo.save(user);
         } else throw new Exception("user already registered");
 
