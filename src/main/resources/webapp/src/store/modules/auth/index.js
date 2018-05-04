@@ -3,20 +3,12 @@ import axios from 'axios'
 
 const url = 'http://localhost:8080'
 
-const loggedUser = {
-  id: 1,
-  role: 'administrator',
-  firstName: 'Stephen',
-  lastName: 'Cock',
-  firstPhone: '+375291965627',
-  lastPhone: '',
-  email: 'stephencock@gmail.com',
-}
 export default {
   state: {
     isLogged: false,
     isLoading: false,
-    loggedUser
+    loggedUser: {},
+    authToken: '',
   },
   getters: {
     isLogged: state => state.isLogged,
@@ -32,6 +24,9 @@ export default {
     setUser(state, user) {
       state.loggedUser = user
     },
+    setAuthToken(state, token) {
+      state.authToken = token
+    },
     toggleLoading(state) {
       state.isLoading = !state.isLoading;
     },
@@ -39,10 +34,11 @@ export default {
   actions: {
     signIn({commit}, payload) {
         commit('toggleLoading')
-        return axios.get(`${url}/photos`)
+        return axios.post(`${url}/photos`, payload)
           .then(res => {
             commit('setIsLogged', true)
-            // commit('setUser', res.user)
+            commit('setUser', res.user)
+            commit('setAuthToken', res.token)
             router.push({path: '/'})
             return res
           })
@@ -57,7 +53,7 @@ export default {
     },
     signOut({commit}, payload) {
         commit('toggleLoading')
-        return axios.get(`${url}/photos`)
+        return axios.post(`${url}/photos`, payload)
           .then(res => {
             commit('setIsLogged', false)
             router.push({path: '/'})
