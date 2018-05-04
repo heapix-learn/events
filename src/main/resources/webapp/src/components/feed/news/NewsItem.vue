@@ -8,8 +8,11 @@
       </router-link>
       <div class="card horizontal">
         <div class="card-stacked">
-          <div @click = "changeSize" class="card-content news-text shorten">
+          <div :class="'news-text-'+news.id" class="card-content news-text shorten" @click = "changeSize">
             {{news.text}}
+          </div>
+          <div class="news-btn">
+            <a @click = "changeSizeWithButton"  class="waves-effect waves-light btn-large green">Show/Hide</a>
           </div>
         </div>
       </div>
@@ -27,6 +30,9 @@ export default {
       changeSize(event) {
               event.currentTarget.classList.toggle("shorten");
           },
+      changeSizeWithButton() {
+              document.getElementsByClassName('news-text-'+this.news.id)[0].classList.toggle("shorten");;
+          },    
     },
     computed: {
       ...mapGetters([
@@ -53,5 +59,8 @@ export default {
     margin: 30px 15px 0 0;
     top: 0;
     right: 0;
+  }
+  .news-btn {
+    padding: 5px 5px 5px 5px;
   }
 </style>

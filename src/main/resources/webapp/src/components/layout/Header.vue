@@ -25,6 +25,7 @@
                 <li key="login"><router-link to="/auth/login">Login</router-link></li>
                 <li><router-link to="/auth/signup">Signup</router-link></li>
             </template>
+            <li :class="activePath('/about')"><router-link to="/about">About</router-link></li>
           </ul>
         </div>
       </div>

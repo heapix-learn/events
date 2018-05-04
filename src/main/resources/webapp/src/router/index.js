@@ -19,6 +19,8 @@ import AuthVuew from '../components/auth/AuthView.vue';
 import Login from '../components/auth/Login.vue';
 import Signup from '../components/auth/Signup.vue';
 
+import About from '../components/feed/about/About.vue';
+
 Vue.use(Router)
 
 export default new Router({
@@ -28,6 +30,10 @@ export default new Router({
     {
       path: '/events',
       component: Events,
+    },
+    {
+      path: '/about',
+      component: About,
     },
     {
       path: '/events/create',
