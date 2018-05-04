@@ -7,6 +7,8 @@ import com.heapix.events.persistence.repository.EventRegistrationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 /**
  * @author mgergalov
  */
@@ -26,8 +28,10 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
     }
 
     @Override
-    public void unregisterEvent(Long eventId) {
-        EventRegistration entity = eventRegistrationRepository.findByUserIdAndEventId(eventId,1l);
+    public void unregisterEvent(Long eventId, Long userId) {
+
+        Optional<EventRegistration> event = eventRegistrationRepository.findByUserIdAndEventId(eventId, userId);
+        event.ifPresent(value -> eventRegistrationRepository.delete(value));
     }
 
 }

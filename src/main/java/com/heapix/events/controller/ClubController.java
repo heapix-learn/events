@@ -10,6 +10,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotEmpty;
@@ -28,7 +29,7 @@ public class ClubController {
     }
 
     @GetMapping
-    public List<ClubInfoBo> getAllCLubs() {
+    public List<ClubInfoBo> getAllClubs() {
         //impl
         return clubService.getAll();
     }
@@ -39,12 +40,14 @@ public class ClubController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
     public ResponseEntity addClub(@NotEmpty @RequestBody ClubDto clubDto) {
         CreateResponseBo response = clubService.createClub(clubDto);
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
     public ResponseEntity updateCLub(@NotEmpty @RequestBody ClubDto clubDto,
                                      @PathVariable String id) {
         UpdateResponseBo response = clubService.updateClub(clubDto, Long.valueOf(id));
@@ -52,6 +55,7 @@ public class ClubController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
     public ResponseEntity removeClub(@PathVariable String id) {
         clubService.remove(Long.valueOf(id));
         return new ResponseEntity(HttpStatus.OK);
