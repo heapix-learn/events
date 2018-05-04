@@ -50,7 +50,7 @@ public class EventController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('Administrator')")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
     public ResponseEntity addEvent(@RequestBody CreateEventDto eventDto) {
         //impl
         CreateResponseBo response = eventService.createEvent(eventConverter.toModel(eventDto));
@@ -58,7 +58,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator')")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
     public ResponseEntity updateEvent(@NotEmpty @RequestBody UpdateEventDto eventDto,
                                       @PathVariable String id) {
         //impl

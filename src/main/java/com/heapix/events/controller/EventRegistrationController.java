@@ -30,6 +30,7 @@ public class EventRegistrationController {
     private EventRegistrationService eventRegistrationService;
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
     public ResponseEntity<CreateResponseBo> registerToEvent(@RequestBody NewEventRegistrationDto registrationDto) {
         //impl with userId
         CreateResponseBo response = eventRegistrationService.registerEvent(registrationDto);
@@ -37,7 +38,7 @@ public class EventRegistrationController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('Member')")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
     public ResponseEntity unregisterEvent(@PathVariable String id) {
 
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

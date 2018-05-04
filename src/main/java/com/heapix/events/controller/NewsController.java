@@ -40,7 +40,7 @@ public class NewsController {
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('Administrator')")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
     public ResponseEntity addNews(@RequestBody CreateNewsDto newsDto) {
         //impl
         CreateResponseBo response = newsService.createNews(newsConverter.toModel(newsDto), newsDto.getCreatorName());
@@ -48,7 +48,7 @@ public class NewsController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator')")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
     public ResponseEntity updateNews(@RequestBody UpdateNewsDto eventDto, @PathVariable String id) {
         //impl
         return new ResponseEntity(newsService.update(eventDto.getBody(), Long.valueOf(id)), HttpStatus.OK);
