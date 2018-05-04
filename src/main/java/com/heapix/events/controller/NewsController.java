@@ -29,6 +29,7 @@ public class NewsController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
     public List<News> getAllNews() {
         return newsService.getAll();
     }

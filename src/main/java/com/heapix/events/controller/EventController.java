@@ -38,6 +38,7 @@ public class EventController {
 
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
     public List<EventInfoBo> getAllEvents() {
         //impl
         return eventService.getAll();

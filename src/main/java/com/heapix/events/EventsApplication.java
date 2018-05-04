@@ -10,11 +10,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 /**
  * @author mgergalov
  */
-@SpringBootApplication(scanBasePackages={"com.heapix.*"})
+@SpringBootApplication(scanBasePackages={"com.heapix.**"})
 @EnableAutoConfiguration
 public class EventsApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) {
         SpringApplication.run(EventsApplication.class, args);
+        System.out.println(new BCryptPasswordEncoder().encode("s"));
     }
 }
