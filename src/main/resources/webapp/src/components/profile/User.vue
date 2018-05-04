@@ -24,45 +24,51 @@
             <modal title="All changes will be discarded" @confirm="discardChanges"></modal>
             <modal modalId="unsub" title="Please confirm unsubscription" @confirm="unsubscribe"></modal>
             
-            <a @click.prevent="submitEditting" class="waves-effect waves green btn edit-button eb-save z-depth-1">Save</a>
+            <a @click.prevent="submitEditting" :class="{disabled: errors.items.length > 0}" class="waves-effect waves green btn edit-button eb-save z-depth-1">Save</a>
             <a class="waves-effect waves lighten-2 red btn edit-button eb-cancel z-depth-1 modal-trigger" href="#modal">Cancel</a>
 
             <div class="row edit-form">
               <form class="col s10">
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_name" type="text" v-model="newUser.firstName">
+                    <input id="first_name" type="text" v-model="newUser.firstName" v-validate="'required|alpha'" name="First Name">
                     <label class="active text-green" for="first_name"><span class="required-field">First Name</span></label>
+                    <span class="helper-text red-text" >{{errors.first('First Name')}}</span>
                   </div>
                   <div class="input-field col s6">
-                    <input id="last_name" type="text" v-model="newUser.lastName">
+                    <input id="last_name" type="text" v-model="newUser.lastName" v-validate="'alpha'" name="Last Name">
                     <label class="active" for="last_name"><span class="required-field">Last Name</span></label>
+                    <span class="helper-text red-text" >{{errors.first('Last Name')}}</span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_phone" type="text" v-model="newUser.firstPhone">
+                    <input id="first_phone" type="text" v-model="newUser.firstPhone" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
                     <label class="active text-green" for="first_phone"><span class="required-field">Phone number</span></label>
+                    <span class="helper-text red-text" >{{errors.first('Phone number')}}</span>
                   </div>
                   <div class="input-field col s6">
-                    <input id="secondary_phone" type="text" v-model="newUser.lastPhone">
+                    <input id="secondary_phone" type="text" v-model="newUser.lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2">
                     <label class="active" for="secondary_phone">Phone number</label>
+                    <span class="helper-text red-text" >{{errors.first('Phone number 2')}}</span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <input id="email" type="email" v-model="newUser.email">
+                    <input id="email" type="email" v-model="newUser.email" v-validate="'required|email'" name="Email">
                     <label class="active" for="email"><span class="required-field">Email</span></label>
+                    <span class="helper-text red-text" >{{errors.first('Email')}}</span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <select v-model="newUser.role">
+                    <select v-model="newUser.role" v-validate="'required'" name="Role">
                       <option value="Member">Member</option>
                       <option value="Moderator">Moderator</option>
                       <option value="Administrator">Administrator</option>
                     </select>
                     <label><span class="required-field">Role</span></label>
+                    <span class="helper-text red-text" >{{errors.first('Role')}}</span>
                   </div>
                 </div>                
               </form>
@@ -95,7 +101,14 @@ export default {
   },
   methods: {
     submitEditting() {
-      this.$router.push(this.$route.path)
+      this.$validator.validateAll()
+        .then(() => {
+          if (this.errors.items.length > 0) {
+            return
+          } else {
+            this.$router.push('/events')
+          }
+        })
     },
     discardChanges() {
       this.submitEditting()
