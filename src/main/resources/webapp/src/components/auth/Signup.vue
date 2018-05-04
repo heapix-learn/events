@@ -31,7 +31,7 @@
           </div>
           <div class="center-align submit-buttons">
             <a @click="signUpPost" :class="{disabled: errors.items.length > 0 || disabledByFields}"  class="waves-effect waves-light btn-large green">Sign Up!</a>
-            <router-link to="login" class="btn-flat green-text">Already have account? {{disabledByFields}}</router-link>
+            <router-link to="login" class="btn-flat green-text">Already have account?</router-link>
           </div>
         </form>
       </div>

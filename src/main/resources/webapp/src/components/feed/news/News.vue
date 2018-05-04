@@ -5,12 +5,12 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 import NewsItem from "./NewsItem.vue"
 export default {
   name:'NewsList',
   computed:{
-    ...mapGetters([
+    ...mapActions([
       'getNews'
     ])
   },
@@ -18,7 +18,7 @@ export default {
   },
   components: {
       NewsItem,
-  }
+  },
 }
 </script>
 <style>

@@ -1,4 +1,6 @@
 import router from '../../../router'
+import axios from 'axios'
+import url from '../../index'
 
 export default {
   state: {

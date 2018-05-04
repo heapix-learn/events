@@ -6,16 +6,22 @@
 
 <script>
 import EventShortcut from './EventShortcut.vue';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'Events',
   computed: {
+    ...mapActions([
+      'getEvents'
+    ]),
     ...mapGetters([
       'getShortEvents'
-    ])
+    ]),
   },
   components: {
     EventShortcut
+  },
+  mounted() {
+    this.getEvents
   }
 }
 </script>

@@ -1,7 +1,15 @@
 import router from '../../../router'
 import axios from 'axios'
+import url from '../../index'
 
-const url = 'http://localhost:8080'
+const user = {
+  firstName: 'uucc',
+  lastName: 'uucc',
+  firstPhone: '+111111111',
+  lastPhone: '',
+  email: 'uucc@uucc.uucc',
+  role: 'member',
+}
 
 export default {
   state: {
@@ -33,6 +41,18 @@ export default {
   },
   actions: {
     signIn({commit}, payload) {
+      //FOR TESTING PURPOSE ONLY
+      //DO NOT REMOVE THIS BLOCK 
+      // if (payload.email === 'uucc@uucc.uucc' ) {
+      //   commit('setIsLogged', true)
+      //   commit('setUser', user)
+      //   commit('setAuthToken', '12345')
+      //   router.push({path: '/'})
+      //   return
+      // }
+       
+     
+      //FOR TESTING PURPOSE ONLY
         commit('toggleLoading')
         return axios.post(`${url}/photos`, payload)
           .then(res => {
