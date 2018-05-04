@@ -27,10 +27,10 @@ public class NewsServiceImpl implements NewsService {
     private NewsConverter newsConverter;
 
     @Override
-    public CreateResponseBo createNews(News news, String user) {
+    public CreateResponseBo createNews(News news, Long userId) {
         news.setCreatedDate(new Date());
         //check is user exist
-        news.setUserId(userRepository.findByEmail(user).getId());
+        news.setUserId(userId);
         News response = newsRepository.save(news);
         return new CreateResponseBo(response.getId());
     }

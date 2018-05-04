@@ -1,5 +1,6 @@
 package com.heapix.events.controller.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -8,11 +9,9 @@ import javax.validation.constraints.NotNull;
 /**
  * @author mgergalov
  */
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class CreateNewsDto {
 
-    @NotEmpty
-    @NotNull
-    private String creatorName;
     @NotEmpty
     @NotNull
     private String title;
@@ -20,17 +19,7 @@ public class CreateNewsDto {
     @NotNull
     private String body;
 
-    public CreateNewsDto(@NotEmpty @NotNull String creatorName) {
-        this.creatorName = creatorName;
-    }
-
-    public String getCreatorName() {
-        return creatorName;
-    }
-
-    public void setCreatorName(String creatorName) {
-        this.creatorName = creatorName;
-    }
+    public CreateNewsDto() { }
 
     public String getTitle() {
         return title;
