@@ -1,7 +1,7 @@
 import router from '../../../router'
 import axios from 'axios'
 
-const url = 'https://jsonplaceholder.typicode.com'
+const url = 'http://localhost:8080'
 
 const loggedUser = {
   id: 1,
@@ -74,7 +74,7 @@ export default {
     },
     signUp({commit}, payload) {
         commit('toggleLoading')
-        return axios.get(`${url}/photos`)
+        return axios.post(`${url}/register`, payload)
           .then(res => {
             router.push({path: '/'})
             return res
