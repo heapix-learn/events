@@ -2,30 +2,26 @@ package com.heapix.events.controller;
 
 import com.heapix.events.config.security.JwtTokenProvider;
 import com.heapix.events.config.security.UserAuth;
+import com.heapix.events.controller.bo.CreateResponseBo;
 import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
 import com.heapix.events.persistence.model.User;
-import com.heapix.events.persistence.model.enums.UserRole;
-import com.heapix.events.persistence.repository.UserRepository;
+import com.heapix.events.service.UserService;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.Serializable;
-import java.util.Objects;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author mgergalov
@@ -34,33 +30,30 @@ import java.util.Objects;
 public class AuthController {
 
     @Autowired
-    public AuthController(PasswordEncoder encoder, UserRepository userRepo,
-                          UserDetailsService userDetailsService,
-                          JwtTokenProvider jwtTokenProvider,
-                          AuthenticationManager authenticationManager) {
-        this.encoder = encoder;
-        this.userRepo = userRepo;
-        this.userDetailsService = userDetailsService;
+    public AuthController(JwtTokenProvider jwtTokenProvider,
+                          AuthenticationManager authenticationManager,
+                          UserService userService) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
+        this.userService = userService;
     }
 
-    private PasswordEncoder encoder;
-    private UserRepository userRepo;
-    private UserDetailsService userDetailsService;
+
     private JwtTokenProvider jwtTokenProvider;
     private AuthenticationManager authenticationManager;
+    private UserService userService;
 
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) throws Exception {
-        User alreadyExist = userRepo.findByEmail(user.getEmail());
-        if (alreadyExist == null) {
-            user.setPassword(encoder.encode(user.getPassword()));
-            user.setRole(UserRole.MEMBER_USER.getId());
-            return userRepo.save(user);
-        } else throw new Exception("user already registered");
+    public CreateResponseBo register(@RequestBody User user) throws Exception {
 
+        return null;
+    }
+
+    @PutMapping("/register/{id}")
+    @PreAuthorize("hasAnyAuthority('Administrator')")
+    public void allowRegistration(@NotNull @PathVariable String id) throws NotFoundException {
+        userService.allowRegistration(Long.valueOf(id));
     }
 
     @PostMapping("/auth")

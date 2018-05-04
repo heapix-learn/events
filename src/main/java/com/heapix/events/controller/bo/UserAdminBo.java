@@ -1,48 +1,22 @@
-package com.heapix.events.persistence.model;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+package com.heapix.events.controller.bo;
 
 /**
  * @author mgergalov
  */
-@Entity
-@Table(name = "users")
-public class User {
+public class UserAdminBo {
 
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-
-    @Column(name = "annotations")
     private String annotations;
-
-    @Column(name = "email")
     private String email;
-
-    @Column(name = "first_name")
     private String firstName;
-
-    @Column(name = "last_name")
     private String lastName;
-
-    @Column(name = "password")
     private String password;
-
-    @Column(name = "phone1")
     private String phone1;
-
-    @Column(name = "phone2")
     private String phone2;
-
-    @Column(name = "role")
     private Long role;
 
-    public User(String annotations, String email, String firstName, String lastName, String password, String phone1, String phone2, Long role) {
+    public UserAdminBo(Long id, String annotations, String email, String firstName, String lastName, String password, String phone1, String phone2, Long role) {
+        this.id = id;
         this.annotations = annotations;
         this.email = email;
         this.firstName = firstName;
@@ -53,11 +27,15 @@ public class User {
         this.role = role;
     }
 
-    public User() {
+    public UserAdminBo() {
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getAnnotations() {
