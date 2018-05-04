@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import CreateUser from '../components/profile/CreateUser.vue';
 import Users from '../components/profile/Users.vue';
+import PendingUsers from '../components/profile/PendingUsers.vue';
 import User from '../components/profile/User.vue';
 
 import Events from '../components/feed/events/Events.vue';
@@ -63,6 +64,10 @@ export default new Router({
     {
       path: '/users',
       component: Users,
+    },
+    {
+      path: '/pendingusers',
+      component: PendingUsers,
     },
     {
       path: '/users/:id',

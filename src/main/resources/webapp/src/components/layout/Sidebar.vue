@@ -37,6 +37,12 @@
             All users
           </button>
         </router-link>
+        <router-link to="/pendingusers">
+          <button class="btn white black-text waves-effect waves-light sb-inner-btn" type="submit" name="action">
+            <i class="material-icons left">people</i>
+            Pending Users
+          </button>
+        </router-link>
       </div>
     </li>
 

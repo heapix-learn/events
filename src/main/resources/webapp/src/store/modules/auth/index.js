@@ -3,20 +3,11 @@ import axios from 'axios'
 
 const url = 'https://jsonplaceholder.typicode.com'
 
-const loggedUser = {
-  id: 1,
-  role: 'administrator',
-  firstName: 'Stephen',
-  lastName: 'Cock',
-  firstPhone: '+375291965627',
-  lastPhone: '',
-  email: 'stephencock@gmail.com',
-}
 export default {
   state: {
     isLogged: false,
     isLoading: false,
-    loggedUser
+    loggedUser: {},
   },
   getters: {
     isLogged: state => state.isLogged,
@@ -39,10 +30,10 @@ export default {
   actions: {
     signIn({commit}, payload) {
         commit('toggleLoading')
-        return axios.get(`${url}/photos`)
+        return axios.post(`${url}/photos`, payload)
           .then(res => {
             commit('setIsLogged', true)
-            // commit('setUser', res.user)
+            commit('setUser', res.user)
             router.push({path: '/'})
             return res
           })
@@ -57,7 +48,7 @@ export default {
     },
     signOut({commit}, payload) {
         commit('toggleLoading')
-        return axios.get(`${url}/photos`)
+        return axios.post(`${url}/photos`, payload)
           .then(res => {
             commit('setIsLogged', false)
             router.push({path: '/'})
@@ -74,7 +65,7 @@ export default {
     },
     signUp({commit}, payload) {
         commit('toggleLoading')
-        return axios.get(`${url}/photos`)
+        return axios.post(`${url}/photos`, payload)
           .then(res => {
             router.push({path: '/'})
             return res
