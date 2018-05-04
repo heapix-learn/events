@@ -19,7 +19,6 @@ public class UserAuth implements UserDetails {
         this.user = user;
     }
 
-
     public Long getId() {return user.getId();}
 
     @Override

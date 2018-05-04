@@ -1,6 +1,7 @@
 package com.heapix.events.controller;
 
 import com.heapix.events.config.security.JwtTokenProvider;
+import com.heapix.events.config.security.UserAuth;
 import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
 import com.heapix.events.persistence.model.User;
@@ -12,6 +13,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -61,17 +64,12 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) {
+    public ResponseEntity createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) {
 
-        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-        UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        String token = jwtTokenProvider.generateToken(userDetails);
-        return ResponseEntity.ok(new JwtAuthenticationResponse(token));
-    }
-
-    private void authenticate(String username, String password) {
-        Objects.requireNonNull(username);
-        Objects.requireNonNull(password);
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
+        Authentication authentication = authenticationManager.authenticate(token);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwtToken = jwtTokenProvider.generateToken((UserAuth) authentication.getPrincipal());
+        return ResponseEntity.ok(new JwtAuthenticationResponse(jwtToken));
     }
 }

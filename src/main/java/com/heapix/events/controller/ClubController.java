@@ -29,7 +29,7 @@ public class ClubController {
     }
 
     @GetMapping
-    public List<ClubInfoBo> getAllCLubs() {
+    public List<ClubInfoBo> getAllClubs() {
         //impl
         return clubService.getAll();
     }
