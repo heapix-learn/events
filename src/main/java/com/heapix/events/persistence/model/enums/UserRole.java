@@ -32,6 +32,7 @@ public enum UserRole {
         return description;
     }
 
+
     public static UserRole getById(Long id) {
 
         for(UserRole e : values()) {

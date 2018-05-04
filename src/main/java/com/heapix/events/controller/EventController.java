@@ -54,7 +54,7 @@ public class EventController {
     public ResponseEntity addEvent(@RequestBody CreateEventDto eventDto) {
         //impl
         CreateResponseBo response = eventService.createEvent(eventConverter.toModel(eventDto));
-        return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
