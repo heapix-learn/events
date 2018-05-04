@@ -11,6 +11,7 @@ import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,11 +44,13 @@ public class EventController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
     public EventInfoBo getEventInfo(@NotNull @PathVariable String id) throws NotFoundException {
         return eventService.getEventInfo(Long.valueOf(id));
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('Administrator')")
     public ResponseEntity addEvent(@RequestBody CreateEventDto eventDto) {
         //impl
         CreateResponseBo response = eventService.createEvent(eventConverter.toModel(eventDto));
@@ -55,6 +58,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('Administrator')")
     public ResponseEntity updateEvent(@NotEmpty @RequestBody UpdateEventDto eventDto,
                                       @PathVariable String id) {
         //impl
@@ -63,6 +67,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
     public ResponseEntity removeEvent(@PathVariable String id) {
         //impl
         eventService.remove(Long.valueOf(id));

@@ -31,4 +31,14 @@ public enum UserRole {
     public String getDescription() {
         return description;
     }
+
+    public static UserRole getById(Long id) {
+
+        for(UserRole e : values()) {
+            if(e.id.equals(id)) {
+                return e;
+            }
+        }
+        return ANONYMOUS_USER;
+    }
 }
