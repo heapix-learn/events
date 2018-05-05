@@ -5,6 +5,7 @@ import com.heapix.events.config.security.UserAuth;
 import com.heapix.events.controller.bo.CreateResponseBo;
 import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
+import com.heapix.events.controller.dto.RegistrationDto;
 import com.heapix.events.persistence.model.User;
 import com.heapix.events.service.UserService;
 import javassist.NotFoundException;
@@ -45,8 +46,8 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public CreateResponseBo register(@RequestBody User user) throws Exception {
-
+    public CreateResponseBo register(@RequestBody RegistrationDto user) throws Exception {
+        userService.addUser(user);
         return null;
     }
 

@@ -4,6 +4,7 @@ import com.heapix.events.controller.bo.CreateResponseBo;
 import com.heapix.events.controller.bo.UserAdminBo;
 import com.heapix.events.controller.converter.UserConverter;
 import com.heapix.events.controller.dto.ChangePasswordDto;
+import com.heapix.events.controller.dto.RegistrationDto;
 import com.heapix.events.controller.dto.UserUpdateDto;
 import com.heapix.events.persistence.model.User;
 import com.heapix.events.persistence.model.enums.UserRole;
@@ -29,12 +30,13 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public CreateResponseBo addUser(User user) throws Exception {
+    public CreateResponseBo addUser(RegistrationDto user) throws Exception {
         User alreadyExist = userRepository.findByEmail(user.getEmail());
         if (alreadyExist == null) {
-            user.setPassword(encoder.encode(user.getPassword()));
-            user.setRole(UserRole.MEMBER_USER.getId());
-            User response = userRepository.save(user);
+            User newUser = new User();
+            newUser.setPassword(encoder.encode(user.getPassword()));
+            newUser.setRole(UserRole.ANONYMOUS_USER.getId());
+            User response = userRepository.save(newUser);
             return new CreateResponseBo(response.getId());
         } else throw new Exception("user already registered");
     }
