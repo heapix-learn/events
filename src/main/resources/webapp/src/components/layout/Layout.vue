@@ -31,10 +31,10 @@ export default {
   computed: {
     ...mapGetters([
       'isLogged',
-      'role',
+      'loggedUserRole'
     ]),
     isAllowed() {
-      return this.isLogged && this.role === 'administrator'
+      return this.isLogged && this.loggedUserRole === 'administrator'
     }
   },
   mounted() {

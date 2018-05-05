@@ -29,8 +29,11 @@
               <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
             </div>
           </div>
+          <div class="row red-text center">
+            {{postSignUpError}}
+          </div>          
           <div class="center-align submit-buttons">
-            <a @click="signUpPost" :class="{disabled: errors.items.length > 0 || disabledByFields}"  class="waves-effect waves-light btn-large green">Sign Up!</a>
+            <a @click="signUp" :class="{disabled: errors.items.length > 0 || disabledByFields}"  class="waves-effect waves-light btn-large green">Sign Up!</a>
             <router-link to="login" class="btn-flat green-text">Already have account?</router-link>
           </div>
         </form>
@@ -55,12 +58,11 @@ export default {
         lastName: '',
         password: '',
       },
-      serverError: '',
     }
   },
   computed: {
     ...mapGetters([
-      'isLoading'
+      'postSignUpError'      
     ]),
     disabledByFields() {
       return !this.user.email || !this.user.password || this.user.isLoading || !this.user.firstName
@@ -68,13 +70,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'signUp'
+      'postSignUp'
     ]),
-    signUpPost() {
-      this.signUp(this.user)
-        .catch(rej => {
-          this.serverError = rej.error
-        })
+    signUp() {
+      this.postSignUp(this.user)          
     }
   }
 }

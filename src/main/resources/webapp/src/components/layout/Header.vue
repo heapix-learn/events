@@ -14,7 +14,7 @@
             <template v-if="isLogged">
               <li key="dropdown">
                 <ul id="dropdown1" class="dropdown-content">
-                  <li><router-link :to="'/users/' + loggedUserId">My profile</router-link></li>
+                  <li><router-link :to="'/myprofile/'">My profile</router-link></li>
                   <li><a @click="$store.dispatch('signOut')">Logout</a></li>
                 </ul>
               </li>
@@ -47,7 +47,6 @@ export default {
       'isLogged',
       'loggedUserId',
       'loggedUserName',
-      'role'
     ]),
   },
   watch: {

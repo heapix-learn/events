@@ -45,7 +45,6 @@ export default {
       commit('clearEventPreview');
     },
     getEvents({commit}) {
-      console.log('meow')
       return axios.get(`${url}/photos`)
         .then(res => {
           commit('setEvents', res.events)
