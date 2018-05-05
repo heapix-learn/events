@@ -45,13 +45,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'signIn',
+      'postSignIn',
     ]),
     signInPost() {
-      this.signIn({email: this.email, password: this.password})
-        .catch(rej => {
-          this.serverError = rej.error
-        })
+      this.postSignIn({email: this.email, password: this.password})
     },
 
   },

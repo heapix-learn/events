@@ -35,10 +35,9 @@ export default {
       commit('clearNewsPreview');
     },
     getNews({commit}) {
-      return axios.get(`${url}/photos`)
+      return axios.get(`${url}/news`)
         .then(res => {
-          commit('setPendingUsers', res.news)
-          router.push({path: '/news'})
+          commit('setNews', res)
           return res
         })
         .catch(rej => {
@@ -46,6 +45,56 @@ export default {
           return rej
         })
     },
+
+    getNewsById({commit}, id) {
+      return axios.get(`${url}/news?id:${id}`)
+        .then(res => {
+          commit('setNewsPreview', res)
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+    },
+
+    postNewNews({commit}, payload) {
+      return axios.post(`${url}/newnews`, payload)
+        .then(res => {
+          commit('clearNewsPreview')
+          router.push({path: '/news'})
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+    },
+
+    putNews({commit}, payload) {
+      return axios.post(`${url}/putnews`, payload)
+        .then(res => {
+          commit('clearNewsPreview')
+          router.push({path: '/news'})
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+    },
+
+    deleteNews({commit}, id) {
+      return axios.delete(`${url}/deletenews?id:${id}`)
+        .then(res => {
+          router.push({path: '/news'})
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+    }
   }
 }
     

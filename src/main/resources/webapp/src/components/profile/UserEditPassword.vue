@@ -19,7 +19,7 @@
           <span class="helper-text red-text" >{{errors.first('Repeat password')}}</span>
         </div>
       </div>
-      <div class="row red-text center">{{notEqualError || serverError}}</div>
+      <div class="row red-text center">{{notEqualError || changePasswordServerError}}</div>
       <div class="row center">
         <a @click="editPassword" :class="{disabled: serverError}" class="waves-effect green waves-light btn">Change</a>
         <a @click="$router.go(-1)" class="waves-effect red lighten-2 red btn">Cancel</a>
@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'EditPassword',
@@ -40,6 +40,11 @@ export default {
       notEqualError: '',
       serverError: '',
     }
+  },
+  computed: {
+    ...mapGetters([
+      'changePasswordServerError'
+    ])
   },
   methods: {
     ...mapActions([
@@ -54,13 +59,7 @@ export default {
             this.notEqualError = 'Passwords are not equal'
             return
           } else {
-            this.serverError = '';
-            this.changePassword({currentPassword: this.currentPassword, newPassword: this.newPassword})
-              .catch(rej => {
-                console.dir(rej)
-                this.serverError = 'Wrong password'
-              })
-              return
+            this.changePassword({currentPassword: this.currentPassword, newPassword: this.newPassword, repeatPassword: this.repeatPassword})
           }
         })
     }

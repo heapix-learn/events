@@ -8,45 +8,45 @@
         <form class="col s12">
           <div class="row">
             <div class="input-field col s6">
-              <input id="first_name" type="text" v-model="firstName" v-validate="'required|alpha'" name="First Name">
+              <input id="first_name" type="text" v-model="user.firstName" v-validate="'required|alpha'" name="First Name">
               <label class="text-green" for="first_name"><span class="required-field">First Name</span></label>
               <span class="helper-text red-text" >{{errors.first('First Name')}}</span>
             </div>
             <div class="input-field col s6">
-              <input id="last_name" type="text" v-model="lastName" v-validate="'required|alpha'" name="Last Name">
+              <input id="last_name" type="text" v-model="user.lastName" v-validate="'required|alpha'" name="Last Name">
               <label for="last_name"><span class="required-field">Last Name</span></label>
               <span class="helper-text red-text" >{{errors.first('Last Name')}}</span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s6">
-              <input id="first_phone" type="text" v-model="firstPhone" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
+              <input id="first_phone" type="text" v-model="user.firstPhone" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
               <label class="text-green" for="first_phone"><span class="required-field">Phone number</span></label>
               <span class="helper-text red-text" >{{errors.first('Phone number')}}</span>
             </div>
             <div class="input-field col s6">
-              <input id="secondary_phone" type="text" v-model="lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2">
+              <input id="secondary_phone" type="text" v-model="user.lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2">
               <label for="secondary_phone">Phone number</label>
               <span class="helper-text red-text" >{{errors.first('Phone number 2')}}</span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="email" type="email" v-model="email" v-validate="'required|email'" name="Email">
+              <input id="email" type="email" v-model="user.email" v-validate="'required|email'" name="Email">
               <label for="email"><span class="required-field">Email</span></label>
               <span class="helper-text red-text">{{errors.first('Email')}}</span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input id="password" type="password" v-model="password" v-validate="'required'" name="Password">
+              <input id="password" type="password" v-model="user.password" v-validate="'required'" name="Password">
               <label for="password"><span class="required-field">Password</span></label>
               <span class="helper-text red-text">{{errors.first('Password')}}</span>
             </div>
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <select v-model="role"  v-validate="'required'" name="Role">
+              <select v-model="user.role"  v-validate="'required'" name="Role">
                 <option value="Member">Member</option>
                 <option value="Moderator">Moderator</option>
                 <option value="Administrator">Administrator</option>
@@ -56,7 +56,7 @@
             </div>
           </div>
         </form>
-        <div class="row center red-text">{{serverError}}</div>
+        <div class="row center red-text">{{postCreateNewUserError}}</div>
         <div class="create-user-buttons row center">
             <a @click="createNewUser" :class="{disabled: errors.items.length > 0}" class="waves-effect waves green btn cub-create z-depth-1">Create</a>
             <a class="waves-effect waves blue btn cub-cancel z-depth-1 modal-trigger" href="#modal">Clear</a>
@@ -69,21 +69,27 @@
 
 <script>
 import Modal from '../utils/Modal.vue'
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'CreateUser',
   data () {
     return {
-      firstName: '',
-      lastName: '',
-      firstPhone: '',
-      lastPhone: '',
-      email: '',
-      role: 'Member',
-      password: '',
-      serverError: '',
+      user: {
+        firstName: '',
+        lastName: '',
+        firstPhone: '',
+        lastPhone: '',
+        email: '',
+        role: 'Member',
+        password: '',
+      }
     }
+  },
+  computed: {
+    ...mapGetters([
+      'postCreateNewUserError'
+    ])
   },
   components: {
     Modal
@@ -95,15 +101,10 @@ export default {
 
   methods: {
     ...mapActions([
-      'createUser',
+      'postCreateNewUser',
     ]),
     discardChanges() {
-      this.firstName = '',
-      this.lastName = '',
-      this.firstName = '',
-      this.lastPhone = '',
-      this.email = '',
-      this.role = 'Member'
+      this.user = {}
     },
     createNewUser() {
       this.$validator.validateAll()
@@ -111,23 +112,7 @@ export default {
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.serverError = '',
-            this.createUser({
-              firstName: this.firstName,
-              lastName: this.lastName,
-              firstPhone: this.firstPhone,
-              lastPhone: this.lastPhone,
-              email: this.email,
-              role: this.role,
-              password: this.password
-            }).then(res => {
-                router.push({path: '/users'})
-                return res
-              })
-              .catch(rej => {
-                this.serverError = rej.response.status
-                return rej
-              })
+            this.postCreateNewUser(this.user)
           }
         })
     }

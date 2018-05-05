@@ -9,7 +9,7 @@
             </div>
             <div class="user-buttons col l9 right-align">
               <router-link :to="'users/' + user.id"><i class="material-icons black-text">visibility</i></router-link>
-              <router-link :to="'users/' + user.id + '?edit=true'"><i class="material-icons black-text">create</i></router-link>
+              <router-link :to="'users/edit/' + user.id"><i class="material-icons black-text">create</i></router-link>
             </div>
           </div>
         </div>
@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   name: 'Users',

@@ -4,8 +4,9 @@ import Router from 'vue-router'
 import CreateUser from '../components/profile/CreateUser.vue';
 import Users from '../components/profile/Users.vue';
 import PendingUsers from '../components/profile/PendingUsers.vue';
-import User from '../components/profile/User.vue';
-import EditPassword from '../components/profile/EditPassword.vue';
+import UserEdit from '../components/profile/UserEdit.vue';
+import UserView from '../components/profile/UserView.vue';
+import UserEditPassword from '../components/profile/UserEditPassword.vue';
 
 import Events from '../components/feed/events/Events.vue';
 import CreateEditEvent from '../components/feed/events/CreateEditEvent.vue';
@@ -14,6 +15,7 @@ import EventPreview from '../components/feed/events/EventPreview.vue';
 
 import News from '../components/feed/news/News.vue';
 import CreateNews from '../components/feed/news/CreateNews.vue';
+import EditNews from '../components/feed/news/EditNews.vue';
 import NewsPreview from '../components/feed/news/NewsPreview.vue';
 
 import AuthVuew from '../components/auth/AuthView.vue';
@@ -62,19 +64,15 @@ export default new Router({
     },
     {
       path: '/news/edit/:id',
-      component: CreateNews
+      component: EditNews
     },
     {
       path: '/news/preview',
       component: NewsPreview
     },
     {
-      path: '/myprofile',
-      component: User
-    },
-    {
-      path: '/myprofile/editpassword',
-      component: EditPassword
+      path: '/news/previewedit',
+      component: NewsPreview
     },
     {
       path: '/users',
@@ -85,12 +83,16 @@ export default new Router({
       component: PendingUsers,
     },
     {
-      path: '/users/:id',
-      component: User
+      path: '/users/edit/changepassword',
+      component: UserEditPassword,
     },
     {
-      path: '/users/:id?edit=true',
-      component: User
+      path: '/users/edit/:id',
+      component: UserEdit,
+    },
+    {
+      path: '/users/:id',
+      component: UserView,
     },
     {
       path: '/createuser',
@@ -104,10 +106,5 @@ export default new Router({
       path: '/auth/signup',
       component: Signup
     },
-    {
-      path: '/kek',
-      component: EventItem
-    }
-
   ]
 })
