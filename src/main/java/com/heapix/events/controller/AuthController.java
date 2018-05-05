@@ -8,7 +8,6 @@ import com.heapix.events.controller.dto.AuthDto;
 import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
 import com.heapix.events.controller.dto.RegistrationDto;
-import com.heapix.events.persistence.model.User;
 import com.heapix.events.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +17,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -49,8 +44,10 @@ public class AuthController {
 
     @PostMapping("/register")
     public CreateResponseBo register(@RequestBody RegistrationDto user) throws Exception {
-        userService.addUser(user);
-        return null;
+        if (userService.findUser(user.getEmail()) != null) {
+            throw new Exception("user with this email already registered");
+        }
+        return new CreateResponseBo(userService.addUser(user).getId());
     }
 
     @PutMapping("/register/{id}")
@@ -70,6 +67,6 @@ public class AuthController {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAdminBo user = userService.findUser(currUser.getId());
 
-        return ResponseEntity.ok(new AuthDto(new JwtAuthenticationResponse(jwtToken),user));
+        return ResponseEntity.ok(new AuthDto(new JwtAuthenticationResponse(jwtToken), user));
     }
 }
