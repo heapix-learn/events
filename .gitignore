@@ -34,6 +34,10 @@ classes/
 
 # configuration files
 
+# Gradle
+.gradle/
+build
+
 .DS_Store
 node_modules
 /dist
