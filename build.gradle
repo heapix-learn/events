@@ -19,7 +19,7 @@ apply plugin: 'io.spring.dependency-management'
 
 bootJar {
     baseName = 'gs-spring-boot'
-    version =  '0.1.0'
+    version = '0.1.0'
 }
 
 tasks.withType(JavaCompile) {
@@ -34,6 +34,33 @@ repositories {
 }
 
 sourceCompatibility = 1.8
+
+def webappDir = "$projectDir/src/main/resources/webapp"
+
+processResources {
+    dependsOn "processVue"
+}
+
+task processVue(type: Copy) {
+    dependsOn "buildVue"
+    from "${webappDir}/dist"
+    into "${buildDir}/resources/main/static"
+}
+
+task buildVue(type: Exec) {
+    dependsOn "installVue"
+    workingDir "$webappDir"
+    inputs.dir "$webappDir"
+    group = BasePlugin.BUILD_GROUP
+    commandLine "npm", "run", "build"
+}
+
+task installVue (type: Exec) {
+    workingDir "$webappDir"
+    inputs.dir "$webappDir"
+    group = BasePlugin.BUILD_GROUP
+    commandLine "npm", "install"
+}
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'

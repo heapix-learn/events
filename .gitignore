@@ -8,6 +8,8 @@ out/
 
 # Java
 *.jar
+# generated js
+static
 
 #secure files
 *.properties
