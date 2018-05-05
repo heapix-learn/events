@@ -18,6 +18,7 @@ public interface UserService {
     CreateResponseBo addUser(RegistrationDto user) throws Exception;
     List<User> getAll();
     UserAdminBo findUser(Long id);
+    UserAdminBo findUser(String email);
     void update(UserUpdateDto userUpdateDto, Long userId);
     void delete(Long id);
     List<UserAdminBo> getUnregisteredUsers();
