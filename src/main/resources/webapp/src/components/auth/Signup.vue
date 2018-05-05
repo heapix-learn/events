@@ -29,6 +29,9 @@
               <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
             </div>
           </div>
+          <div class="row red-text center">
+            {{serverError}}
+          </div>          
           <div class="center-align submit-buttons">
             <a @click="signUpPost" :class="{disabled: errors.items.length > 0 || disabledByFields}"  class="waves-effect waves-light btn-large green">Sign Up!</a>
             <router-link to="login" class="btn-flat green-text">Already have account?</router-link>
@@ -71,9 +74,15 @@ export default {
       'signUp'
     ]),
     signUpPost() {
-      this.signUp(this.user)
+      this.serverError = ''
+      this.signUp(this.user)          
+        .then(res => {
+          this.$router.push({path: '/'})
+          return res
+        })
         .catch(rej => {
-          this.serverError = rej.error
+          this.serverError = rej.response.status
+          return rej
         })
     }
   }

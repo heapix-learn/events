@@ -10,6 +10,10 @@
               <i class="material-icons left">mode_edit</i>
               Edit
             </a>
+            <a v-if="isMyProfle" @click="$router.push('/myprofile/editpassword')" 
+              class="waves-effect waves grey lighten-5 black-text btn edit-button eb-password z-depth-2">
+              Change password
+            </a>
             <div class="row center">
               <h3>
                 {{user.firstName}} {{user.lastName}}
@@ -72,8 +76,9 @@
                   </div>
                 </div>                
               </form>
+              <div class="row center red-text">{{serverError}}</div>
             </div>
-          <a class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1 modal-trigger" href="#unsub">Unsubscribe</a>
+          <a @click="unsubscribe" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1 modal-trigger" href="#unsub">Unsubscribe</a>
           </template>
         </div>
       </div>
@@ -82,7 +87,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import Modal from '../utils/Modal.vue';
 
 export default {
@@ -90,34 +95,54 @@ export default {
   data () {
     return {
       newUser: {
+        id: '',
         firstName: '',
         lastName: '',
         firstPhone: '',
         lastPhone: '',
         email: '',
         role: '',
-      }
+      },
+      isMyProfle: this.$route.path.match('/myprofile/'),
+      serverError: '',
     }
   },
   methods: {
+    ...mapActions([
+      'sendNewUserData',
+      'unsubscribeUser'
+    ]),
     submitEditting() {
       this.$validator.validateAll()
         .then(() => {
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.$router.push('/events')
+            this.serverError = ''
+            this.sendNewUserData(this.newUser)
+              .then(res => {
+                this.$router.push('/events')
+                return res
+              })
+              .catch(rej => {
+                this.serverError = rej.response.status
+                return rej
+              })
           }
         })
+    },
+    unsubscribe() {
+      this.unsubscribeUser(this.newUser.id)
     },
     discardChanges() {
       this.submitEditting()
     },
-    unsubscribe() {
-      this.submitEditting();
-    },
     setUserData() {
-      this.newUser = this.$store.getters.userById(this.$route.params.id * 1)
+      if (this.$route.path.match('/myprofile/')) {
+        this.newUser = this.user
+      } else {
+        this.newUser = this.$store.getters.userById(this.$route.params.id * 1)
+      }
     },
     editState() {
       this.$router.push({query: {edit: 'true'}})
@@ -129,6 +154,9 @@ export default {
   },
   computed: {
     user() {
+      if (this.$route.path.match('/myprofile/')) {
+        return this.$store.getters.loggedUser
+      }
       return this.$store.getters.userById(this.$route.params.id * 1)
     },
     isEdit() {
@@ -139,9 +167,9 @@ export default {
     Modal
   },
   mounted() {
-      M.Modal.init(document.querySelectorAll('.modal'));
-      M.FormSelect.init(document.querySelector('select'));
-      this.setUserData()
+    M.Modal.init(document.querySelectorAll('.modal'));
+    M.FormSelect.init(document.querySelector('select'));
+    this.setUserData()
   },
   updated() {
     M.Modal.init(document.querySelectorAll('.modal'));
@@ -175,6 +203,11 @@ export default {
   bottom: 10px;
   right: 10px;
   width: 130px;
+}
+.eb-password {
+  top: 50px;
+  right: 10px;
+  width: auto;
 }
 .edit-form {
   width: 100%;

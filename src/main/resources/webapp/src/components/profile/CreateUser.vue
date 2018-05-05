@@ -39,6 +39,13 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
+              <input id="password" type="password" v-model="password" v-validate="'required'" name="Password">
+              <label for="password"><span class="required-field">Password</span></label>
+              <span class="helper-text red-text">{{errors.first('Password')}}</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
               <select v-model="role"  v-validate="'required'" name="Role">
                 <option value="Member">Member</option>
                 <option value="Moderator">Moderator</option>
@@ -49,8 +56,9 @@
             </div>
           </div>
         </form>
+        <div class="row center red-text">{{serverError}}</div>
         <div class="create-user-buttons row center">
-            <a @click="createUser" :class="{disabled: errors.items.length > 0}" class="waves-effect waves green btn cub-create z-depth-1">Create</a>
+            <a @click="createNewUser" :class="{disabled: errors.items.length > 0}" class="waves-effect waves green btn cub-create z-depth-1">Create</a>
             <a class="waves-effect waves blue btn cub-cancel z-depth-1 modal-trigger" href="#modal">Clear</a>
         </div>
       </div>
@@ -61,6 +69,7 @@
 
 <script>
 import Modal from '../utils/Modal.vue'
+import { mapActions } from 'vuex';
 
 export default {
   name: 'CreateUser',
@@ -71,9 +80,10 @@ export default {
       firstPhone: '',
       lastPhone: '',
       email: '',
-      role: 'Member'
+      role: 'Member',
+      password: '',
+      serverError: '',
     }
-
   },
   components: {
     Modal
@@ -84,6 +94,9 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      'createUser',
+    ]),
     discardChanges() {
       this.firstName = '',
       this.lastName = '',
@@ -92,13 +105,29 @@ export default {
       this.email = '',
       this.role = 'Member'
     },
-    createUser() {
+    createNewUser() {
       this.$validator.validateAll()
         .then(() => {
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.$router.push('/users')
+            this.serverError = '',
+            this.createUser({
+              firstName: this.firstName,
+              lastName: this.lastName,
+              firstPhone: this.firstPhone,
+              lastPhone: this.lastPhone,
+              email: this.email,
+              role: this.role,
+              password: this.password
+            }).then(res => {
+                router.push({path: '/users'})
+                return res
+              })
+              .catch(rej => {
+                this.serverError = rej.response.status
+                return rej
+              })
           }
         })
     }

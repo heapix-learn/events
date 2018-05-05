@@ -55,7 +55,7 @@ import { mapActions, mapGetters } from 'vuex';
     methods: {
       ...mapActions([
         'setNewsPreview',
-        'clearNewsPreview'
+        'clearNewsPreview',
       ]),
       previewNews(){
         this.setNewsPreview({title: this.title, text: this.text, role: this.role})

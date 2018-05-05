@@ -6,11 +6,13 @@ export default {
     state: {
       users: [],
       pendingUsers: [],
+      currentUser: {},
+      changePasswordError: '',
     },
     getters: {
       users: state => state.users,
       pendingUsers: state => state.pendingUsers,
-      userById: state => id => state.users.find(user => user.id === id),
+      userById: state => id => state.currentUser,
       pendingUserById: state => id => state.pendingUsers.find(user => user.id === id)
     },
     mutations: {
@@ -19,6 +21,9 @@ export default {
       },
       setPendingUsers(state, users) {
         state.pendingUsers = users
+      },
+      setCurrentUser(state, user) {
+        state.currentUser = user
       }
     },
     actions: {
@@ -27,6 +32,17 @@ export default {
           .then(res => {
             commit('setUsers', res.users)
             router.push({path: '/users'})
+            return res
+          })
+          .catch(rej => {
+            console.log(rej)
+            return rej
+          })
+      },
+      getUserById({commit}, payload) {
+        return axios.get(`${url}/photos`)
+          .then(res => {
+            commit('setCurrentUser', res.user)
             return res
           })
           .catch(rej => {
@@ -46,5 +62,21 @@ export default {
             return rej
           })
       },
+      changePassword() {
+        return axios.post(`${url}/changePassword`)
+          .then(res => {
+            router.push({path: '/myprofile'})
+            return res
+          })
+      },
+      createUser({commit}, payload) {
+        return axios.post(`${url}/newUser`, payload)
+      },
+      sendNewUserData({commit}, payload) {
+        return axios.post(`${url}/editUser`, payload)
+      },
+      unsubscribeUser({commit, state}, payload) {
+        return axios.post(`${url}/unsubscribe?id:${payload}`)
+      }
     }
 }

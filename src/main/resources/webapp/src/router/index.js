@@ -5,6 +5,7 @@ import CreateUser from '../components/profile/CreateUser.vue';
 import Users from '../components/profile/Users.vue';
 import PendingUsers from '../components/profile/PendingUsers.vue';
 import User from '../components/profile/User.vue';
+import EditPassword from '../components/profile/EditPassword.vue';
 
 import Events from '../components/feed/events/Events.vue';
 import CreateEditEvent from '../components/feed/events/CreateEditEvent.vue';
@@ -66,6 +67,14 @@ export default new Router({
     {
       path: '/news/preview',
       component: NewsPreview
+    },
+    {
+      path: '/myprofile',
+      component: User
+    },
+    {
+      path: '/myprofile/editpassword',
+      component: EditPassword
     },
     {
       path: '/users',

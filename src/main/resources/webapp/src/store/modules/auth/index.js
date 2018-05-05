@@ -8,7 +8,7 @@ const user = {
   firstPhone: '+111111111',
   lastPhone: '',
   email: 'uucc@uucc.uucc',
-  role: 'member',
+  role: 'administrator',
 }
 
 export default {
@@ -21,6 +21,7 @@ export default {
   getters: {
     isLogged: state => state.isLogged,
     isLoading: state => state.isLoading,
+    loggedUser: state => state.loggedUser,
     loggedUserId: state => state.loggedUser.id,
     loggedUserName: state => state.loggedUser.firstName,
     loggedUserRole: state => state.loggedUser.role,
@@ -40,36 +41,39 @@ export default {
     },
   },
   actions: {
-    signIn({commit}, payload) {
+    signIn({commit, state}, payload) {
       //FOR TESTING PURPOSE ONLY
       //DO NOT REMOVE THIS BLOCK 
-      // if (payload.email === 'uucc@uucc.uucc' ) {
-      //   commit('setIsLogged', true)
-      //   commit('setUser', user)
-      //   commit('setAuthToken', '12345')
-      //   router.push({path: '/'})
-      //   return
-      // }
-       
-     
+      if (payload.email === 'uucc@uucc.uucc' ) {
+        commit('setIsLogged', true)
+        commit('setUser', user)
+        commit('setAuthToken', '12345')
+        router.push({path: '/'})
+        return
+      }
       //FOR TESTING PURPOSE ONLY
-        commit('toggleLoading')
-        return axios.post(`${url}/photos`, payload)
-          .then(res => {
-            commit('setIsLogged', true)
-            commit('setUser', res.user)
-            commit('setAuthToken', res.token)
-            router.push({path: '/'})
-            return res
-          })
-          .catch(rej => {
-            console.log(rej)
-            return rej
-          })
-          .then(res => {
-            commit('toggleLoading')
-            return res
-          })
+      commit('toggleLoading')
+      return axios.post(`${url}/photos`, payload)
+        .then(res => {
+          commit('setIsLogged', true)
+          commit('setUser', res.user)
+          commit('setAuthToken', res.token)
+          
+          axios.get(`${url}/getUserById?id:${state.loggedUser.id}`)
+            .then(res => commit('setUser', res.user))
+            .catch(rej => console.dir(rej))
+             
+          router.push({path: '/'})
+          return res
+        })
+        .catch(rej => {
+          console.log(rej)
+          return rej
+        })
+        .then(res => {
+          commit('toggleLoading')
+          return res
+        })
     },
     signOut({commit}, payload) {
         commit('toggleLoading')
@@ -89,20 +93,7 @@ export default {
           })
     },
     signUp({commit}, payload) {
-        commit('toggleLoading')
         return axios.post(`${url}/register`, payload)
-          .then(res => {
-            router.push({path: '/'})
-            return res
-          })
-          .catch(rej => {
-            console.log(rej)
-            return rej
-          })
-          .then(res => {
-            commit('toggleLoading')
-            return res
-          })
     },
   }
 }
