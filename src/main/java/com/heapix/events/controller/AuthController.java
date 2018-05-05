@@ -8,16 +8,22 @@ import com.heapix.events.controller.dto.AuthDto;
 import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
 import com.heapix.events.controller.dto.RegistrationDto;
+import com.heapix.events.persistence.model.User;
 import com.heapix.events.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.constraints.NotNull;
 
@@ -43,8 +49,9 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public CreateResponseBo register(@RequestBody RegistrationDto user) throws Exception {
-        return new CreateResponseBo(userService.addUser(user).getId());
+    public ResponseEntity<CreateResponseBo> register(@RequestBody RegistrationDto user) throws Exception {
+        CreateResponseBo response = userService.addUser(user);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/register/{id}")
@@ -54,7 +61,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) {
+    public ResponseEntity<? extends AuthDto> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
@@ -64,6 +71,6 @@ public class AuthController {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAdminBo user = userService.findUser(currUser.getId());
 
-        return ResponseEntity.ok(new AuthDto(new JwtAuthenticationResponse(jwtToken), user));
+        return ResponseEntity.ok(new AuthDto(new JwtAuthenticationResponse(jwtToken),user));
     }
 }
