@@ -68,12 +68,12 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('Administrator','Moderator', 'Member')")
     public void removeEvent(@PathVariable String id) {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(currUser.getId().equals(userService.findUser(Long.valueOf(id)))){
+        if(currUser.getId().equals(userService.findUser(Long.valueOf(id)).getId())){
             userService.delete(Long.valueOf(id));
         }
     }
 
-    @PostMapping("/password")
+    @PutMapping("/password")
     @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
     public ResponseEntity changePassword(@RequestBody ChangePasswordDto password) throws Exception {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
