@@ -34,10 +34,6 @@ classes/
 
 # configuration files
 
-# Gradle
-.gradle/
-build
-
 .DS_Store
 node_modules
 /dist
@@ -58,3 +54,13 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+build
+.gradle
+.idea
+out
+*.iml
+*.ipr
+*.iws
+.env
+.DS_Store

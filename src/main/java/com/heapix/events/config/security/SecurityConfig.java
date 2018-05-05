@@ -93,6 +93,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/images/**",
                         "/less/**",
                         "/fonts/**",
-                        "/font-awesome/**");
+                        "/font-awesome/**",
+                        "/v2/**",
+                        "/swagger-resources/**");
     }
 }
