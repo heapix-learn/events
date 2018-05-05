@@ -3,6 +3,8 @@ package com.heapix.events.controller;
 import com.heapix.events.config.security.JwtTokenProvider;
 import com.heapix.events.config.security.UserAuth;
 import com.heapix.events.controller.bo.CreateResponseBo;
+import com.heapix.events.controller.bo.UserAdminBo;
+import com.heapix.events.controller.dto.AuthDto;
 import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
 import com.heapix.events.controller.dto.RegistrationDto;
@@ -64,6 +66,10 @@ public class AuthController {
         Authentication authentication = authenticationManager.authenticate(token);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwtToken = jwtTokenProvider.generateToken((UserAuth) authentication.getPrincipal());
-        return ResponseEntity.ok(new JwtAuthenticationResponse(jwtToken));
+
+        UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAdminBo user = userService.findUser(currUser.getId());
+
+        return ResponseEntity.ok(new AuthDto(new JwtAuthenticationResponse(jwtToken),user));
     }
 }
