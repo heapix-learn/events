@@ -44,9 +44,6 @@ public class AuthController {
 
     @PostMapping("/register")
     public CreateResponseBo register(@RequestBody RegistrationDto user) throws Exception {
-        if (userService.findUser(user.getEmail()) != null) {
-            throw new Exception("user with this email already registered");
-        }
         return new CreateResponseBo(userService.addUser(user).getId());
     }
 
