@@ -10,18 +10,16 @@ public class UserAdminBo {
     private String email;
     private String firstName;
     private String lastName;
-    private String password;
     private String phone1;
     private String phone2;
     private Long role;
 
-    public UserAdminBo(Long id, String annotations, String email, String firstName, String lastName, String password, String phone1, String phone2, Long role) {
+    public UserAdminBo(Long id, String annotations, String email, String firstName, String lastName, String phone1, String phone2, Long role) {
         this.id = id;
         this.annotations = annotations;
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.phone1 = phone1;
         this.phone2 = phone2;
         this.role = role;
@@ -68,14 +66,6 @@ public class UserAdminBo {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhone1() {

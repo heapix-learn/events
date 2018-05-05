@@ -10,7 +10,6 @@ public class UserUpdateDto {
     private String email;
     private String firstName;
     private String lastName;
-    private String password;
     private String phone1;
     private String phone2;
 
@@ -18,7 +17,6 @@ public class UserUpdateDto {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.password = password;
         this.phone1 = phone1;
         this.phone2 = phone2;
     }
@@ -48,14 +46,6 @@ public class UserUpdateDto {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getPhone1() {

@@ -1,7 +1,8 @@
 package com.heapix.events.service;
 
 import com.heapix.events.controller.bo.CreateResponseBo;
-import com.heapix.events.controller.bo.UpdateResponseBo;
+import com.heapix.events.controller.bo.UserAdminBo;
+import com.heapix.events.controller.converter.UserConverter;
 import com.heapix.events.controller.dto.ChangePasswordDto;
 import com.heapix.events.controller.dto.UserUpdateDto;
 import com.heapix.events.persistence.model.User;
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder encoder;
+    @Autowired
+    private UserConverter userConverter;
+
 
     @Override
     public CreateResponseBo addUser(User user) throws Exception {
@@ -41,8 +45,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUser(Long userId) {
-        return userRepository.getOne(userId);
+    public UserAdminBo findUser(Long userId) {
+        User entity = userRepository.getOne(userId);
+        return userConverter.toUserAdminBo(entity);
     }
 
     @Override
@@ -62,13 +67,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getUnregisteredUsers() {
-        return null;
+    public List<UserAdminBo> getUnregisteredUsers() {
+        List<User> entities = userRepository.findByRoleEquals(UserRole.ANONYMOUS_USER.getId());
+        List<UserAdminBo> userAdminBos = userConverter.toUserAdminBos(entities);
+        return userAdminBos;
     }
 
     @Override
-    public List<User> getRegisteredUsers() {
-        return null;
+    public List<UserAdminBo> getRegisteredUsers() {
+        List<User> entities = userRepository.findByRoleIsNot(UserRole.ANONYMOUS_USER.getId());
+        List<UserAdminBo> userAdminBos = userConverter.toUserAdminBos(entities);
+        return userAdminBos;
     }
 
     @Override
@@ -79,7 +88,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User changePassword(ChangePasswordDto password, Long userId) throws Exception {
-        User user = findUser(userId);
+        User user = userRepository.getOne(userId);
         if(!encoder.encode(password.getOldPassword()).equals(user.getPassword())) {
             throw new Exception("current password is invalid");
         }
