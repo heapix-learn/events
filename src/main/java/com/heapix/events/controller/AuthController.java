@@ -8,10 +8,10 @@ import com.heapix.events.controller.dto.AuthDto;
 import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
 import com.heapix.events.controller.dto.RegistrationDto;
-import com.heapix.events.persistence.model.User;
 import com.heapix.events.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -48,9 +48,9 @@ public class AuthController {
 
 
     @PostMapping("/register")
-    public CreateResponseBo register(@RequestBody RegistrationDto user) throws Exception {
-        userService.addUser(user);
-        return null;
+    public ResponseEntity<CreateResponseBo> register(@RequestBody RegistrationDto user) throws Exception {
+        CreateResponseBo response = userService.addUser(user);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @PutMapping("/register/{id}")
@@ -60,7 +60,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) {
+    public ResponseEntity<? extends AuthDto> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
