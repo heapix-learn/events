@@ -52,6 +52,13 @@ public class UserServiceImpl implements UserService {
         return userConverter.toUserAdminBo(entity);
     }
 
+
+    @Override
+    public UserAdminBo findUser(String email) {
+        User entity = userRepository.findByEmail(email);
+        return userConverter.toUserAdminBo(entity);
+    }
+
     @Override
     public void update(UserUpdateDto userUpdateDto, Long userId) {
         User entity = userRepository.getOne(userId);
@@ -91,10 +98,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public User changePassword(ChangePasswordDto password, Long userId) throws Exception {
         User user = userRepository.getOne(userId);
-        if(!encoder.encode(password.getOldPassword()).equals(user.getPassword())) {
+        if(!encoder.matches(password.getOldPassword(), user.getPassword())) {
             throw new Exception("current password is invalid");
         }
-        if(!password.getNewPassword().equals(password.getOldPassword())){
+        if(!password.getNewPassword().equals(password.getConfirmPassword())){
             throw new Exception("Password does not match the confirm password");
         }
         user.setPassword(encoder.encode(password.getNewPassword()));
