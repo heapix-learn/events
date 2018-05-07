@@ -38,26 +38,26 @@ public class UserController {
     private PasswordEncoder passwordEncoder;
 
     @GetMapping("/unregistered")
-    @PreAuthorize("hasAnyAuthority('Administrator')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator')")
     public List<UserAdminBo> getUnregisteredUsers() {
         return userService.getUnregisteredUsers();
     }
 
     @GetMapping("/registered")
-    @PreAuthorize("hasAnyAuthority('Administrator')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator')")
     public List<UserAdminBo> getRegisteredUsers() {
         return userService.getRegisteredUsers();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public UserAdminBo getEventInfo(@NotNull @PathVariable String id) throws NotFoundException {
         UserAdminBo bo = userService.findUser(Long.valueOf(id));
         return bo;
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public ResponseEntity updateUser(@NotEmpty @RequestBody UserUpdateDto userUpdateDto,
                                       @PathVariable String id) {
         userService.update(userUpdateDto, Long.valueOf(id));
@@ -65,7 +65,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator','Moderator', 'Member')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator','Moderator', 'Member')")
     public void removeEvent(@PathVariable String id) {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(currUser.getId().equals(userService.findUser(Long.valueOf(id)).getId())){
@@ -74,7 +74,7 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public ResponseEntity changePassword(@RequestBody ChangePasswordDto password) throws Exception {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         userService.changePassword(password, currUser.getId());

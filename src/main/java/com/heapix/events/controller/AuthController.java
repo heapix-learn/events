@@ -55,7 +55,7 @@ public class AuthController {
     }
 
     @PutMapping("/register/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator')")
     public void allowRegistration(@NotNull @PathVariable String id) throws NotFoundException {
         userService.allowRegistration(Long.valueOf(id));
     }

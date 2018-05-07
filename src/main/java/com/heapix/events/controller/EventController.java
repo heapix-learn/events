@@ -38,20 +38,20 @@ public class EventController {
 
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public List<EventInfoBo> getAllEvents() {
         //impl
         return eventService.getAll();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator', 'Member')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public EventInfoBo getEventInfo(@NotNull @PathVariable String id) throws NotFoundException {
         return eventService.getEventInfo(Long.valueOf(id));
     }
 
     @PostMapping
-    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
     public ResponseEntity addEvent(@RequestBody CreateEventDto eventDto) {
         //impl
         CreateResponseBo response = eventService.createEvent(eventConverter.toModel(eventDto));
@@ -59,7 +59,7 @@ public class EventController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
     public ResponseEntity updateEvent(@NotEmpty @RequestBody UpdateEventDto eventDto,
                                       @PathVariable String id) {
         //impl
@@ -68,7 +68,7 @@ public class EventController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Administrator', 'Moderator')")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
     public ResponseEntity removeEvent(@PathVariable String id) {
         //impl
         eventService.remove(Long.valueOf(id));
