@@ -38,12 +38,14 @@ public class EventController {
 
 
     @GetMapping
+    @PreAuthorize("permitAll()")
     public List<EventInfoBo> getAllEvents() {
         //impl
         return eventService.getAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("permitAll()")
     public EventInfoBo getEventInfo(@NotNull @PathVariable String id) throws NotFoundException {
         return eventService.getEventInfo(Long.valueOf(id));
     }
