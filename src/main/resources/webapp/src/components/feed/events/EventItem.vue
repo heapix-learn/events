@@ -45,6 +45,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'EventItem',
+  props: ['event'],
   data() {
     return {
       showRegistration: false,
@@ -54,27 +55,10 @@ export default {
       isSignUpFieldsEmpty: true,
     }
   },
-  computed: {
-    event() {
-      if (this.$route.path.match('/events/preview')) {
-        const event = this.getEventPreview();
-        if (event !== null) {
-          return event;
-        } else {
-          this.$router.go(-1)
-        }
-      } else {
-        return this.$store.getters.getEventById(this.$route.params.id * 1)
-      }
-    },
-  },
   components: {
     Modal
   },
   methods: {
-    ...mapGetters([
-      'getEventPreview',
-    ]),
     openRegistration() {
       this.showRegistration = true
     },

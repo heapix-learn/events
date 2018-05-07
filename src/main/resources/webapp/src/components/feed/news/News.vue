@@ -1,23 +1,29 @@
 <template>
   <div>
-    <news-item v-for="newsItem in getNews" 
+    <news-item v-for="newsItem in allNews" 
     :key="newsItem.id" :news="newsItem"></news-item>
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import NewsItem from "./NewsItem.vue"
 export default {
   name:'NewsList',
-  computed:{
+  computed: {
+    ...mapGetters([
+      'allNews'
+    ])
+  },
+  methods: {
     ...mapActions([
       'getNews'
     ])
   },
-  methods: {
+  created () {
+    this.getNews()
   },
   components: {
-      NewsItem,
+    NewsItem,
   },
 }
 </script>

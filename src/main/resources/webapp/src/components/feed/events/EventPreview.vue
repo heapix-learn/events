@@ -1,6 +1,6 @@
 <template>
   <div>
-    <event-item></event-item>
+    <event-item :event="getEventPreview"></event-item>
       <div class="create-event-buttons row center">
         <a @click="publish" class="waves-effect green waves-light btn">Publish</a>
         <a @click="cancel" class="waves-effect red lighten-2 red btn">Cancel</a>
@@ -15,7 +15,6 @@ export default {
   name:'EventPreview',
   components: {
     EventItem,
-    Modal
   },
   computed: {
     ...mapGetters([
@@ -23,12 +22,16 @@ export default {
     ])
   },
   methods: {
-    ...mapActions([
-      'clearEventPreview'
+    ...mapActions([,
+      'postNewEvent',
+      'putEdittedEvent',
     ]),
     publish() {
-      this.clearEventPreview()
-      this.$router.push('/events')
+      if (this.getEventPreview.id) {
+        this.putEdittedEvent(this.getEventPreview.id)
+      } else {
+        this.postNewEvent()
+      }
     },
     cancel() {
       this.$router.go(-1)

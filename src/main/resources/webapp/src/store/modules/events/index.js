@@ -1,14 +1,16 @@
 import router from '../../../router'
 import axios from 'axios'
-import url from '../../index'
+import {url} from '../../index'
+import root from '../../index'
 
 export default {
   state: {
     events: [],
-    preview: null
+    certainEvent: null,
+    preview: null,
   },
   getters: {
-    getEvents: state => state.events,
+    allEvents: state => state.events,
     getEventById: state => id => state.events.find(event => event.id === id),
     getShortEvents: state => {
       state.events.reduce((result, event) => {
@@ -22,9 +24,13 @@ export default {
         return result
       }, [])
     },
-    getEventPreview: state => state.preview
+    getEventPreview: state => state.preview,
+    certainEvent: state => state.certainEvent,
   },
   mutations: {
+    setEvents(state, payload) {
+      state.events = payload
+    },
     setEventPreview(state, payload) {
       const labels = payload.labels.filter(i => {if (i.label !== '') return i})
       state.preview = payload
@@ -36,25 +42,59 @@ export default {
     setEvents(state, events) {
       state.users = events
     },
+    setCertainEvent(state, event) {
+      state.certainEvent = event
+    }
 },
   actions: {    
+    getAllEvents({commit}) {
+      return axios.get(`${url}/events`)
+        .then(res => {
+          commit('setEvents', res)
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+    },
+    getEventById({commit}, id) {
+      return axios.get(`/events/${id}`)
+        .then(res => {
+          commit('setCertainEvent', {
+            id,
+            title: res.firstName,
+            date: res.date,
+            description: res.info,
+            location: res.location,
+            price: res.price,
+            capacityMin: res.minNumberOfRegistrations,
+            capacityMax: res.maxNumberOfRegistrations
+          })
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+    },
+    putEdittedEvent({commit, state}, id) {
+      state.preview.id = id
+      return axios.put(`events/${id}`, state.preview)
+        .then(res => {
+          commit('clearEventPreview')
+          router.push({path: '/events'})
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+        })
+    },
     setEventPreview({commit}, event) {
       commit('setEventPreview', event)
     },
     clearEventPreview({commit}) {
       commit('clearEventPreview');
-    },
-    getEvents({commit}) {
-      return axios.get(`${url}/photos`)
-        .then(res => {
-          commit('setEvents', res.events)
-          router.push({path: '/events'})
-          return res
-        })
-        .catch(rej => {
-          console.log(rej)
-          return rej
-        })
     },
   }
 }

@@ -1,6 +1,6 @@
 import router from '../../../router'
 import axios from 'axios'
-import url from '../../index'
+import {url} from '../../index'
 
 export default {
     state: {
@@ -125,6 +125,16 @@ export default {
             commit('setPostCreateNewUserError', rej)
             console.dir(rej)
             return rej
+          })
+      },
+
+      registerUser({commit}, payload) {
+        return axios.put(`/register${payload}`)
+          .then(res => {
+            router.push({path: '/users'})
+          })
+          .catch(rej => {
+            console.dir(rej)
           })
       }
     }

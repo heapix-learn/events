@@ -48,7 +48,7 @@ export default {
       'postSignIn',
     ]),
     signInPost() {
-      this.postSignIn({email: this.email, password: this.password})
+      this.postSignIn({username: this.email, password: this.password})
     },
 
   },

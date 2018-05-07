@@ -1,6 +1,6 @@
 <template>
 <div class="users-list">
-    <div v-for="user in users" :key="user.id" class="col m8 offset-m2">
+    <div v-for="user in pendingUsers" :key="user.id" class="col m8 offset-m2">
       <div class="card horizontal">
         <div class="card-stacked">
           <div class="card-content users-list-card-content valign-wrapper row">
@@ -10,6 +10,7 @@
             <div class="user-buttons col l9 right-align">
               <router-link :to="'users/' + user.id"><i class="material-icons black-text">visibility</i></router-link>
               <router-link :to="'users/edit/' + user.id"><i class="material-icons black-text">create</i></router-link>
+              <router-link @click="acceptUser(id)" ><i class="material-icons black-text">check</i></router-link>
             </div>
           </div>
         </div>
@@ -19,18 +20,26 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'PendingUsers',
   data () {
     return {
-      users: this.getPendingUsers()
     }
   },
   methods: {
     ...mapActions([
-      'getPendingUsers'
+      'getPendingUsers',
+      'registerUser'
+    ]),
+    acceptUser(id) {
+      this.registerUser(id)
+    }
+  },
+  getters: {
+    ...mapGetters([
+      'pendingUsers'
     ])
   }
 }

@@ -45,16 +45,6 @@
       </div>
       <div class="row">
         <div class="input-field col s4">
-          <select id="event-role" v-model="eventData.role" v-validate="'required'" name="Role">
-            <option value="All">All</option>
-            <option value="Members">Members</option>
-            <option value="Moders">Moders</option>
-            <option value="Admins">Admins</option>
-          </select>
-          <label for="event-role">Visible for</label>
-          <span class="helper-text red-text" >{{errors.first('Role')}}</span>
-        </div>
-        <div class="input-field col s4">
           <input id="event-cap-min" type="text" class="validate" v-model="eventData.capacityMin" v-validate="'digits'" name="Min capacity">
           <label :class="{active: eventData.capacityMin}" for="event-cap-min">Min capacity</label>
           <span class="helper-text red-text" >{{errors.first('Min capacity')}}</span>
@@ -101,6 +91,7 @@ export default {
   data() {
     return {
       eventData: {
+        id: null,
         title: '',
         location: '',
         description: '',
@@ -122,7 +113,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'getEventById',
+      'certainEvent',
       'getEventPreview'
     ]),
     disabledByFields() {
@@ -153,7 +144,7 @@ export default {
     M.Modal.init(document.querySelectorAll('.modal'));
 
     if (this.isEdit) {
-      this.eventData = this.getEventById(this.$route.params.id * 1)
+      this.eventData = this.certainEvent
     } else {
       const previewEvent = this.getEventPreview;
       if (previewEvent) {
