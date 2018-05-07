@@ -12,6 +12,7 @@ import Events from '../components/feed/events/Events.vue';
 import CreateEditEvent from '../components/feed/events/CreateEditEvent.vue';
 import EventItem from '../components/feed/events/EventItem.vue';
 import EventPreview from '../components/feed/events/EventPreview.vue';
+import EventView from '../components/feed/events/EventView.vue';
 
 import News from '../components/feed/news/News.vue';
 import CreateNews from '../components/feed/news/CreateNews.vue';
@@ -30,6 +31,7 @@ export default new Router({
   mode: 'history',
   routes: [
     {path: '/', redirect: '/events'},
+    {path: '', redirect: '/events'},
     {
       path: '/events',
       component: Events,
@@ -52,7 +54,7 @@ export default new Router({
     },
     {
       path: '/events/:id',
-      component: EventItem,
+      component: EventView,
     },
     {
       path: '/news',

@@ -1,6 +1,6 @@
 import router from '../../../router'
 import axios from 'axios'
-import url from '../../index'
+import {url} from '../../index'
 
 export default {
   state: {
@@ -8,7 +8,7 @@ export default {
     preview: null    
   },
   getters: {
-    getNews(state) {
+    allNews(state) {
       return state.news;
     },
     getNewsPreview(state) {

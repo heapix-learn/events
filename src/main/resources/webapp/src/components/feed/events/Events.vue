@@ -1,6 +1,6 @@
 <template>
   <div class="event-list">
-    <event-shortcut v-for="event in getShortEvents" :key="event.id" :event="event"></event-shortcut>
+    <event-shortcut v-for="event in allEvents" :key="event.id" :event="event"></event-shortcut>
   </div>
 </template>
 
@@ -10,19 +10,21 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'Events',
   computed: {
-    ...mapActions([
-      'getEvents'
-    ]),
     ...mapGetters([
-      'getShortEvents'
+      'allEvents'
+    ]) 
+  },
+  methods: {
+    ...mapActions([
+      'getAllEvents'
     ]),
+  },
+  created () {
+    this.getAllEvents()
   },
   components: {
     EventShortcut
   },
-  mounted() {
-    this.getEvents
-  }
 }
 </script>
 

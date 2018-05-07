@@ -1,13 +1,13 @@
 import router from '../../../router'
 import axios from 'axios'
-import url from '../../index'
+import {url} from '../../index'
+import root from '../../index'
 
 export default {
   state: {
     isLogged: false,
     isLoading: false,
     loggedUser: {},
-    authToken: '',
     postSignUpError: '',
     postSignInError: '',
   },
@@ -28,6 +28,13 @@ export default {
     },
     setUser(state, user) {
       state.loggedUser = user
+    },
+    setUserFromSignIn(state, res) {
+      state.loggedUser = {
+        firstName: res.firstName,
+        id: res.is,
+        role: res.role
+      }
     },
     setAuthToken(state, token) {
       state.authToken = token
@@ -52,11 +59,11 @@ export default {
     postSignIn({commit, state}, payload) {
       commit('toggleLoading')
       commit('setPostSignInError', '')
-      return axios.post(`${url}/login`, payload)
+      return axios.post(`/login`, payload)
         .then(res => {
           commit('setIsLogged', true)
-          commit('setUser', res.user)
-          commit('setAuthToken', res.token)
+          commit('setUserFromSignIn', res)
+          root.dispatch('setAuthToken', res.auth.token)
           router.push({path: '/'})
           return res
         })
@@ -73,7 +80,8 @@ export default {
     postSignUp({commit}, payload) {
       commit('toggleLoading')
       commit('setPostSignUpError', '')
-      return axios.post(`${url}/signup`, payload)
+      console.log(url)
+      return axios.post(`/register`, payload)
         .then(res => {
           router.push({path: '/'})
           return res
@@ -91,6 +99,7 @@ export default {
 
     signOut({commit}) {
       commit('signOut')
+      root.dispatch('setAuthToken', '')
       router.push({path: '/'})
     },
   }
