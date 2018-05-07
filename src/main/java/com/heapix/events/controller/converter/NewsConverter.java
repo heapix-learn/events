@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 /**
  * @author mgergalov
  */
-@Mapper(componentModel="spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface NewsConverter {
 
     News toModel(CreateNewsDto dto);

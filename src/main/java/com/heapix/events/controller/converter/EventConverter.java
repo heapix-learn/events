@@ -14,8 +14,6 @@ import java.util.List;
 /**
  * @author mgergalov
  */
-@Mapper(componentModel="spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-@Component
 public interface EventConverter {
 
     Event toModel(CreateEventDto event);

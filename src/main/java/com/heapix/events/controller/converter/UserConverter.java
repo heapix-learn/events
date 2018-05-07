@@ -11,8 +11,6 @@ import java.util.List;
 /**
  * @author mgergalov
  */
-@Mapper(componentModel="spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
-@Component
 public interface UserConverter {
 
     UserAdminBo toUserAdminBo(User user);

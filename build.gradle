@@ -74,7 +74,5 @@ dependencies {
     compile 'io.springfox:springfox-swagger-ui:2.7.0'
     compileOnly 'org.projectlombok:lombok'
     runtime('mysql:mysql-connector-java')
-    compile 'org.mapstruct:mapstruct-jdk8:1.1.0.Final'
-    compile 'org.mapstruct:mapstruct-processor:1.1.0.Final'
 }
 
