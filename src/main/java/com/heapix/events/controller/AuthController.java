@@ -8,7 +8,6 @@ import com.heapix.events.controller.dto.AuthDto;
 import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
 import com.heapix.events.controller.dto.RegistrationDto;
-import com.heapix.events.persistence.model.User;
 import com.heapix.events.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;

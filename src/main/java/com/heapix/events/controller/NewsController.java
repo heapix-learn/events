@@ -28,6 +28,7 @@ public class NewsController {
 
     @Autowired
     private NewsService newsService;
+    @Autowired
     private NewsConverter newsConverter;
 
 
