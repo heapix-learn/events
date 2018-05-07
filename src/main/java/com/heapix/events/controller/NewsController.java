@@ -32,7 +32,7 @@ public class NewsController {
 
 
     @GetMapping
-    @PreAuthorize("denyAll()")
+    @PreAuthorize("permitAll()")
     public List<News> getAllNews() {
         return newsService.getAll();
     }

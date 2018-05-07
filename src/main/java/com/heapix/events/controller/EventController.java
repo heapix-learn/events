@@ -34,6 +34,7 @@ public class EventController {
 
     @Autowired
     private EventService eventService;
+    @Autowired
     private EventConverter eventConverter;
 
 

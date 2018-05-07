@@ -5,7 +5,6 @@ import lombok.Data;
 /**
  * @author mgergalov
  */
-@Data
 public class CreateResponseBo {
 
     /**
@@ -14,6 +13,17 @@ public class CreateResponseBo {
     private Long id;
 
     public CreateResponseBo(Long id) {
+        this.id = id;
+    }
+
+    public CreateResponseBo() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
         this.id = id;
     }
 }

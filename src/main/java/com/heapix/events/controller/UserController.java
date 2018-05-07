@@ -51,7 +51,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
-    public UserAdminBo getEventInfo(@NotNull @PathVariable String id) throws NotFoundException {
+    public UserAdminBo getUserInfo(@NotNull @PathVariable String id) throws NotFoundException {
         UserAdminBo bo = userService.findUser(Long.valueOf(id));
         return bo;
     }
@@ -66,7 +66,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator','Moderator', 'Member')")
-    public void removeEvent(@PathVariable String id) {
+    public void removeUser(@PathVariable String id) {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(currUser.getId().equals(userService.findUser(Long.valueOf(id)).getId())){
             userService.delete(Long.valueOf(id));
