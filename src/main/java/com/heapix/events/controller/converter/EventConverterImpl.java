@@ -53,6 +53,7 @@ public class EventConverterImpl implements EventConverter {
             return null;
         } else {
             EventInfoBo eventInfoBo = new EventInfoBo();
+            eventInfoBo.setId(event.getId());
             eventInfoBo.setFirstName(event.getFirstName());
             eventInfoBo.setDate(event.getDate());
             eventInfoBo.setLocation(event.getLocation());

@@ -10,6 +10,7 @@ import java.util.Date;
  */
 public class EventInfoBo {
 
+    private Long id;
     private String firstName;
     private Date date;
     private String location;
@@ -18,8 +19,9 @@ public class EventInfoBo {
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
 
-    public EventInfoBo(String firstName, Date date, String location, String info, int price,
+    public EventInfoBo(Long id, String firstName, Date date, String location, String info, int price,
                        int minNumberOfRegistrations, int maxNumberOfRegistrations) {
+        this.id = id;
         this.firstName = firstName;
         this.date = date;
         this.location = location;
@@ -30,6 +32,14 @@ public class EventInfoBo {
     }
 
     public EventInfoBo() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
