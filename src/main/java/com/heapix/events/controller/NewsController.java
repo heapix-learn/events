@@ -32,13 +32,11 @@ public class NewsController {
 
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public List<News> getAllNews() {
         return newsService.getAll();
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('Super Administrator','Administrator', 'Moderator', 'Member')")
     public News getNews(@NotNull @PathVariable("id") String id) throws NotFoundException {
         return newsService.findNews(Long.valueOf(id));
     }
