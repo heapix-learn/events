@@ -5,7 +5,6 @@ import lombok.Data;
 /**
  * @author mgergalov
  */
-@Data
 public class UpdateResponseBo {
 
     /**
@@ -17,4 +16,14 @@ public class UpdateResponseBo {
         this.id = id;
     }
 
+    public UpdateResponseBo() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

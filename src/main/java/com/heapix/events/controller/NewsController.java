@@ -40,8 +40,8 @@ public class NewsController {
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public News getNews(@NotNull @PathVariable("id") String id) throws NotFoundException {
-        return newsService.findNews(Long.valueOf(id));
+    public News getNews(@NotNull @PathVariable("id") long id) throws NotFoundException {
+        return newsService.findNews(id);
     }
 
     @PostMapping
@@ -55,16 +55,16 @@ public class NewsController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
-    public ResponseEntity updateNews(@RequestBody UpdateNewsDto eventDto, @PathVariable String id) {
+    public ResponseEntity updateNews(@RequestBody UpdateNewsDto eventDto, @PathVariable long id) {
         //impl
-        return new ResponseEntity(newsService.update(eventDto.getBody(), Long.valueOf(id)), HttpStatus.OK);
+        return new ResponseEntity(newsService.update(eventDto.getBody(), id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
-    public ResponseEntity removeNews(@PathVariable String id) {
+    public ResponseEntity removeNews(@PathVariable long id) {
         //impl
-        newsService.delete(Long.valueOf(id));
+        newsService.delete(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 

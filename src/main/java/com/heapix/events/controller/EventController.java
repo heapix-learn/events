@@ -47,8 +47,8 @@ public class EventController {
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public EventInfoBo getEventInfo(@NotNull @PathVariable String id) throws NotFoundException {
-        return eventService.getEventInfo(Long.valueOf(id));
+    public EventInfoBo getEventInfo(@NotNull @PathVariable long id) throws NotFoundException {
+        return eventService.getEventInfo(id);
     }
 
     @PostMapping
@@ -62,17 +62,17 @@ public class EventController {
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
     public ResponseEntity updateEvent(@NotEmpty @RequestBody UpdateEventDto eventDto,
-                                      @PathVariable String id) {
+                                      @PathVariable long id) {
         //impl
         Event event = eventConverter.toModel(eventDto);
-        return new ResponseEntity(eventService.updateEvent(event,Long.valueOf(id)), HttpStatus.OK);
+        return new ResponseEntity(eventService.updateEvent(event, id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
-    public ResponseEntity removeEvent(@PathVariable String id) {
+    public ResponseEntity removeEvent(@PathVariable long id) {
         //impl
-        eventService.remove(Long.valueOf(id));
+        eventService.remove(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 

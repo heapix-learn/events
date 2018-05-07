@@ -51,25 +51,25 @@ public class UserController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
-    public UserAdminBo getUserInfo(@NotNull @PathVariable String id) throws NotFoundException {
-        UserAdminBo bo = userService.findUser(Long.valueOf(id));
+    public UserAdminBo getUserInfo(@NotNull @PathVariable long id) throws NotFoundException {
+        UserAdminBo bo = userService.findUser(id);
         return bo;
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public ResponseEntity updateUser(@NotEmpty @RequestBody UserUpdateDto userUpdateDto,
-                                      @PathVariable String id) {
-        userService.update(userUpdateDto, Long.valueOf(id));
+                                      @PathVariable long id) {
+        userService.update(userUpdateDto, id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator','Moderator', 'Member')")
-    public void removeUser(@PathVariable String id) {
+    public void removeUser(@PathVariable long id) {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(currUser.getId().equals(userService.findUser(Long.valueOf(id)).getId())){
-            userService.delete(Long.valueOf(id));
+        if(currUser.getId().equals(userService.findUser(id).getId())){
+            userService.delete(id);
         }
     }
 

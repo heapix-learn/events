@@ -39,10 +39,10 @@ public class EventRegistrationController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
-    public ResponseEntity unregisterEvent(@PathVariable String id) {
+    public ResponseEntity unregisterEvent(@PathVariable long id) {
 
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        eventRegistrationService.unregisterEvent(Long.valueOf(id), currUser.getId());
+        eventRegistrationService.unregisterEvent(id, currUser.getId());
         return new ResponseEntity(HttpStatus.OK);
     }
 
