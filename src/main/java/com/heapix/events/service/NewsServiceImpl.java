@@ -24,6 +24,7 @@ public class NewsServiceImpl implements NewsService {
     private NewsRepository newsRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private NewsConverter newsConverter;
 
     @Override
