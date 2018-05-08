@@ -12,7 +12,7 @@
           </div>
           <div class="row">
             <div class="input-field col s12">
-              <input @input="serverError = ''"  id="password" type="password" v-model="password" v-validate="'required'" name="password">
+              <input @input="serverError = ''" @keyup.enter="signInPost" id="password" type="password" v-model="password" v-validate="'required'" name="password">
               <label for="password">Password</label>
               <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
             </div>

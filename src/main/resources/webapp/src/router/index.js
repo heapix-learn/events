@@ -107,6 +107,6 @@ export default new Router({
     {
       path: '/auth/signup',
       component: Signup
-    },
+    }
   ]
 })

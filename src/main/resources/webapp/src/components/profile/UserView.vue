@@ -24,7 +24,7 @@
         </div>
           <div v-else class="card-panel grey lighten-5 z-depth-1">
               <h3>
-                 Sorry, you account has to be validated by moderator
+                 Sorry, your account has to be validated by moderator
               </h3>
           </div>
       </div>

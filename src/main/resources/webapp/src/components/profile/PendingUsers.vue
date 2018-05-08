@@ -10,7 +10,7 @@
             <div class="user-buttons col l9 right-align">
               <router-link :to="'users/' + user.id"><i class="material-icons black-text">visibility</i></router-link>
               <router-link :to="'users/edit/' + user.id"><i class="material-icons black-text">create</i></router-link>
-              <a @click.prevent="acceptUser(user.id)" ><i class="material-icons black-text">check</i></a>
+              <a @click.prevent="acceptUser(user.id)"><i class="material-icons black-text">check</i></a>
             </div>
           </div>
         </div>
@@ -49,6 +49,9 @@ export default {
 </script>
 
 <style>
+i {
+  cursor: pointer;
+}
 .users-list {
   padding-top: 25px;
 }
