@@ -30,8 +30,8 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
-    {path: '/', redirect: '/events'},
-    {path: '', redirect: '/events'},
+    {path: '/', redirect: '/news'},
+    {path: '', redirect: '/news'},
     {
       path: '/events',
       component: Events,
