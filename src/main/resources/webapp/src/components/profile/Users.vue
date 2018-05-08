@@ -3,15 +3,17 @@
     <div v-for="user in users" :key="user.id" class="col m8 offset-m2">
       <div class="card horizontal">
         <div class="card-stacked">
-          <div class="card-content users-list-card-content valign-wrapper row">
-            <div class="user-name col l3">
-              <p>{{user.firstName}} {{user.lastName}}</p>
+          <router-link :to="'users/' + user.id">
+            <div class="card-content users-list-card-content valign-wrapper row black-text">
+              <div class="user-name col l3">
+                <p>{{user.firstName}} {{user.lastName}}</p>
+              </div>
+              <div class="user-buttons col l9 right-align">
+                <router-link :to="'users/' + user.id"><i class="material-icons black-text">visibility</i></router-link>
+                <router-link :to="'users/edit/' + user.id"><i class="material-icons black-text">create</i></router-link>
+              </div>
             </div>
-            <div class="user-buttons col l9 right-align">
-              <router-link :to="'users/' + user.id"><i class="material-icons black-text">visibility</i></router-link>
-              <router-link :to="'users/edit/' + user.id"><i class="material-icons black-text">create</i></router-link>
-            </div>
-          </div>
+          </router-link>
         </div>
       </div>
   </div>

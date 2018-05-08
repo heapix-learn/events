@@ -62,7 +62,7 @@ export default {
     postSignIn({commit, state}, payload) {
       commit('toggleLoading')
       commit('setPostSignInError', '')
-      return axios.post(`${url}/auth`, payload)
+      return axios.post(`http://localhost:8080/auth`, payload)
         .then(res => {
 
           commit('setIsLogged', true)
