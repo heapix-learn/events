@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div class="user">
     <div class="profile">
       <div class="col s12">

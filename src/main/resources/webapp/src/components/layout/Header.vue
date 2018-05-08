@@ -12,15 +12,26 @@
             <li :class="activePath('/news')"><router-link to="/news">News</router-link></li>
 
             <template v-if="isLogged">
-              <li key="dropdown">
+              <li><a class="dropdown-trigger" data-target="dropdown1">{{loggedUser.firstName}}<i class="material-icons right">arrow_drop_down</i></a></li>
+              <li key="dropdown" class="dropdown-list">
                 <ul id="dropdown1" class="dropdown-content">
-                  <li><router-link :to="'/users/' + loggedUser.id">My profile</router-link></li>
-                  <li><a @click="$store.dispatch('signOut')">Logout</a></li>
+                  <li style="height:65px"><a class="dropdown-trigger" style="height:65px"><i class="material-icons right"  style="padding-top:10px">arrow_drop_up</i></a></li>
+                  <li><router-link :to="'/users/' + loggedUser.id" style="text-align:center">Profile</router-link></li>
+                  <li><a @click="$store.dispatch('signOut')" style="text-align:center">Logout</a></li>
                 </ul>
               </li>
-              <li><a class="dropdown-trigger" data-target="dropdown1">{{loggedUser.firstName}}<i class="material-icons right">arrow_drop_down</i></a></li>
             </template>
-            
+            <!-- <ul class="collapsible">
+              <li>
+                <div class="collapsible-header">My profile</div>
+                <div class="collapsible-body">
+                  <ul>
+                    <router-link :to="'/users/' + loggedUser.id">My profile</router-link>
+                    <a @click="$store.dispatch('signOut')">Logout</a>
+                  </ul>
+                </div>
+              </li>
+            </ul> -->
             <template v-else>
                 <li key="login"><router-link to="/auth/login">Login</router-link></li>
                 <li><router-link to="/auth/signup">Signup</router-link></li>
@@ -72,7 +83,6 @@ export default {
 </script>
 
 <style>
-
 .header nav .nav-wrapper {
   width: 70%;
   margin: 0 auto;
