@@ -14,11 +14,11 @@
             <template v-if="isLogged">
               <li key="dropdown">
                 <ul id="dropdown1" class="dropdown-content">
-                  <li><router-link :to="'/myprofile/'">My profile</router-link></li>
+                  <li><router-link :to="'/users/' + loggedUser.id">My profile</router-link></li>
                   <li><a @click="$store.dispatch('signOut')">Logout</a></li>
                 </ul>
               </li>
-              <li><a class="dropdown-trigger" data-target="dropdown1">{{loggedUserName}}<i class="material-icons right">arrow_drop_down</i></a></li>
+              <li><a class="dropdown-trigger" data-target="dropdown1">{{loggedUser.firstName}}<i class="material-icons right">arrow_drop_down</i></a></li>
             </template>
             
             <template v-else>
@@ -45,8 +45,7 @@ export default {
   computed: {
     ...mapGetters([
       'isLogged',
-      'loggedUserId',
-      'loggedUserName',
+      'loggedUser',
     ]),
   },
   watch: {
@@ -63,6 +62,7 @@ export default {
     if (elem) {
       M.Dropdown.init(elem)
     } 
+    console.log(this.loggedUser)
   },
   
 }

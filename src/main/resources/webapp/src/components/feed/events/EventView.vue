@@ -19,8 +19,8 @@ export default {
       'certainEvent'
     ])
   },
-  created () {
-    this.getEventById(this.$router.params.id)
+  mounted () {
+    this.getEventById(this.$route.params.id)
   },
   methods: {
     ...mapActions([

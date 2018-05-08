@@ -43,7 +43,7 @@ import { mapActions, mapGetters } from 'vuex';
         'clearNewsPreview',
       ]),
       previewNews(){
-        this.setNewsPreview({title: this.title, text: this.text})
+        this.setNewsPreview({title: this.title, body: this.text})
         this.$router.push('/news/preview')
       },
       abort() {

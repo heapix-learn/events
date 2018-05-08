@@ -15,10 +15,10 @@
             </a>
             <div class="row center">
               <h3>
-                {{user.firstName}} {{user.lastName}}
+                {{currentUser.firstName}} {{currentUser.lastName}}
               </h3> 
-              <h5>{{user.firstPhone}} {{user.lastPhone}}</h5>
-              <h5>{{user.email}}</h5>
+              <h5>{{currentUser.firstPhone}} {{currentUser.lastPhone}}</h5>
+              <h5>{{currentUser.email}}</h5>
             </div>
 
         </div>
@@ -35,23 +35,31 @@ export default {
   name: 'UserView',
   data () {
     return {
-      user: this.getUserById(this.$route.params.id),
       isMyProfle: this.$route.params.id === this.loggedUserId,
     }
   },
   methods: {
     ...mapActions([
       'getUserById',
+      'clearCurrentUser'
     ]),
   },
   computed: {
     ...mapGetters([
+      'currentUser',
       'loggedUserId'
     ])
   },
   components: {
     Modal
   },
+  mounted() {
+    this.getUserById(this.$route.params.id)
+  },
+  beforeRouteLeave (to, from, next) {
+    this.clearCurrentUser()
+    next()
+  }
 }
 </script>
 

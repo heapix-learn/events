@@ -29,10 +29,13 @@ export default {
     setUser(state, user) {
       state.loggedUser = user
     },
+    setRole(state, role) {
+      state.role = role
+    },
     setUserFromSignIn(state, res) {
       state.loggedUser = {
         firstName: res.firstName,
-        id: res.is,
+        id: res.id,
         role: res.role
       }
     },
@@ -59,12 +62,13 @@ export default {
     postSignIn({commit, state}, payload) {
       commit('toggleLoading')
       commit('setPostSignInError', '')
-      return axios.post(`/login`, payload)
+      return axios.post(`http://localhost:8080/auth`, payload)
         .then(res => {
+
           commit('setIsLogged', true)
-          commit('setUserFromSignIn', res)
-          root.dispatch('setAuthToken', res.auth.token)
-          router.push({path: '/'})
+          commit('setUserFromSignIn', res.data)
+          root.dispatch('setAuthToken', res.data.auth.token)
+          router.push('/')
           return res
         })
         .catch(rej => {
@@ -80,10 +84,9 @@ export default {
     postSignUp({commit}, payload) {
       commit('toggleLoading')
       commit('setPostSignUpError', '')
-      console.log(url)
-      return axios.post(`/register`, payload)
+      return axios.post(`http://localhost:8080/register`, payload)
         .then(res => {
-          router.push({path: '/'})
+          router.push('/')
           return res
         })
         .catch(rej => {
@@ -100,7 +103,17 @@ export default {
     signOut({commit}) {
       commit('signOut')
       root.dispatch('setAuthToken', '')
-      router.push({path: '/'})
+      router.push('/')
     },
+
+    getLoggedUser({commit, state}) {
+      axios.get(`/users/${state.loggedUser.id}`)
+        .then(res => {
+          commit('setUser', res.data)
+        })
+        .catch(rej => {
+          console.dir(rej)
+        })
+    }
   }
 }
