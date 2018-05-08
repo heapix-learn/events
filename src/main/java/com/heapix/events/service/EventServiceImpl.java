@@ -40,7 +40,7 @@ public class EventServiceImpl implements EventService {
     public UpdateResponseBo updateEvent(Event event, Long id) {
         Event entity = eventRepository.getOne(id);
         entity.setDate(event.getDate());
-//        entity.setLocation(event.getLocation());
+        entity.setLocation(event.getLocation());
         entity.setInfo(event.getInfo());
         entity.setMaxNumberOfRegistrations(event.getMaxNumberOfRegistrations());
         entity.setMinNumberOfRegistrations(event.getMinNumberOfRegistrations());
