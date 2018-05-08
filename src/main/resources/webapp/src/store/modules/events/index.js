@@ -12,18 +12,6 @@ export default {
   getters: {
     allEvents: state => state.events,
     getEventById: state => id => state.events.find(event => event.id === id),
-    getShortEvents: state => {
-      state.events.reduce((result, event) => {
-        result.push({
-          id: event.id,
-          title: event.title,
-          date: event.date,
-          time: event.time,
-          location: event.location
-        })
-        return result
-      }, [])
-    },
     getEventPreview: state => state.preview,
     certainEvent: state => state.certainEvent,
   },
@@ -40,7 +28,7 @@ export default {
       state.preview = null
     },
     setEvents(state, events) {
-      state.users = events
+      state.events = events
     },
     setCertainEvent(state, event) {
       state.certainEvent = event
@@ -48,9 +36,14 @@ export default {
 },
   actions: {    
     getAllEvents({commit}) {
-      return axios.get(`${url}/events`)
+      return axios.get(`${url}/events`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+        }
+      })
         .then(res => {
-          commit('setEvents', res)
+          console.log(res)
+          commit('setEvents', res.data)
           return res
         })
         .catch(rej => {
@@ -59,23 +52,46 @@ export default {
         })
     },
     getEventById({commit}, id) {
-      return axios.get(`/events/${id}`)
+      return axios.get(`${url}/events/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+        }
+      })
         .then(res => {
           commit('setCertainEvent', {
             id,
-            title: res.firstName,
-            date: res.date,
-            description: res.info,
-            location: res.location,
-            price: res.price,
-            capacityMin: res.minNumberOfRegistrations,
-            capacityMax: res.maxNumberOfRegistrations
+            title: res.data.firstName,
+            date: res.data.date,
+            description: res.data.info,
+            location: res.data.location,
+            price: res.data.price,
+            capacityMin: res.data.minNumberOfRegistrations,
+            capacityMax: res.data.maxNumberOfRegistrations
           })
           return res
         })
         .catch(rej => {
           console.dir(rej)
           return rej
+        })
+    },
+    postNewEvent({commit, state}) {
+      const event = {
+        date: '2018-05-07T18:18:35.260Z',
+        firstName: state.preview.title,
+        info: state.preview.description,
+        location: state.preview.location,
+        maxNumberOfRegistrations: 0,
+        minNumberOfRegistrations: 0,
+        price: state.preview.price * 1
+      }
+      axios({method: 'POST', url: `${url}/events`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
+        .then(res => {
+          router.push({path: '/events'})
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
         })
     },
     putEdittedEvent({commit, state}, id) {
@@ -85,6 +101,15 @@ export default {
           commit('clearEventPreview')
           router.push({path: '/events'})
           return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+        })
+    },
+    signUpForEvent({commit}, id) {
+      axios({method: 'POST', url: `${url}/events/registration`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: {"eventId": id}})
+        .then(res => {
+          router.push({path: '/events'})
         })
         .catch(rej => {
           console.dir(rej)

@@ -30,8 +30,7 @@ export default {
     ...mapGetters([
       'isLogged'
     ])
-  }
-
+  },
 }
 </script>
 

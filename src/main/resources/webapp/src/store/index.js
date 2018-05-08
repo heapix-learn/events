@@ -7,7 +7,7 @@ import news from './modules/news'
 import events from './modules/events'
 
 Vue.use(Vuex)
-export const url = 'http://13.59.162.117:8080'
+export const url = 'http://localhost:8080'
 export default new Vuex.Store({
   state: {
     authToken: ''
@@ -17,6 +17,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setAuthToken(state, token) {
+      localStorage.setItem('eventAppToken', token)
       state.authToken = token
     }
   },

@@ -9,7 +9,7 @@
       <div class="card horizontal">
         <div class="card-stacked">
           <div :class="'news-text-'+news.id" class="card-content news-text shorten" @click = "changeSize">
-            {{news.text}}
+            {{news.body}}
           </div>
           <div class="news-btn">
             <a @click = "changeSizeWithButton"  class="waves-effect waves-light btn-large green">Show/Hide</a>

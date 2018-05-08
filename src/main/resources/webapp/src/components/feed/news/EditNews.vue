@@ -6,21 +6,21 @@
     <form @submit.prevent class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <input id="news-title" type="text" v-model="title" v-validate="'required'" name="Title">
-          <label :class="{active: title}" for="news-title">Title</label>
+          <input id="news-title" type="text" v-model="currentNews.title" v-validate="'required'" name="Title">
+          <label :class="{active: currentNews.title}" for="news-title">Title</label>
           <span class="helper-text red-text" >{{errors.first('Title')}}</span>
         </div>
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="news-text" class="materialize-textarea active" v-model="text" v-validate="'required'" name="Text"/>
-          <label :class="{active: text}" for="news-text">Text</label>
+          <textarea id="news-text" class="materialize-textarea active" v-model="currentNews.body" v-validate="'required'" name="Text"/>
+          <label :class="{active: currentNews.body}" for="news-text">Text</label>
           <span class="helper-text red-text">{{errors.first('Text')}}</span>
         </div>
       </div>
     </form>
     <div class="create-news-buttons row center">
-      <a @click="previewNews" :class="{disabled: errors.items.length > 0 || disabledByFields}" class="waves-effect green waves-light btn">Preview</a>
+      <a @click="previewNews" :class="{disabled: errors.items.length > 0}" class="waves-effect green waves-light btn">Preview</a>
       <a class="waves-effect red lighten-2 red btn modal-trigger" href="#modal">Cancel</a>
       <a class="waves-effect red darken-2 red btn modal-trigger" href="#modal-delete">Delete</a>
     </div>
@@ -34,20 +34,25 @@ import { mapActions, mapGetters } from 'vuex';
     name: 'NewsEditor',
     data() {
       return {
-        title: '',
-        text: '',
-        id: '',
       }
     },
     methods: {
       ...mapActions([
+        'getNewsById',
         'setNewsPreview',
         'clearNewsPreview',
         'deleteNews'
       ]),
       previewNews(){
-        this.setNewsPreview({title: this.title, text: this.text, id: this.id})
-        this.$router.push('/news/previewedit')
+        this.$validator.validateAll()
+        .then(() => {
+          if (this.errors.items.length > 0) {
+            return
+          } else {
+            this.setNewsPreview({title: this.title, text: this.body, id: this.id})
+            this.$router.push('/news/preview')
+          }
+        })
       },
       abort() {
         this.clearNewsPreview();
@@ -59,19 +64,13 @@ import { mapActions, mapGetters } from 'vuex';
     },
     computed: {
       ...mapGetters([
-        'getNewsById'
+        'currentNews'
       ]),
-      disabledByFields() {
-        return !this.title || !this.text || !this.role
-      }
     },
     mounted() {
       M.Modal.init(document.querySelectorAll('.modal'));
       M.FormSelect.init(document.querySelector('select'));
-        const news = this.getNewsById(this.$route.params.id * 1)
-        this.title = news.title;
-        this.text = news.text;
-        this.id = news.id; 
+      this.getNewsById(this.$route.params.id)
     },
     components: {
       Modal,

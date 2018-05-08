@@ -41,7 +41,7 @@
 
 <script>
 import Modal from '../../utils/Modal.vue'
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'EventItem',
@@ -58,7 +58,15 @@ export default {
   components: {
     Modal
   },
+  computed: {
+    ...mapGetters([
+      'loggedUser'
+    ])
+  },
   methods: {
+    ...mapActions([
+      'signUpForEvent'
+    ]),
     openRegistration() {
       this.showRegistration = true
     },
@@ -68,7 +76,7 @@ export default {
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.$router.push('/events')
+            this.signUpForEvent(this.loggedUser.id)
           }
         })
     },

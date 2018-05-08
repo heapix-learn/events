@@ -5,11 +5,15 @@ import {url} from '../../index'
 export default {
   state: {
     news: [],
+    currentNews: {},
     preview: null    
   },
   getters: {
     allNews(state) {
       return state.news;
+    },
+    currentNews(state) {
+      return state.currentNews
     },
     getNewsPreview(state) {
       return state.preview
@@ -20,11 +24,14 @@ export default {
     setNewsPreview(state, payload) {
       state.preview = payload
     },
+    setCurrentNews(state, payload) {
+      state.currentNews = payload
+    },
     clearNewsPreview(state) {
       state.preview = null
     },
     setNews(state, news) {
-      state.users = news
+      state.news = news
     },
   },
   actions: {    
@@ -35,9 +42,13 @@ export default {
       commit('clearNewsPreview');
     },
     getNews({commit}) {
-      return axios.get(`${url}/news`)
+      return axios.get(`http://localhost:8080/news`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+        }
+      })
         .then(res => {
-          commit('setNews', res)
+          commit('setNews', res.data)
           return res
         })
         .catch(rej => {
@@ -47,9 +58,14 @@ export default {
     },
 
     getNewsById({commit}, id) {
-      return axios.get(`${url}/news?id:${id}`)
+      return axios.get(`http://localhost:8080/news/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+        }
+      })
         .then(res => {
-          commit('setNewsPreview', res)
+          commit('setNewsPreview', res.data)
+          commit('setCurrentNews', res.data)
           return res
         })
         .catch(rej => {
@@ -59,7 +75,11 @@ export default {
     },
 
     postNewNews({commit}, payload) {
-      return axios.post(`${url}/newnews`, payload)
+      return axios.post(`http://localhost:8080/news`, payload, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+        }
+      })
         .then(res => {
           commit('clearNewsPreview')
           router.push({path: '/news'})
@@ -72,7 +92,7 @@ export default {
     },
 
     putNews({commit}, payload) {
-      return axios.post(`${url}/putnews`, payload)
+      return axios.put(`/news`, payload)
         .then(res => {
           commit('clearNewsPreview')
           router.push({path: '/news'})
@@ -85,7 +105,7 @@ export default {
     },
 
     deleteNews({commit}, id) {
-      return axios.delete(`${url}/deletenews?id:${id}`)
+      return axios.delete(`/news/${id}`)
         .then(res => {
           router.push({path: '/news'})
           return res

@@ -19,19 +19,22 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: 'Users',
-  data () {
-    return {
-      users: this.getAllUsers()
-    }
+  computed: {
+    ...mapGetters([
+      'users'
+    ])
   },
   methods: {
     ...mapActions([
       'getAllUsers'
     ])
+  },
+  created() {
+    this.getAllUsers();
   }
 }
 </script>

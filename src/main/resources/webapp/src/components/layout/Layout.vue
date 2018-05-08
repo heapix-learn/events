@@ -4,7 +4,7 @@
     <div class="layout-main">
       <div class="row">
         <div class="col s2">
-          <sidebar v-if="isAllowed"></sidebar>
+          <sidebar v-if="loggedUserRole === 'Super Administrator'"></sidebar>
         </div>
         <div class="col s8 main-content">
           <slot></slot>
@@ -33,9 +33,6 @@ export default {
       'isLogged',
       'loggedUserRole'
     ]),
-    isAllowed() {
-      return this.isLogged && this.loggedUserRole === 'administrator'
-    }
   },
   mounted() {
     M.Collapsible.init(document.querySelector('.collapsible'));
