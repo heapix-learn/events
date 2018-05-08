@@ -96,6 +96,7 @@ public class UserServiceImpl implements UserService {
     public void allowRegistration(Long userId) {
         User entity = userRepository.getOne(userId);
         entity.setRole(UserRole.MEMBER_USER.getId());
+        userRepository.save(entity);
     }
 
     @Override
