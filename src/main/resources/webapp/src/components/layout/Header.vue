@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Header',
@@ -47,16 +47,20 @@ export default {
       'isLogged',
       'loggedUser',
     ]),
+
+
   },
   watch: {
 
   },
   methods: {
+      ...mapActions([ 'getLoggedUser' ]),
     activePath(tab) {
       return this.$route.path.match(tab) ? 'active' : ''
-    }
+    },
   },
   mounted() {
+    if(this.isLogged) this.getLoggedUser();
     let elem = document.querySelector('.dropdown-trigger');
     
     if (elem) {
@@ -64,7 +68,6 @@ export default {
     } 
     console.log(this.loggedUser)
   },
-  
 }
 </script>
 

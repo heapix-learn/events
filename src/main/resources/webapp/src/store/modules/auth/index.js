@@ -5,7 +5,7 @@ import root from '../../index'
 
 export default {
   state: {
-    isLogged: false,
+    isLogged: localStorage.getItem('eventAppToken') != null,
     isLoading: false,
     loggedUser: {},
     postSignUpError: '',
@@ -107,7 +107,12 @@ export default {
     },
 
     getLoggedUser({commit, state}) {
-      axios.get(`/users/${state.loggedUser.id}`)
+      axios.get(`${url}/users/me`,
+          {
+              headers: {
+                  Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+              }
+          })
         .then(res => {
           commit('setUser', res.data)
         })

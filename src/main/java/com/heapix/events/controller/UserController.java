@@ -2,6 +2,7 @@ package com.heapix.events.controller;
 
 import com.heapix.events.config.security.UserAuth;
 import com.heapix.events.controller.bo.UserAdminBo;
+import com.heapix.events.controller.bo.UserSelfBo;
 import com.heapix.events.controller.dto.ChangePasswordDto;
 import com.heapix.events.controller.dto.UserUpdateDto;
 import com.heapix.events.service.UserService;
@@ -53,6 +54,13 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public UserAdminBo getUserInfo(@NotNull @PathVariable long id) throws NotFoundException {
         UserAdminBo bo = userService.findUser(id);
+        return bo;
+    }
+
+    @GetMapping("/me")
+    public UserAdminBo getUserInfo() throws NotFoundException {
+        UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserAdminBo bo = userService.findUser(currUser.getId());
         return bo;
     }
 
