@@ -2,7 +2,7 @@
   <div class="user">
     <div class="profile">
       <div class="col s12">
-        <div class="card-panel grey lighten-5 z-depth-1">
+        <div v-if="currentUser.email" class="card-panel grey lighten-5 z-depth-1">
 
             <a @click="$router.push('/users/edit/' + $route.params.id)" 
               class="waves-effect waves grey lighten-5 black-text btn edit-button eb-edit z-depth-1">
@@ -22,6 +22,11 @@
             </div>
 
         </div>
+          <div v-else class="card-panel grey lighten-5 z-depth-1">
+              <h3>
+                 Sorry, you account has to be validated by moderator
+              </h3>
+          </div>
       </div>
     </div>
   </div>
