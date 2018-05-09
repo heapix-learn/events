@@ -4,7 +4,7 @@
     <div class="layout-main">
       <div class="row">
         <div class="col s2">
-          <sidebar v-if="loggedUserRole === 'Super Administrator'"></sidebar>
+          <sidebar v-if="loggedUserRole === 'Super Administrator'||'Administrator'||'Moderator'"></sidebar>
         </div>
         <div class="col s8 main-content">
           <slot></slot>
@@ -19,7 +19,7 @@
 import Header from './Header'
 import Footer from './Footer'
 import Sidebar from './Sidebar'
-import { mapGetters } from 'vuex';
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'Layout',

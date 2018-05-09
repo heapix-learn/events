@@ -44,13 +44,13 @@
         </div>
       </div>
       <div class="row">
-        <div class="input-field col s4">
-          <input id="event-cap-min" type="text" class="validate" v-model="eventData.capacityMin"  name="Min capacity">
+        <div class="input-field col s6">
+          <input id="event-cap-min" type="text" class="validate" placeholder="0" v-model="eventData.capacityMin"  name="Min capacity">
           <label :class="{active: eventData.capacityMin}" for="event-cap-min">Min capacity</label>
           <span class="helper-text red-text" >{{errors.first('Min capacity')}}</span>
         </div>
-        <div class="input-field col s4">
-          <input id="event-cam-max" type="text" class="validate" v-model="eventData.capacityMax"  name="Max capacity">
+        <div class="input-field col s6">
+          <input id="event-cam-max" type="text" class="validate" placeholder="0" v-model="eventData.capacityMax"  name="Max capacity">
           <label :class="{active: eventData.capacityMax}" for="event-cam-max">Max capacity</label>
           <span class="helper-text red-text" >{{errors.first('Max capacity')}}</span>
         </div>
@@ -97,9 +97,9 @@ export default {
         description: '',
         date: '',
         time: '',
-        price: 0,
-        capacityMin: 0,
-        capacityMax: 0,
+        price: '',
+        capacityMin: '',
+        capacityMax: '',
         role: '',
         labels: [
           {label: ''}

@@ -1,6 +1,6 @@
 <template>
   <ul class="collapsible sidebar">
-    <li>
+    <li v-if="loggedUserRole === 'Super Administrator' || 'Administrator' || 'Moderator'">
       <div class="collapsible-header green white-text"><i class="material-icons">message</i>News</div>
       <div class="collapsible-body sb-menu-item">
         <router-link to="/news/create">
@@ -11,7 +11,7 @@
         </router-link>
       </div>
     </li>
-    <li>
+    <li v-if="loggedUserRole === 'Super Administrator' || 'Administrator' || 'Moderator'">
       <div class="collapsible-header green white-text"><i class="material-icons">place</i>Events</div>
       <div class="collapsible-body sb-menu-item">
         <router-link to="/events/create">
@@ -22,7 +22,7 @@
         </router-link>
       </div>
     </li>
-    <li>
+    <li v-if="loggedUserRole === 'Super Administrator' || 'Administrator'">
       <div class="collapsible-header green white-text"><i class="material-icons">person</i>Users</div>
       <div class="collapsible-body sb-menu-item">
         <router-link to="/createuser">
@@ -50,10 +50,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'Sidebar',
   mounted() {
     M.Collapsible.init(document.querySelector('.collapsible'));
+  },
+  computed: {
+    ...mapGetters([
+      'loggedUserRole'
+    ])
   }
 }
 </script>
