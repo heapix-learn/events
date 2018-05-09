@@ -9,6 +9,7 @@ import com.heapix.events.controller.dto.JwtAuthenticationRequest;
 import com.heapix.events.controller.dto.JwtAuthenticationResponse;
 import com.heapix.events.controller.dto.RegistrationDto;
 import com.heapix.events.persistence.model.User;
+import com.heapix.events.persistence.model.enums.UserRole;
 import com.heapix.events.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<CreateResponseBo> register(@RequestBody RegistrationDto user) throws Exception {
-        CreateResponseBo response = userService.addUser(user);
+        UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        CreateResponseBo response;
+        if(userService.findUser(currUser.getId()).getRole()<4){
+            response = userService.addUser(user, user.getRole());
+        } else {
+            response = userService.addUser(user, UserRole.ANONYMOUS_USER.getId());
+        }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 

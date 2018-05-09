@@ -15,7 +15,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    CreateResponseBo addUser(RegistrationDto user) throws Exception;
+    CreateResponseBo addUser(RegistrationDto user, Long role) throws Exception;
     List<User> getAll();
     UserAdminBo findUser(Long id);
     UserAdminBo findUser(String email);

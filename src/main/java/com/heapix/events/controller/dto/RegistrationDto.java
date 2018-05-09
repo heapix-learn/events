@@ -9,12 +9,14 @@ public class RegistrationDto {
     private String firstName;
     private String lastName;
     private String password;
+    private Long role;
 
-    public RegistrationDto(String email, String firstName, String lastName, String password) {
+    public RegistrationDto(String email, String firstName, String lastName, String password, Long role) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
+        this.role = role;
     }
 
     public RegistrationDto() {
@@ -50,5 +52,13 @@ public class RegistrationDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
     }
 }

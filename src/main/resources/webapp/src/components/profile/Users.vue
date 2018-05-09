@@ -9,8 +9,8 @@
                 <p>{{user.firstName}} {{user.lastName}}</p>
               </div>
               <div class="user-buttons col l9 right-align">
-                <router-link :to="'users/' + user.id"><i class="material-icons black-text">visibility</i></router-link>
-                <router-link :to="'users/edit/' + user.id"><i class="material-icons black-text">create</i></router-link>
+                <router-link :to="'users/' + user.id"><i class="material-icons black-text" title="info">visibility</i></router-link>
+                <router-link :to="'users/edit/' + user.id"><i class="material-icons black-text" title="edit">create</i></router-link>
               </div>
             </div>
           </router-link>

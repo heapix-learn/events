@@ -30,12 +30,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public CreateResponseBo addUser(RegistrationDto user) throws Exception {
+    public CreateResponseBo addUser(RegistrationDto user, Long role) throws Exception {
         User alreadyExist = userRepository.findByEmail(user.getEmail());
         if (alreadyExist == null) {
             User newUser = new User();
             newUser.setPassword(encoder.encode(user.getPassword()));
-            newUser.setRole(UserRole.ANONYMOUS_USER.getId());
+            newUser.setRole(role);
             newUser.setFirstName(user.getFirstName());
             newUser.setLastName(user.getLastName());
             newUser.setEmail(user.getEmail());
