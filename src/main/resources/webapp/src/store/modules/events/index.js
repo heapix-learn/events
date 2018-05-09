@@ -96,7 +96,7 @@ export default {
     },
     putEdittedEvent({commit, state}, id) {
       state.preview.id = id
-      return axios.put(`events/${id}`, state.preview)
+      return axios.put(`${url}/events/${id}`, state.preview)
         .then(res => {
           commit('clearEventPreview')
           router.push({path: '/events'})

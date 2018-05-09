@@ -42,7 +42,7 @@ export default {
       commit('clearNewsPreview');
     },
     getNews({commit}) {
-      return axios.get(`http://7d159034.ngrok.io/news`, {
+      return axios.get(`${url}/news`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
         }
@@ -58,7 +58,7 @@ export default {
     },
 
     getNewsById({commit}, id) {
-      return axios.get(`http://7d159034.ngrok.io/news/${id}`, {
+      return axios.get(`${url}/news/${id}`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
         }
@@ -75,7 +75,7 @@ export default {
     },
 
     postNewNews({commit}, payload) {
-      return axios.post(`http://7d159034.ngrok.io/news`, payload, {
+      return axios.post(`${url}/news`, payload, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
         }
@@ -92,7 +92,7 @@ export default {
     },
 
     putNews({commit}, payload) {
-      return axios.put(`http://7d159034.ngrok.io/news`, payload)
+      return axios.put(`${url}/news`, payload)
         .then(res => {
           commit('clearNewsPreview')
           router.push({path: '/news'})
@@ -105,7 +105,7 @@ export default {
     },
 
     deleteNews({commit}, id) {
-      return axios.delete(`http://7d159034.ngrok.io/news/${id}`)
+      return axios.delete(`${url}/news/${id}`)
         .then(res => {
           router.push({path: '/news'})
           return res
