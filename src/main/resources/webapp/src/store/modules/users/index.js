@@ -43,7 +43,7 @@ export default {
     },
     actions: {
       getAllUsers({commit}) {
-        return axios.get(`http://7d159034.ngrok.io/users/registered`, {
+        return axios.get(`${url}/users/registered`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -59,7 +59,7 @@ export default {
       },
 
       getUserById({commit}, id) {
-        return axios.get(`http://7d159034.ngrok.io/users/${id}`, {
+        return axios.get(`${url}/users/${id}`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -75,7 +75,7 @@ export default {
       },
       
       getPendingUsers({commit}) {
-        return axios.get(`http://7d159034.ngrok.io/users/unregistered`, {
+        return axios.get(`${url}/users/unregistered`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -94,7 +94,7 @@ export default {
         commit('setPostEdittedUserError', '')
         console.log(payload)
         return axios.put(
-            `http://7d159034.ngrok.io/users/${payload.id}`,
+            `${url}/users/${payload.id}`,
             payload,
             {
               headers: {
@@ -113,7 +113,7 @@ export default {
       changePassword({commit}, payload) {
         commit('changePasswordServerError', '')
         return axios.put(
-            `http://7d159034.ngrok.io/users/password`,
+            `${url}/users/password`,
             payload,
             {
               headers: {
@@ -131,7 +131,7 @@ export default {
 
       unsubscribeUser({commit, state}, payload) {
         return axios.delete(
-            'http://7d159034.ngrok.io/users/' + payload.id, 
+            `${url}/users/${payload.id}`, 
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
@@ -149,7 +149,7 @@ export default {
 
       postCreateNewUser({commit}, payload) {
         commit('setPostCreateNewUserError', '')
-        return axios.post(`/createnewuser`, payload)
+        return axios.post(`${url}/createnewuser`, payload)
           .then(res => {
             router.push({path: '/users'})
             return res
@@ -164,7 +164,7 @@ export default {
       registerUser({commit}, id) {
         axios({
             method: 'PUT',
-            url: `http://localhost:8080/register/${id}`,
+            url: `${url}/register/${id}`,
             headers: {
               Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')},
             data: {}
