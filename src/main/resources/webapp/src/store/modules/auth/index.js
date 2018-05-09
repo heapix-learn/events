@@ -102,8 +102,9 @@ export default {
 
     signOut({commit}) {
       commit('signOut')
-      root.dispatch('setAuthToken', '')
+      localStorage.removeItem("eventAppToken");
       router.push('/')
+      location.reload();
     },
 
     getLoggedUser({commit, state}) {
