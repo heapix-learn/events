@@ -123,7 +123,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'setEventPreview'
+      'setEventPreview',
+      'clearEventPreview'
     ]),
     abort() {
       this.$router.go(-1);
@@ -152,6 +153,12 @@ export default {
       }
     } 
   },
+  beforeRouteLeave (to, from, next) {
+    if (to.path !== '/events/preview') {
+      this.clearEventPreview()
+    }
+    next()
+  }
 }
 </script>
 

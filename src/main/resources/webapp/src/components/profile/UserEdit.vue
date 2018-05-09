@@ -47,9 +47,9 @@
                 <div class="row">
                   <div v-if="isManager" class="input-field col s12">
                     <select v-model="currentUser.role" v-validate="'required'" name="Role">
-                      <option value="Member">Member</option>
-                      <option value="Moderator">Moderator</option>
-                      <option value="Administrator">Administrator</option>
+                      <option value="4">Member</option>
+                      <option value="3">Moderator</option>
+                      <option value="2">Administrator</option>
                     </select>
                     <label><span class="required-field">Role</span></label>
                     <span class="helper-text red-text" >{{errors.first('Role')}}</span>
@@ -85,7 +85,7 @@ export default {
     ]),
 
     showButtons() {
-        this.isManager = this.loggedUser.role < 3;
+      this.isManager = this.loggedUser.role < 3;
     },
     submitEditting() {
       this.$validator.validateAll()
@@ -118,7 +118,6 @@ export default {
     this.showButtons();
   },
   updated() {
-    this.getUserById(this.$route.params.id);
     M.Modal.init(document.querySelectorAll('.modal'));
     M.FormSelect.init(document.querySelector('select'));
   }
