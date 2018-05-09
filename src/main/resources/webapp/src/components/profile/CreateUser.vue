@@ -22,12 +22,12 @@
             <div class="input-field col s6">
               <input id="first_phone" type="text" v-model="user.firstPhone" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
               <label class="text-green" for="first_phone"><span class="required-field">Phone number</span></label>
-              <span class="helper-text red-text" >{{errors.first('Phone number')}}</span>
+              <span class="helper-text red-text" >{{errors.first('Phone number') ? 'Phone number starts from `+` and has length is from 9 to 12' : ''}}</span>
             </div>
             <div class="input-field col s6">
               <input id="secondary_phone" type="text" v-model="user.lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2">
               <label for="secondary_phone">Phone number</label>
-              <span class="helper-text red-text" >{{errors.first('Phone number 2')}}</span>
+              <span class="helper-text red-text" >{{errors.first('Phone number 2') ? 'Phone number starts from `+` and has length is from 9 to 12' : ''}}</span>
             </div>
           </div>
           <div class="row">
@@ -47,9 +47,9 @@
           <div class="row">
             <div class="input-field col s12">
               <select v-model="user.role"  v-validate="'required'" name="Role">
-                <option value="Member">Member</option>
-                <option value="Moderator">Moderator</option>
-                <option value="Administrator">Administrator</option>
+                <option value="4">Member</option>
+                <option value="3">Moderator</option>
+                <option value="2">Administrator</option>
               </select>
               <label><span class="required-field">Role</span></label>
               <span class="helper-text red-text">{{errors.first('Role')}}</span>
@@ -81,7 +81,7 @@ export default {
         firstPhone: '',
         lastPhone: '',
         email: '',
-        role: 'Member',
+        role: '',
         password: '',
       }
     }
@@ -112,6 +112,7 @@ export default {
           if (this.errors.items.length > 0) {
             return
           } else {
+            this.user.role = this.user.role * 1
             this.postCreateNewUser(this.user)
           }
         })

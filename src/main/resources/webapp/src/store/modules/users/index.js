@@ -149,13 +149,16 @@ export default {
 
       postCreateNewUser({commit}, payload) {
         commit('setPostCreateNewUserError', '')
-        return axios.post(`${url}/createnewuser`, payload)
+        // return axios.post(`${url}/register`, payload)
+        console.log(payload)
+
+        axios({method: 'POST', url: `${url}/register`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: payload})
           .then(res => {
             router.push({path: '/users'})
             return res
           })
           .catch(rej => {
-            commit('setPostCreateNewUserError', rej)
+            commit('setPostCreateNewUserError', 'Cannot create user')
             console.dir(rej)
             return rej
           })
@@ -170,6 +173,7 @@ export default {
             data: {}
         })
           .then(res => {
+            dispatch('getPendingUsers')
             router.push({path: '/pendingusers'})
           })
           .catch(rej => {

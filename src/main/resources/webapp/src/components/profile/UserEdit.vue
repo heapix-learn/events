@@ -26,14 +26,14 @@
                 </div>
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_phone" type="text" v-model="currentUser.phone1" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
+                    <input id="first_phone" type="text" placeholder="+123456789" v-model="currentUser.phone1" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
                     <label class="active text-green" for="first_phone"><span class="required-field">Phone number</span></label>
-                    <span class="helper-text red-text" >{{errors.first('Phone number')}}</span>
+                    <span class="helper-text red-text" >{{errors.first('Phone number') ? 'Phone number starts from `+` and has length is from 9 to 12' : ''}}</span>
                   </div>
                   <div class="input-field col s6">
                     <input id="secondary_phone" type="text" v-model="currentUser.lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2">
                     <label class="active" for="secondary_phone">Phone number</label>
-                    <span class="helper-text red-text" >{{errors.first('Phone number 2')}}</span>
+                    <span class="helper-text red-text" >{{errors.first('Phone number 2') ? 'Phone number starts from `+` and has length is from 9 to 12' : ''}}</span>
                   </div>
                 </div>
                 <div class="row">
