@@ -11,41 +11,42 @@
             <a class="waves-effect waves lighten-2 red btn edit-button eb-cancel z-depth-1 modal-trigger" href="#modal">Cancel</a>
 
             <div class="row edit-form">
+              <p>{{currentUser.firstName}}</p>
               <form class="col s10">
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_name" type="text" v-model="user.firstName" v-validate="'required|alpha'" name="First Name">
+                    <input id="first_name" type="text" v-model="currentUser.firstName" v-validate="'required|alpha'" name="First Name">
                     <label class="active text-green" for="first_name"><span class="required-field">First Name</span></label>
                     <span class="helper-text red-text" >{{errors.first('First Name')}}</span>
                   </div>
                   <div class="input-field col s6">
-                    <input id="last_name" type="text" v-model="user.lastName" v-validate="'alpha'" name="Last Name">
+                    <input id="last_name" type="text" v-model="currentUser.lastName" v-validate="'alpha'" name="Last Name">
                     <label class="active" for="last_name"><span class="required-field">Last Name</span></label>
                     <span class="helper-text red-text" >{{errors.first('Last Name')}}</span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_phone" type="text" v-model="user.firstPhone" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
+                    <input id="first_phone" type="text" v-model="currentUser.firstPhone" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
                     <label class="active text-green" for="first_phone"><span class="required-field">Phone number</span></label>
                     <span class="helper-text red-text" >{{errors.first('Phone number')}}</span>
                   </div>
                   <div class="input-field col s6">
-                    <input id="secondary_phone" type="text" v-model="user.lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2">
+                    <input id="secondary_phone" type="text" v-model="currentUser.lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2">
                     <label class="active" for="secondary_phone">Phone number</label>
                     <span class="helper-text red-text" >{{errors.first('Phone number 2')}}</span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <input id="email" type="email" v-model="user.email" v-validate="'required|email'" name="Email">
+                    <input id="email" type="email" v-model="currentUser.email" v-validate="'required|email'" name="Email">
                     <label class="active" for="email"><span class="required-field">Email</span></label>
                     <span class="helper-text red-text" >{{errors.first('Email')}}</span>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="input-field col s12">
-                    <select v-model="user.role" v-validate="'required'" name="Role">
+                  <div v-if="isManager" class="input-field col s12">
+                    <select v-model="currentUser.role" v-validate="'required'" name="Role">
                       <option value="Member">Member</option>
                       <option value="Moderator">Moderator</option>
                       <option value="Administrator">Administrator</option>
@@ -72,16 +73,20 @@ export default {
   name: 'UserEdit',
   data () {
     return {
-      user: this.getUserById(this.$route.params.id),
-      isMyProfle: this.$route.params.id === this.loggedUserId,
+      isManager: false
     }
   },
+
   methods: {
     ...mapActions([
-      'getUserById',
       'postEdittedUser',
-      'unsubscribeUser'
+      'unsubscribeUser',
+      'getUserById',
     ]),
+
+    showButtons() {
+        this.isManager = this.loggedUser.role < 3;
+    },
     submitEditting() {
       this.$validator.validateAll()
         .then(() => {
@@ -98,17 +103,22 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'postEdittedUserError'
+      'currentUser',
+      'loggedUser',
+      'postEdittedUserError',
     ]),
   },
   components: {
     Modal
   },
   mounted() {
+    this.getUserById(this.$route.params.id);
     M.Modal.init(document.querySelectorAll('.modal'));
     M.FormSelect.init(document.querySelector('select'));
+    this.showButtons();
   },
   updated() {
+    this.getUserById(this.$route.params.id);
     M.Modal.init(document.querySelectorAll('.modal'));
     M.FormSelect.init(document.querySelector('select'));
   }
@@ -133,6 +143,7 @@ export default {
   top: 10px;
   right: 10px;
 }
+
 .eb-cancel {
   top: 50px;
 }

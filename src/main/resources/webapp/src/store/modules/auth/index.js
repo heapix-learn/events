@@ -114,7 +114,8 @@ export default {
               }
           })
         .then(res => {
-          commit('setUser', res.data)
+          console.log('set current user to ' + res.data.email);
+          commit('setUser', res.data);
         })
         .catch(rej => {
           console.dir(rej)

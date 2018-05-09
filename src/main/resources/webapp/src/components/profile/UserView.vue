@@ -2,17 +2,18 @@
   <div class="user">
     <div class="profile">
       <div class="col s12">
-        <div v-if="currentUser.email" class="card-panel grey lighten-5 z-depth-1">
-
+        <div class="card-panel grey lighten-5 z-depth-1">
+            <div v-if="hasEditRights">
             <a @click="$router.push('/users/edit/' + $route.params.id)" 
               class="waves-effect waves grey lighten-5 black-text btn edit-button eb-edit z-depth-1">
               <i class="material-icons left">mode_edit</i>
               Edit
             </a>
-            <a v-if="isMyProfle" @click="$router.push('/users/edit/changepassword')" 
+            <a v-if="isMyProfile" @click="$router.push('/users/edit/changepassword')"
               class="waves-effect waves grey lighten-5 black-text btn edit-button eb-password z-depth-2">
               Change password
             </a>
+            </div>
             <div class="row center">
               <h3>
                 {{currentUser.firstName}} {{currentUser.lastName}}
@@ -20,18 +21,11 @@
               <h5>{{currentUser.firstPhone}} {{currentUser.lastPhone}}</h5>
               <h5>{{currentUser.email}}</h5>
             </div>
-
         </div>
-          <div v-else class="card-panel grey lighten-5 z-depth-1">
-              <h3>
-                 Sorry, your account has to be validated by moderator
-              </h3>
-          </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import Modal from '../utils/Modal.vue';
@@ -40,7 +34,8 @@ export default {
   name: 'UserView',
   data () {
     return {
-      isMyProfle: this.$route.params.id === this.loggedUserId,
+      isMyProfile: false,
+      hasEditRights: false
     }
   },
   methods: {
@@ -48,24 +43,30 @@ export default {
       'getUserById',
       'clearCurrentUser'
     ]),
+  showButtons() {
+      this.isMyProfile = parseInt(this.$route.params.id) === this.loggedUser.id;
+      this.hasEditRights = this.isMyProfile || this.loggedUser.role < 3;
+  }
   },
   computed: {
     ...mapGetters([
       'currentUser',
-      'loggedUserId'
+      'loggedUser'
     ])
   },
   components: {
     Modal
   },
   mounted() {
-    this.getUserById(this.$route.params.id)
+    this.getUserById(this.$route.params.id);
+    this.showButtons();
   },
   beforeRouteLeave (to, from, next) {
     this.clearCurrentUser()
     next()
   }
 }
+
 </script>
 
 <style>

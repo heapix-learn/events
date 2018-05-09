@@ -151,7 +151,7 @@ export default {
           })
       },
       clearCurrentUser({commit}) {
-        commit('setCurrenUser', {})
+        commit('setCurrentUser', {})
       }
     }
 }
