@@ -56,7 +56,7 @@ export default {
   computed: {
     ...mapGetters([
       'isLogged',
-      'loggedUser',
+      'loggedUser'
     ]),
 
 
