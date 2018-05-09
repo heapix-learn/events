@@ -62,7 +62,7 @@ export default {
     postSignIn({commit, state}, payload) {
       commit('toggleLoading')
       commit('setPostSignInError', '')
-      return axios.post(`http://localhost:8080/auth`, payload)
+      return axios.post(`${url}/auth`, payload)
         .then(res => {
 
           commit('setIsLogged', true)
@@ -84,7 +84,7 @@ export default {
     postSignUp({commit}, payload) {
       commit('toggleLoading')
       commit('setPostSignUpError', '')
-      return axios.post(`{$url}/register`, payload)
+      return axios.post(`${url}/register`, payload)
         .then(res => {
           router.push('/')
           return res

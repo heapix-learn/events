@@ -58,6 +58,9 @@ export default {
   mounted() {
     M.Collapsible.init(document.querySelector('.collapsible'));
   },
+  updated() {
+    M.Collapsible.init(document.querySelector('.collapsible'));
+  },
   computed: {
     ...mapGetters([
       'loggedUser'

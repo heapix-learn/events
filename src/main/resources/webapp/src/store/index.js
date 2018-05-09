@@ -7,7 +7,7 @@ import news from './modules/news'
 import events from './modules/events'
 
 Vue.use(Vuex)
-export const url = 'http://localhost:8080'
+export const url = 'http://7d159034.ngrok.io'
 export default new Vuex.Store({
   state: {
     authToken: ''
