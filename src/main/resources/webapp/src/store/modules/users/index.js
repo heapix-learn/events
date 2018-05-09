@@ -43,7 +43,7 @@ export default {
     },
     actions: {
       getAllUsers({commit}) {
-        return axios.get(`http://7d159034.ngrok.io/users/registered`, {
+        return axios.get(`http://localhost:8080/users/registered`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -59,7 +59,7 @@ export default {
       },
 
       getUserById({commit}, id) {
-        return axios.get(`http://7d159034.ngrok.io/users/${id}`, {
+        return axios.get(`http://localhost:8080/users/${id}`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -75,7 +75,7 @@ export default {
       },
       
       getPendingUsers({commit}) {
-        return axios.get(`http://7d159034.ngrok.io/users/unregistered`, {
+        return axios.get(`http://localhost:8080/users/unregistered`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -92,7 +92,7 @@ export default {
 
       postEdittedUser({commit}, payload) {
         commit('setPostEdittedUserError', '')
-        return axios.post(`http://7d159034.ngrok.io/edituser`, payload)
+        return axios.post(`/edituser`, payload)
           .then(res => {
             router.push({path: '/users/' + payload.id})
             return res
@@ -105,7 +105,14 @@ export default {
 
       changePassword({commit}, payload) {
         commit('changePasswordServerError', '')
-        return axios.post(`http://7d159034.ngrok.io/changePassword`, payload)
+        return axios.put(
+            `http://localhost:8080/users/password`,
+            payload,
+            {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+            }
+        },)
           .then(res => {
             router.go(-1)
             return res
@@ -116,7 +123,7 @@ export default {
       },
 
       unsubscribeUser({commit, state}, payload) {
-        return axios.post(`http://7d159034.ngrok.io/unsubscribe?id:${payload}`)
+        return axios.post(`/unsubscribe?id:${payload}`)
           .then(res => {
             router.push({path: '/'})
             return res
@@ -129,7 +136,7 @@ export default {
 
       postCreateNewUser({commit}, payload) {
         commit('setPostCreateNewUserError', '')
-        return axios.post(`http://7d159034.ngrok.io/createnewuser`, payload)
+        return axios.post(`/createnewuser`, payload)
           .then(res => {
             router.push({path: '/users'})
             return res
@@ -142,7 +149,13 @@ export default {
       },
 
       registerUser({commit}, id) {
-        axios({method: 'PUT', url: `http://7d159034.ngrok.io/register/${id}`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: {}})
+        axios({
+            method: 'PUT',
+            url: `http://localhost:8080/register/${id}`,
+            headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')},
+            data: {}
+        })
           .then(res => {
             router.push({path: '/pendingusers'})
           })

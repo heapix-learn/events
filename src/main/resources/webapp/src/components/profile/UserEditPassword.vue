@@ -59,7 +59,11 @@ export default {
             this.notEqualError = 'Passwords are not equal'
             return
           } else {
-            this.changePassword({currentPassword: this.currentPassword, newPassword: this.newPassword, repeatPassword: this.repeatPassword})
+            this.changePassword({
+                oldPassword: this.currentPassword,
+                newPassword: this.newPassword,
+                confirmPassword: this.repeatPassword
+            })
           }
         })
     }
