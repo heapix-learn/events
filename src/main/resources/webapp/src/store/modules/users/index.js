@@ -43,7 +43,7 @@ export default {
     },
     actions: {
       getAllUsers({commit}) {
-        return axios.get(`http://localhost:8080/users/registered`, {
+        return axios.get(`http://7d159034.ngrok.io/users/registered`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -59,7 +59,7 @@ export default {
       },
 
       getUserById({commit}, id) {
-        return axios.get(`http://localhost:8080/users/${id}`, {
+        return axios.get(`http://7d159034.ngrok.io/users/${id}`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -75,7 +75,7 @@ export default {
       },
       
       getPendingUsers({commit}) {
-        return axios.get(`http://localhost:8080/users/unregistered`, {
+        return axios.get(`http://7d159034.ngrok.io/users/unregistered`, {
           headers: {
             Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
           }
@@ -90,23 +90,30 @@ export default {
           })
       },
 
-      postEdittedUser({commit}, payload) {
+      putEdittedUser({commit}, payload) {
         commit('setPostEdittedUserError', '')
-        return axios.post(`/edituser`, payload)
+        console.log(payload)
+        return axios.put(
+            `http://7d159034.ngrok.io/users/${payload.id}`,
+            payload,
+            {
+              headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+            }
+          },)
           .then(res => {
-            router.push({path: '/users/' + payload.id})
+            router.go(-1)
             return res
           })
           .catch(rej => {
-            commit('setPostEdittedUserError', rej)
-            return rej
+            commit('changePasswordServerError', rej)
           })
       },
 
       changePassword({commit}, payload) {
         commit('changePasswordServerError', '')
         return axios.put(
-            `http://localhost:8080/users/password`,
+            `http://7d159034.ngrok.io/users/password`,
             payload,
             {
               headers: {
@@ -123,7 +130,13 @@ export default {
       },
 
       unsubscribeUser({commit, state}, payload) {
-        return axios.post(`/unsubscribe?id:${payload}`)
+        return axios.delete(
+            'http://7d159034.ngrok.io/users/' + payload.id, 
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+                }
+            })
           .then(res => {
             router.push({path: '/'})
             return res

@@ -11,7 +11,6 @@
             <a class="waves-effect waves lighten-2 red btn edit-button eb-cancel z-depth-1 modal-trigger" href="#modal">Cancel</a>
 
             <div class="row edit-form">
-              <p>{{currentUser.firstName}}</p>
               <form class="col s10">
                 <div class="row">
                   <div class="input-field col s6">
@@ -27,7 +26,7 @@
                 </div>
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_phone" type="text" v-model="currentUser.firstPhone" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
+                    <input id="first_phone" type="text" v-model="currentUser.phone1" v-validate="{ required: true, regex: /^\+([0-9]{9,12})$/ }" name="Phone number">
                     <label class="active text-green" for="first_phone"><span class="required-field">Phone number</span></label>
                     <span class="helper-text red-text" >{{errors.first('Phone number')}}</span>
                   </div>
@@ -58,7 +57,7 @@
               </form>
               <div class="row center red-text">{{postEdittedUserError}}</div>
             </div>
-          <a @click="unsubscribe" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1 modal-trigger" href="#unsub">Unsubscribe</a>
+          <a v-if="currentUser.id === loggedUser.id" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1 modal-trigger" href="#unsub">Unsubscribe</a>
         </div>
       </div>
     </div>
@@ -79,7 +78,7 @@ export default {
 
   methods: {
     ...mapActions([
-      'postEdittedUser',
+      'putEdittedUser',
       'unsubscribeUser',
       'getUserById',
     ]),
@@ -93,12 +92,12 @@ export default {
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.postEdittedUser(this.user)
+            this.putEdittedUser(this.currentUser)
           }
         })
     },
     unsubscribe() {
-      this.unsubscribeUser(this.user.id)
+      this.unsubscribeUser(this.currentUser)
     },
   },
   computed: {
