@@ -165,7 +165,7 @@ export default {
       },
 
       registerUser({commit}, id) {
-        axios({
+        return axios({
             method: 'PUT',
             url: `${url}/register/${id}`,
             headers: {
@@ -173,8 +173,8 @@ export default {
             data: {}
         })
           .then(res => {
-            dispatch('getPendingUsers')
             router.push({path: '/pendingusers'})
+            return res
           })
           .catch(rej => {
             console.dir(rej)

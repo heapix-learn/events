@@ -35,6 +35,7 @@ export default {
     ]),
     acceptUser(id) {
       this.registerUser(id)
+        .then(res => this.getPendingUsers())
     }
   },
   computed: {
