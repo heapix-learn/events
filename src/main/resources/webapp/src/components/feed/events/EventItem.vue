@@ -18,7 +18,8 @@
           </div>
           <div class="card-action">
             <router-link class="green-text" :to="'../'">Back</router-link>
-            <a v-if="!showRegistration" @click="openRegistration" class="green-text reg-button">Registration</a>
+            <a v-if="!showRegistration && !alreadyRegistered" @click="openRegistration" class="green-text reg-button">Registration</a>
+            <a v-if="alreadyRegistered" @click="closeRegistration" class="green-text reg-button">Unsubscribe</a>
           </div>
         </div>
       </div>
@@ -60,15 +61,21 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'loggedUser'
+      'loggedUser',
+      'alreadyRegistered'
     ])
   },
   methods: {
     ...mapActions([
-      'signUpForEvent'
+      'signUpForEvent',
+      'userAlreadyRegistered',
+      'unsubscribe'
     ]),
     openRegistration() {
       this.showRegistration = true
+    },
+    closeRegistration() {
+      this.unsubscribe(this.$route.params.id);
     },
     eventSignUp() {
       this.$validator.validateAll()
@@ -76,10 +83,11 @@ export default {
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.signUpForEvent(this.loggedUser.id)
+            this.signUpForEvent(this.$route.params.id)
           }
         })
     },
+
     inputOnBlur() {
       for (let key in this.eventRegistrationForm) {
         if (this.eventRegistrationForm[key] === '') {
@@ -93,6 +101,8 @@ export default {
   },
   mounted() {
     M.Modal.init(document.querySelectorAll('.modal'));
+    this.userAlreadyRegistered(this.$route.params.id);
+    this.userRegistered = this.alreadyRegistered;
   }
 }
 </script>
