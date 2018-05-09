@@ -75,14 +75,14 @@ export default {
           return rej
         })
     },
-    postNewEvent({commit, state}) {
+    postNewEvent({commit, state},) {
       const event = {
-        date: '2018-05-07T18:18:35.260Z',
+        date: state.preview.date,
         firstName: state.preview.title,
         info: state.preview.description,
         location: state.preview.location,
-        maxNumberOfRegistrations: 0,
-        minNumberOfRegistrations: 0,
+        maxNumberOfRegistrations: state.preview.capacityMax * 1,
+        minNumberOfRegistrations: state.preview.capacityMin * 1,
         price: state.preview.price * 1
       }
       axios({method: 'POST', url: `${url}/events`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
