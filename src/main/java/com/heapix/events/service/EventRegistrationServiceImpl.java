@@ -1,6 +1,7 @@
 package com.heapix.events.service;
 
 import com.heapix.events.controller.bo.CreateResponseBo;
+import com.heapix.events.controller.bo.EventRegistrationBo;
 import com.heapix.events.controller.dto.NewEventRegistrationDto;
 import com.heapix.events.persistence.model.EventRegistration;
 import com.heapix.events.persistence.repository.EventRegistrationRepository;
@@ -19,19 +20,30 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
     private EventRegistrationRepository eventRegistrationRepository;
 
     @Override
-    public CreateResponseBo registerEvent(NewEventRegistrationDto dto) {
+    public CreateResponseBo registerEvent(NewEventRegistrationDto dto, Long userId) throws Exception {
+
+        if (eventRegistrationRepository.findByUserIdAndEventId(userId, dto.getEventId()).isPresent()) {
+            throw new Exception("user already registered");
+        }
         EventRegistration registration = new EventRegistration();
-        registration.setUserId(1l);
+        registration.setUserId(userId);
         registration.setEventId(dto.getEventId());
         EventRegistration response = eventRegistrationRepository.save(registration);
         return new CreateResponseBo(response.getId());
     }
 
     @Override
-    public void unregisterEvent(Long eventId, Long userId) {
+    public EventRegistrationBo getEventRegistration(Long eventId, Long userId) {
+        EventRegistration event = eventRegistrationRepository.findByUserIdAndEventId(userId, eventId).orElse(null);
+        if(event != null) {
+            return new EventRegistrationBo(event.getId());
+        } else return null;
+    }
 
-        Optional<EventRegistration> event = eventRegistrationRepository.findByUserIdAndEventId(eventId, userId);
-        event.ifPresent(value -> eventRegistrationRepository.delete(value));
+    @Override
+    public void unregisterEvent(Long eventId, Long userId) {
+        eventRegistrationRepository.findByUserIdAndEventId(userId, eventId)
+                .ifPresent( event -> eventRegistrationRepository.delete(event));
     }
 
 }

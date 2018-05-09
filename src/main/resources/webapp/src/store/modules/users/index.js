@@ -131,7 +131,7 @@ export default {
 
       unsubscribeUser({commit, state}, payload) {
         return axios.delete(
-            `${url}/users/${payload.id}`, 
+            `${url}/users/${payload.id}`,
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')

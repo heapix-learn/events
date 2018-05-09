@@ -8,12 +8,14 @@ export default {
     events: [],
     certainEvent: null,
     preview: null,
+    alreadyRegistered : false
   },
   getters: {
     allEvents: state => state.events,
     getEventById: state => id => state.events.find(event => event.id === id),
     getEventPreview: state => state.preview,
     certainEvent: state => state.certainEvent,
+    alreadyRegistered: state => state.alreadyRegistered,
   },
   mutations: {
     setEvents(state, payload) {
@@ -32,6 +34,9 @@ export default {
     },
     setCertainEvent(state, event) {
       state.certainEvent = event
+    },
+    alreadyRegistered(state, registered) {
+      state.alreadyRegistered = registered;
     }
 },
   actions: {    
@@ -67,7 +72,7 @@ export default {
             price: res.data.price,
             capacityMin: res.data.minNumberOfRegistrations,
             capacityMax: res.data.maxNumberOfRegistrations
-          })
+          });
           return res
         })
         .catch(rej => {
@@ -115,12 +120,36 @@ export default {
           console.dir(rej)
         })
     },
+    unsubscribe({commit}, eventId) {
+        axios.delete(`${url}/events/registration/${eventId}`,  {headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}})
+            .then(res => {
+                commit('alreadyRegistered', false)
+            })
+            .catch(rej => {
+                console.dir(rej)
+                return rej
+            })
+    },
     setEventPreview({commit}, event) {
       commit('setEventPreview', event)
     },
     clearEventPreview({commit}) {
       commit('clearEventPreview');
     },
+    userAlreadyRegistered({commit}, eventId) {
+        return axios.get(`${url}/events/registration/${eventId}`, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+            }
+        })
+            .then(res => {
+              commit('alreadyRegistered', !!res.data)
+            })
+            .catch(rej => {
+                console.dir(rej)
+                return rej
+            })
+    }
   }
 }
     
