@@ -7,7 +7,7 @@
         </router-link>
         <div class="card white darken-1">
           <div class="card-content black-text">
-            <span class="card-title">{{event.title}}</span>
+            <span class="card-title">{{event.firstName}}</span>
             <p>Where: {{event.location}}</p>
             <p>When: {{event.date}} {{event.time}}</p>
           </div>
