@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="row red-text center">{{notEqualError || changePasswordServerError}}</div>
-      <div class="row center">
+      <div class="row center change-password-buttons">
         <a @click="editPassword" :class="{disabled: serverError}" class="waves-effect green waves-light btn">Change</a>
         <a @click="$router.go(-1)" class="waves-effect red lighten-2 red btn">Cancel</a>
       </div>
@@ -74,5 +74,8 @@ export default {
 <style>
 .change-password-form {
   margin-top: 25px;
+}
+.change-password-buttons a {
+  margin: 0 10px;
 }
 </style>
