@@ -3,9 +3,21 @@ import axios from 'axios'
 import {url} from '../../index'
 import root from '../../index'
 
+const brandNewEvent = {
+  date: '',
+  time: '',
+  firstName: '',
+  info: '',
+  location: '',
+  maxNumberOfRegistrations: 0,
+  minNumberOfRegistrations: 0,
+  price: 0
+}
+
 export default {
   state: {
     events: [],
+    newEvent: Object.assign({}, brandNewEvent),
     certainEvent: null,
     preview: null,
     alreadyRegistered : false
@@ -16,6 +28,7 @@ export default {
     getEventPreview: state => state.preview,
     certainEvent: state => state.certainEvent,
     alreadyRegistered: state => state.alreadyRegistered,
+    newEvent: state => state.newEvent,
   },
   mutations: {
     setEvents(state, payload) {
@@ -29,6 +42,9 @@ export default {
     clearEventPreview(state) {
       state.preview = null
     },
+    clearNewEvent(state) {
+      state.newEvent = Object.assign({}, brandNewEvent)
+    },
     setEvents(state, events) {
       state.events = events
     },
@@ -37,6 +53,9 @@ export default {
     },
     alreadyRegistered(state, registered) {
       state.alreadyRegistered = registered;
+    },
+    setNewEvent(state, payload) {
+      state.newEvent = payload
     }
 },
   actions: {    
@@ -81,15 +100,8 @@ export default {
         })
     },
     postNewEvent({commit, state},) {
-      const event = {
-        date: state.preview.date,
-        firstName: state.preview.title,
-        info: state.preview.description,
-        location: state.preview.location,
-        maxNumberOfRegistrations: state.preview.capacityMax * 1,
-        minNumberOfRegistrations: state.preview.capacityMin * 1,
-        price: state.preview.price * 1
-      }
+      const event = state.newEvent
+      event.date = '2018-05-10T15:12:00.536Z'
       axios({method: 'POST', url: `${url}/events`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
         .then(res => {
           router.push({path: '/events'})
@@ -136,6 +148,9 @@ export default {
     clearEventPreview({commit}) {
       commit('clearEventPreview');
     },
+    clearNewEvent({commit}) {
+      commit('clearNewEvent')
+    },
     userAlreadyRegistered({commit}, eventId) {
         return axios.get(`${url}/events/registration/${eventId}`, {
             headers: {
@@ -149,6 +164,9 @@ export default {
                 console.dir(rej)
                 return rej
             })
+    },
+    setNewEvent({commit}, newEvent) {
+      commit('setNewEvent', newEvent)
     }
   }
 }

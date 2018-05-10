@@ -10,6 +10,8 @@ import UserEditPassword from '../components/profile/UserEditPassword.vue';
 
 import Events from '../components/feed/events/Events.vue';
 import CreateEditEvent from '../components/feed/events/CreateEditEvent.vue';
+import EventCreate from '../components/feed/events/EventCreate.vue';
+import EventCreatePreview from '../components/feed/events/EventCreatePreview.vue';
 import EventItem from '../components/feed/events/EventItem.vue';
 import EventPreview from '../components/feed/events/EventPreview.vue';
 import EventView from '../components/feed/events/EventView.vue';
@@ -42,7 +44,11 @@ export default new Router({
     },
     {
       path: '/events/create',
-      component: CreateEditEvent
+      component: EventCreate
+    },
+    {
+      path: '/events/create/preview',
+      component: EventCreatePreview
     },
     {
       path: '/events/edit/:id',
