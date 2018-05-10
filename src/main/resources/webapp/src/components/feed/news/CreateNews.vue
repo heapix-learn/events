@@ -1,7 +1,6 @@
 <template>
   <div class="create-news-form container">
     <modal title="All changes will be discarded" @confirm="abort"></modal>
-    
     <form @submit.prevent class="col s12">
       <div class="row">
         <div class="input-field col s12">
@@ -28,6 +27,7 @@
 <script>
 import Modal from '../../utils/Modal.vue'
 import { mapActions, mapGetters } from 'vuex';
+import $ from 'jquery'
 
   export default {
     name: 'NewsCreator',
@@ -37,6 +37,7 @@ import { mapActions, mapGetters } from 'vuex';
         text: '',
       }
     },
+
     methods: {
       ...mapActions([
         'setNewsPreview',
@@ -51,6 +52,7 @@ import { mapActions, mapGetters } from 'vuex';
         this.$router.push('/news')
       },
     },
+    
     computed: {
       ...mapGetters([
         'getNewsById',
@@ -68,6 +70,9 @@ import { mapActions, mapGetters } from 'vuex';
         this.title = preview.title;
         this.text = preview.body;
       }
+    },
+    updated() {
+      M.textareaAutoResize(document.querySelector('#news-text'));
     },
     components: {
       Modal,

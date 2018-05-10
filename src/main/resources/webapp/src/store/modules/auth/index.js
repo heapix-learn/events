@@ -62,7 +62,7 @@ export default {
     postSignIn({commit, state}, payload) {
       commit('toggleLoading')
       commit('setPostSignInError', '')
-      return axios.post(`${url}/auth`, payload)
+      axios.post(`${url}/auth`, payload)
         .then(res => {
 
           commit('setIsLogged', true)
@@ -121,6 +121,9 @@ export default {
         .catch(rej => {
           console.dir(rej)
         })
+    },
+    clearSignInErrorMessage({commit}) {
+      commit('setPostSignInError', '')
     }
   }
 }

@@ -17,7 +17,7 @@
               <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
             </div>
           </div>
-          <div v-if="serverError" class="server-error center red-text">{{serverError}}</div>
+          <div v-if="postSignInError" class="server-error center red-text">{{'Wrong credentials!'}}</div>
           <div class="center-align submit-buttons">
             <a @click="signInPost" :class="{disabled: errors.items.length > 0 || disabledByFields}" class="waves-effect waves-light btn-large green">Login</a>
             <router-link to="signup" class="btn-flat green-text">Don't have account?</router-link>
@@ -46,6 +46,7 @@ export default {
   methods: {
     ...mapActions([
       'postSignIn',
+      'clearSignInErrorMessage'
     ]),
     signInPost() {
       this.postSignIn({username: this.email, password: this.password})
@@ -55,14 +56,16 @@ export default {
   computed: {
     ...mapGetters([
       'isLoading',
-      'loginError'
+      'postSignInError'
     ]),
     disabledByFields() {
       return !this.email || !this.password || this.isLoading
     }
   },
-  mounted() {
-  }
+  beforeRouteLeave (to, from, next) {
+    this.clearSignInErrorMessage()
+    next()
+  },
 
 }
 </script>
