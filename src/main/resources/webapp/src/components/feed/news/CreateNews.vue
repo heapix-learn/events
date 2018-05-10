@@ -27,7 +27,6 @@
 <script>
 import Modal from '../../utils/Modal.vue'
 import { mapActions, mapGetters } from 'vuex';
-import $ from 'jquery'
 
   export default {
     name: 'NewsCreator',
