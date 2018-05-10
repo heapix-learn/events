@@ -25,9 +25,6 @@ export default {
   components: {
     EventShortcut
   },
-  mounted() {
-    console.log(this.allEvents)
-  }
 }
 </script>
 

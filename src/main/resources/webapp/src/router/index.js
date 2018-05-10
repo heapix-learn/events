@@ -52,7 +52,7 @@ export default new Router({
     },
     {
       path: '/events/edit/:id',
-      component: CreateEditEvent
+      component: EventCreate
     },
     {
       path: '/events/preview',

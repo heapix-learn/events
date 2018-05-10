@@ -46,20 +46,27 @@ export default {
   methods: {
     ...mapActions([
       'postNewEvent',
+      'putEvent',
       'clearNewEvent'
     ]),
     publish() {
-      this.postNewEvent()
+      if (this.newEvent.id >= 0) {
+        this.putEvent()
+      } else {
+        this.postNewEvent()
+      }
     },
     goBack() {
-      this.$router.push('/events/create')
+      this.$router.go(-1)
     }
   },
   beforeRouteLeave (to, from, next) {
-    if (to.path !== '/events/create') {
+    if (to.path === '/events/create' || to.path.search(/edit/) !== -1) {
+      next()
+    } else {
       this.clearNewEvent()
+      next()
     }
-    next()
   }
 }
 </script>

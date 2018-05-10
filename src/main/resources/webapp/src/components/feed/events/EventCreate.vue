@@ -1,9 +1,9 @@
 <template>
   <div class="create-event-form container">
     <modal title="All changes will be discarded" @confirm="abort"></modal>
-    <modal modalId="modal-delete" title="Please confirm deletion" @confirm="abort"></modal>
+    <modal modalId="modal-delete" title="Please confirm deletion" @confirm="deleteNewEvent()"></modal>
 
-    <h4 class="center">New event</h4>
+    <h4 class="center">{{isEdit ? 'Edit event' : 'New event'}}</h4>
     <form @submit.prevent="previewEvent" class="col s12">
       <div class="row">
         <div class="input-field col s12">
@@ -60,6 +60,7 @@
     <div class="create-event-buttons row center">
       <a @click="previewEvent" :class="{disabled: errors.items.length > 0}" class="waves-effect green waves-light btn">Preview</a>
       <a class="waves-effect red lighten-2 red btn modal-trigger" href="#modal">Cancel</a>
+      <a v-if="isEdit" class="waves-effect red darken-2 red btn modal-trigger" href="#modal-delete">Delete</a>
     </div>
   </div>
 </template>
@@ -73,6 +74,7 @@ export default {
   name: 'EventCreate',
   data () {
     return {
+      isEdit: this.$route.path.match(/edit/)
     }
   },
   watch: {
@@ -89,7 +91,9 @@ export default {
   methods: {
     ...mapActions([
       'clearNewEvent',
-      'setNewEvent'
+      'setNewEvent',
+      'deleteEvent',
+      'setOldEventAsNewEvent',
     ]),
     abort() {
       this.$router.go(-1);
@@ -105,12 +109,24 @@ export default {
         }
       })
     },
+    deleteNewEvent() {
+      console.log(this.newEvent)
+      this.deleteEvent(this.newEvent.id)
+    }
   },
   mounted() {
     M.FormSelect.init(document.querySelector('select'));
     M.Modal.init(document.querySelectorAll('.modal'));
     M.updateTextFields();
 
+    if (this.isEdit) {
+      if (this.newEvent.id < 0) {
+        this.setOldEventAsNewEvent(this.$route.params.id)
+      }
+    }
+  },
+  updated() {
+    M.updateTextFields();
   },
   beforeRouteLeave (to, from, next) {
     if (to.path !== '/events/create/preview') {

@@ -4,6 +4,7 @@ import {url} from '../../index'
 import root from '../../index'
 
 const brandNewEvent = {
+  id: -1,
   date: '',
   time: '',
   firstName: '',
@@ -18,7 +19,7 @@ export default {
   state: {
     events: [],
     newEvent: Object.assign({}, brandNewEvent),
-    certainEvent: null,
+    certainEvent: Object.assign({}, brandNewEvent),
     preview: null,
     alreadyRegistered : false
   },
@@ -66,7 +67,6 @@ export default {
         }
       })
         .then(res => {
-          console.log(res)
           commit('setEvents', res.data)
           return res
         })
@@ -105,6 +105,31 @@ export default {
       axios({method: 'POST', url: `${url}/events`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
         .then(res => {
           router.push({path: '/events'})
+          commit('clearNewEvent')
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+        })
+    },
+    putEvent({commit, state}) {
+      const event = state.newEvent
+      event.date = '2018-05-10T15:12:00.536Z'
+      axios({method: 'PUT', url: `${url}/events/${event.id}`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
+        .then(res => {
+          router.push({path: '/events'})
+          commit('clearNewEvent')
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+        })
+    },
+    deleteEvent({commit, state}, id) {
+      axios({method: 'DELETE', url: `${url}/events/${id}`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: {}})
+        .then(res => {
+          router.push({path: '/events'})
+          commit('clearNewEvent')
           return res
         })
         .catch(rej => {
@@ -167,6 +192,19 @@ export default {
     },
     setNewEvent({commit}, newEvent) {
       commit('setNewEvent', newEvent)
+    },
+    setOldEventAsNewEvent({commit}, id) {
+      axios.get(`${url}/events/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+        }
+      })
+      .then(res => {
+        commit('setNewEvent', res.data)
+      })
+      .catch(rej => {
+        console.dir(rej)
+      })
     }
   }
 }
