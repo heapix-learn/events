@@ -17,8 +17,8 @@
             <p>Price:{{event.price !== 0 ? ' ' + event.price + '$' : ' Free!'}}</p>
           </div>
           <div class="card-action">
-            <router-link class="green-text" :to="'../'">Back</router-link>
-            <a v-if="!showRegistration && !alreadyRegistered" @click="openRegistration" class="green-text reg-button">Registration</a>
+          
+            <a v-if="!showRegistration && !alreadyRegistered && !$route.path.match('preview')" @click="openRegistration" class="green-text reg-button">Registration</a>
             <a v-if="alreadyRegistered" @click="closeRegistration" class="green-text reg-button">Unsubscribe</a>
           </div>
         </div>
@@ -49,6 +49,7 @@ export default {
   props: ['event'],
   data() {
     return {
+      isPreview: !this.$route.path.match(/preview/),
       showRegistration: false,
       eventRegistrationForm: {
 

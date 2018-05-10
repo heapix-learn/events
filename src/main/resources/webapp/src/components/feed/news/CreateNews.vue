@@ -53,7 +53,8 @@ import { mapActions, mapGetters } from 'vuex';
     },
     computed: {
       ...mapGetters([
-        'getNewsById'
+        'getNewsById',
+        'getNewsPreview'
       ]),
       disabledByFields() {
         return !this.title || !this.text
@@ -65,7 +66,7 @@ import { mapActions, mapGetters } from 'vuex';
       const preview = this.getNewsPreview 
       if (preview) {
         this.title = preview.title;
-        this.text = preview.text;
+        this.text = preview.body;
       }
     },
     components: {
