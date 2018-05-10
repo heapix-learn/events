@@ -51,12 +51,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<CreateResponseBo> register(@RequestBody RegistrationDto user) throws Exception {
-        UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        CreateResponseBo response;
-        if(userService.findUser(currUser.getId()).getRole()<4){
-            response = userService.addUser(user, user.getRole());
-        } else {
+        CreateResponseBo response = new CreateResponseBo();
+        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")){
             response = userService.addUser(user, UserRole.ANONYMOUS_USER.getId());
+        } else {
+            UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(userService.findUser(currUser.getId()).getRole()<4){
+                response = userService.addUser(user, user.getRole());
+            }
         }
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

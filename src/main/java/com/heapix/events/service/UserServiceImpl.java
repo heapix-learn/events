@@ -1,6 +1,7 @@
 package com.heapix.events.service;
 
 import com.heapix.events.controller.bo.CreateResponseBo;
+import com.heapix.events.controller.bo.DeleteResponseBo;
 import com.heapix.events.controller.bo.UserAdminBo;
 import com.heapix.events.controller.converter.UserConverter;
 import com.heapix.events.controller.dto.ChangePasswordDto;
@@ -74,8 +75,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(Long id) {
-        userRepository.delete(userRepository.getOne(id));
+    public DeleteResponseBo blockUser(Long id) {
+        User entity = userRepository.getOne(id);
+        entity.setRole(UserRole.ANONYMOUS_USER.getId());
+        User response = userRepository.save(entity);
+        return new DeleteResponseBo(response.getId());
+    }
+
+    @Override
+    public DeleteResponseBo delete(Long id) {
+        userRepository.deleteById(id);
+        return new DeleteResponseBo(id);
     }
 
     @Override

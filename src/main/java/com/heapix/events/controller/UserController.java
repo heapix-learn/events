@@ -74,10 +74,14 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator','Moderator', 'Member')")
-    public void removeUser(@PathVariable long id) {
+    public ResponseEntity removeUser(@PathVariable long id) {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(currUser.getId().equals(userService.findUser(id).getId())){
-            userService.delete(id);
+        if( currUser.getId().equals(userService.findUser(id).getId())) {
+            return new ResponseEntity(userService.blockUser(id), HttpStatus.OK);
+        } else if (userService.findUser(currUser.getId()).getRole() < 4 ) {
+            return new ResponseEntity(userService.delete(id), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
     }
 
