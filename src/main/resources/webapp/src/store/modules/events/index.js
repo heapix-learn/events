@@ -12,7 +12,8 @@ const brandNewEvent = {
   location: '',
   maxNumberOfRegistrations: 0,
   minNumberOfRegistrations: 0,
-  price: 0
+  price: 0,
+  fields: [],
 }
 
 export default {
@@ -107,6 +108,8 @@ export default {
     postNewEvent({commit, state},) {
       const event = state.newEvent
       event.date = `${event.date}T${event.time}:00.000Z`
+      const fields = state.newEvent.fields.map(f => f.field)
+      event.fields = fields
       axios({method: 'POST', url: `${url}/events`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
         .then(res => {
           router.push({path: '/events'})

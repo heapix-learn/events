@@ -22,6 +22,7 @@
         </div>
       </div>
     </div>
+
     <div class="create-event-buttons row center">
       <a @click="publish" class="waves-effect green waves-light btn">Publish</a>
       <a @click="goBack" class="waves-effect red lighten-2 red btn">Back</a>

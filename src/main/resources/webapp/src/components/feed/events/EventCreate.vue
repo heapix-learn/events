@@ -55,6 +55,22 @@
       </div>        
     </form>
 
+    <h4 class="center">Event registration</h4>
+
+    <div class="row">
+      <div v-for="(field, index) in fields" :key="index">
+        <div class="input-field col offset-s3 s5">
+          <input :id="field.field + '-reg-form'" type="text" v-model="field.field">
+          <label class="active" :for="field.field  + '-reg-form'">Input name</label>
+        </div>
+        <div class="input-props col s4 valign-wrapper">
+          <i @click.prevent="removeField(index)" class="material-icons red-text delete-input">clear</i>
+        </div>
+      </div>
+      <a @click.prevent="addField" class="waves-effect waves-light green col offset-s4 s4 btn">Add field</a>
+    </div>
+    <hr>
+
     <div class="create-event-buttons row center">
       <a @click="previewEvent" :class="{disabled: errors.items.length > 0}" class="waves-effect green waves-light btn">Preview</a>
       <a class="waves-effect red lighten-2 red btn modal-trigger" href="#modal">Cancel</a>
@@ -66,7 +82,6 @@
 <script>
 import Modal from '../../utils/Modal.vue'
 import { mapActions, mapGetters } from 'vuex';
-import Datepicker from 'vuejs-datepicker';
 
 export default {
   name: 'EventCreate',
@@ -75,13 +90,15 @@ export default {
       isEdit: this.$route.path.match(/edit/),
       date: '',
       time: '',
+      fields: [
+        {field: ''}
+      ],
     }
   },
   watch: {
   },
   components: {
     Modal,
-    Datepicker
   },
   computed: {
     ...mapGetters([
@@ -106,7 +123,7 @@ export default {
         } else {
           this.newEvent.date = this.date
           this.newEvent.time = this.time
-
+          this.newEvent.fields = this.fields 
           this.setNewEvent(this.newEvent)
           this.$router.push('/events/create/preview')
         }
@@ -121,6 +138,12 @@ export default {
     changeTime(e) {
       this.time = e.target.value
     },
+    addField() {
+      this.newEvent.fields.push({field: ''})
+    },
+    removeField(i) {
+      this.newEvent.fields.splice(i, 1)
+    }
   },
   mounted() {
     M.FormSelect.init(document.querySelector('select'));
@@ -131,6 +154,7 @@ export default {
 
     this.date = this.newEvent.date
     this.time = this.newEvent.time
+    this.fields = this.newEvent.fields
 
     if (this.isEdit) {
       if (this.newEvent.id < 0) {
