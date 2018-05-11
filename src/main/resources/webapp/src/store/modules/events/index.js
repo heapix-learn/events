@@ -82,10 +82,15 @@ export default {
         }
       })
         .then(res => {
+          const dateArray = res.data.date.split('T')
+          const timeArray = dateArray[1].split(':')
+          const date = dateArray[0]
+          const time = `${timeArray[0]}:${timeArray[1]}`
           commit('setCertainEvent', {
             id,
             title: res.data.firstName,
-            date: res.data.date,
+            date,
+            time,
             description: res.data.info,
             location: res.data.location,
             price: res.data.price,
@@ -101,7 +106,7 @@ export default {
     },
     postNewEvent({commit, state},) {
       const event = state.newEvent
-      event.date = '2018-05-10T15:12:00.536Z'
+      event.date = `${event.date}T${event.time}:00.000Z`
       axios({method: 'POST', url: `${url}/events`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
         .then(res => {
           router.push({path: '/events'})
@@ -114,7 +119,7 @@ export default {
     },
     putEvent({commit, state}) {
       const event = state.newEvent
-      event.date = '2018-05-10T15:12:00.536Z'
+      event.date = `${event.date}T${event.time}:00.000Z`
       axios({method: 'PUT', url: `${url}/events/${event.id}`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
         .then(res => {
           router.push({path: '/events'})

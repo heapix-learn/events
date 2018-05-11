@@ -14,14 +14,12 @@
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input id="event-date" type="text" v-model="newEvent.date" name="Date">
-          <label for="event-date">Date</label>
-          <span class="helper-text red-text" >{{errors.first('Date')}}</span>
+          <input @change="changeDate" id="datepicker" v-model="date" type="text" class="datepicker">
+          <label for="datepicker">Date</label>
         </div>
         <div class="input-field col s6">
-          <input id="event-time" type="text" v-model="newEvent.time" name="Time">
-          <label for="event-time">Time</label>
-          <span class="helper-text red-text" >{{errors.first('Time')}}</span>
+          <input @change="changeTime" id="timepicker" v-model="time" type="text" class="timepicker">
+          <label for="timepicker">Time</label>
         </div>
       </div>
       <div class="row">
@@ -74,7 +72,9 @@ export default {
   name: 'EventCreate',
   data () {
     return {
-      isEdit: this.$route.path.match(/edit/)
+      isEdit: this.$route.path.match(/edit/),
+      date: '',
+      time: '',
     }
   },
   watch: {
@@ -104,20 +104,33 @@ export default {
         if (this.errors.items.length > 0) {
           return
         } else {
+          this.newEvent.date = this.date
+          this.newEvent.time = this.time
+
           this.setNewEvent(this.newEvent)
           this.$router.push('/events/create/preview')
         }
       })
     },
     deleteNewEvent() {
-      console.log(this.newEvent)
       this.deleteEvent(this.newEvent.id)
-    }
+    },
+    changeDate(e) {
+      this.date = e.target.value
+    },
+    changeTime(e) {
+      this.time = e.target.value
+    },
   },
   mounted() {
     M.FormSelect.init(document.querySelector('select'));
     M.Modal.init(document.querySelectorAll('.modal'));
+    M.Datepicker.init(document.querySelector('#datepicker'), {format: 'yyyy-mm-dd'});
+    M.Timepicker.init(document.querySelector('#timepicker'), {twelveHour: false});
     M.updateTextFields();
+
+    this.date = this.newEvent.date
+    this.time = this.newEvent.time
 
     if (this.isEdit) {
       if (this.newEvent.id < 0) {
@@ -138,6 +151,9 @@ export default {
 </script>
 
 <style>
+.modal.timepicker-modal {
+  width: auto;
+}
 .create-event-buttons a{
   margin-left: 5px;
   margin-right: 5px;

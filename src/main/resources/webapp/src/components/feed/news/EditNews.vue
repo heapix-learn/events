@@ -72,6 +72,9 @@ import { mapActions, mapGetters } from 'vuex';
       M.FormSelect.init(document.querySelector('select'));
       this.getNewsById(this.$route.params.id)
     },
+    updated() {
+      M.textareaAutoResize(document.querySelector('#news-text'));
+    },
     components: {
       Modal,
     },
