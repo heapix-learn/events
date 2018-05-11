@@ -43,12 +43,12 @@
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input id="event-cap-min" type="text" class="validate" placeholder="0" v-model="newEvent.maxNumberOfRegistrations"  name="Min capacity">
+          <input id="event-cap-min" type="text" class="validate" placeholder="0" v-model="newEvent.minNumberOfRegistrations"  name="Min capacity">
           <label for="event-cap-min">Min capacity</label>
           <span class="helper-text red-text" >{{errors.first('Min capacity')}}</span>
         </div>
         <div class="input-field col s6">
-          <input id="event-cam-max" type="text" class="validate" placeholder="0" v-model="newEvent.minNumberOfRegistrations"  name="Max capacity">
+          <input id="event-cam-max" type="text" class="validate" placeholder="0" v-model="newEvent.maxNumberOfRegistrations"  name="Max capacity">
           <label for="event-cam-max">Max capacity</label>
           <span class="helper-text red-text" >{{errors.first('Max capacity')}}</span>
         </div>
