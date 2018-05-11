@@ -1,12 +1,8 @@
 package com.heapix.events.persistence.model;
 
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 
 /**
  * @author mgergalov
@@ -26,16 +22,19 @@ public class Event {
     private int price;
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
+    @ElementCollection
+    private List<String> fields;
 
     public Event(String firstName, Date date, String location, String info, int price, int minNumberOfRegistrations,
-                 int maxNumberOfRegistrations) {
+                 int maxNumberOfRegistrations, List<String> fields) {
         this.firstName = firstName;
         this.date = date;
-//        this.location = location;
+        this.location = location;
         this.info = info;
         this.price = price;
         this.minNumberOfRegistrations = minNumberOfRegistrations;
         this.maxNumberOfRegistrations = maxNumberOfRegistrations;
+        this.fields = fields;
     }
 
     public Event() {
@@ -53,6 +52,14 @@ public class Event {
                 ", minNumberOfRegistrations=" + minNumberOfRegistrations +
                 ", maxNumberOfRegistrations=" + maxNumberOfRegistrations +
                 '}';
+    }
+
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<String> fields) {
+        this.fields = fields;
     }
 
     public Long getId() {

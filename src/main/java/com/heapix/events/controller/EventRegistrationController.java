@@ -30,7 +30,7 @@ public class EventRegistrationController {
     public ResponseEntity<EventRegistrationBo> getEventRegistration(@PathVariable long id) {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         EventRegistrationBo response = eventRegistrationService.getEventRegistration(id, currUser.getId());
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping

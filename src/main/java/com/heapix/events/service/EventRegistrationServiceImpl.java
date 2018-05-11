@@ -28,6 +28,7 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
         EventRegistration registration = new EventRegistration();
         registration.setUserId(userId);
         registration.setEventId(dto.getEventId());
+        registration.setInfo(dto.getInfo());
         EventRegistration response = eventRegistrationRepository.save(registration);
         return new CreateResponseBo(response.getId());
     }
@@ -36,7 +37,7 @@ public class EventRegistrationServiceImpl implements EventRegistrationService {
     public EventRegistrationBo getEventRegistration(Long eventId, Long userId) {
         EventRegistration event = eventRegistrationRepository.findByUserIdAndEventId(userId, eventId).orElse(null);
         if(event != null) {
-            return new EventRegistrationBo(event.getId());
+            return new EventRegistrationBo(event.getId(), event.getInfo());
         } else return null;
     }
 

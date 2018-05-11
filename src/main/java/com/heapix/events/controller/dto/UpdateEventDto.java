@@ -4,6 +4,7 @@ import com.heapix.events.persistence.model.Location;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,16 +28,28 @@ public class UpdateEventDto {
 
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
+    private List<String> fields;
 
-    public UpdateEventDto(@NotNull @NotEmpty Date date, @NotNull @NotEmpty String location, @NotNull @NotEmpty String info, int minNumberOfRegistrations, int maxNumberOfRegistrations) {
+    public UpdateEventDto(@NotNull @NotEmpty Date date, @NotNull @NotEmpty String location,
+                          @NotNull @NotEmpty String info, int minNumberOfRegistrations, int maxNumberOfRegistrations,
+                          List<String> fields) {
         this.date = date;
         this.location = location;
         this.info = info;
         this.minNumberOfRegistrations = minNumberOfRegistrations;
         this.maxNumberOfRegistrations = maxNumberOfRegistrations;
+        this.fields = fields;
     }
 
     public UpdateEventDto() {
+    }
+
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<String> fields) {
+        this.fields = fields;
     }
 
     public Date getDate() {

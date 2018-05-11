@@ -1,11 +1,10 @@
 package com.heapix.events.persistence.model;
 
 import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.persistence.*;
 
 /**
  * @author mgergalov
@@ -19,10 +18,26 @@ public class EventRegistration {
     private Long id;
     private Long userId;
     private Long eventId;
+    @ElementCollection
+    private Map<String, String> info =  new HashMap<>();
 
-    public EventRegistration(Long userId, Long eventId) {
+
+    public EventRegistration(Long userId, Long eventId, Map<String, String> info) {
         this.userId = userId;
         this.eventId = eventId;
+        this.info = info;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Map<String, String> getInfo() {
+        return info;
+    }
+
+    public void setInfo(Map<String, String> info) {
+        this.info = info;
     }
 
     public EventRegistration() {

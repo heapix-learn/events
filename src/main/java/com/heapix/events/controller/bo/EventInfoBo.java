@@ -4,6 +4,7 @@ import com.heapix.events.persistence.model.Location;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author mgergalov
@@ -18,9 +19,10 @@ public class EventInfoBo {
     private int price;
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
+    private List<String> fields;
 
     public EventInfoBo(Long id, String firstName, Date date, String location, String info, int price,
-                       int minNumberOfRegistrations, int maxNumberOfRegistrations) {
+                       int minNumberOfRegistrations, int maxNumberOfRegistrations, List<String> fields) {
         this.id = id;
         this.firstName = firstName;
         this.date = date;
@@ -29,9 +31,18 @@ public class EventInfoBo {
         this.price = price;
         this.minNumberOfRegistrations = minNumberOfRegistrations;
         this.maxNumberOfRegistrations = maxNumberOfRegistrations;
+        this.fields = fields;
     }
 
     public EventInfoBo() {
+    }
+
+    public List<String> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<String> fields) {
+        this.fields = fields;
     }
 
     public Long getId() {

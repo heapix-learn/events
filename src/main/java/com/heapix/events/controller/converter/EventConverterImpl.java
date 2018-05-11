@@ -30,6 +30,7 @@ public class EventConverterImpl implements EventConverter {
             event_.setPrice(event.getPrice());
             event_.setMinNumberOfRegistrations(event.getMinNumberOfRegistrations());
             event_.setMaxNumberOfRegistrations(event.getMaxNumberOfRegistrations());
+            event_.setFields(event.getFields());
             return event_;
         }
     }
@@ -44,6 +45,7 @@ public class EventConverterImpl implements EventConverter {
             event_.setInfo(event.getInfo());
             event_.setMinNumberOfRegistrations(event.getMinNumberOfRegistrations());
             event_.setMaxNumberOfRegistrations(event.getMaxNumberOfRegistrations());
+            event_.setFields(event.getFields());
             return event_;
         }
     }
@@ -61,6 +63,7 @@ public class EventConverterImpl implements EventConverter {
             eventInfoBo.setPrice(event.getPrice());
             eventInfoBo.setMinNumberOfRegistrations(event.getMinNumberOfRegistrations());
             eventInfoBo.setMaxNumberOfRegistrations(event.getMaxNumberOfRegistrations());
+            eventInfoBo.setFields(event.getFields());
             return eventInfoBo;
         }
     }
