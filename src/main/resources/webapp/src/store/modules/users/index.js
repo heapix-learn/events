@@ -107,6 +107,7 @@ export default {
 
       putEdittedUser({commit}, payload) {
         commit('setPostEdittedUserError', '')
+        console.log()
         return axios.put(
             `${url}/users/${payload.id}`,
             payload,

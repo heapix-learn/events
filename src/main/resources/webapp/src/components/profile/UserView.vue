@@ -20,7 +20,7 @@
               </h3> 
               <h5>{{currentUser.firstPhone}} {{currentUser.lastPhone}}</h5>
               <h5>{{currentUser.email}}</h5>
-              <!-- <h5 v-if="loggedUserRole <= 2">{{currentUser.adminNote}}</h5> -->
+              <h5 v-if="loggedUserRole <= 2">{{currentUser.annotations}}</h5>
             </div>
         </div>
       </div>
