@@ -27,7 +27,7 @@ export default {
     ]),
     publish() {
       const news = this.getNewsPreview
-      if (this.$route.path.match(/previewedit/)) {
+      if (news.id !== -1) {
         this.putNews(news)
       } else {
         this.postNewNews(news)

@@ -3,11 +3,19 @@ import axios from 'axios'
 import {url} from '../../index'
 import root from '../../index'
 
+const ROLES = {
+  'Super Administrator': 1,
+  'Administrator': 2,
+  'Moderator': 3,
+  'Member': 4,
+  'Anonymous': 5
+}
+
 export default {
   state: {
     isLogged: localStorage.getItem('eventAppToken') != null,
     isLoading: false,
-    loggedUser: {},
+    loggedUser: {role: 5},
     postSignUpError: '',
     postSignInError: '',
   },
@@ -53,7 +61,7 @@ export default {
     },
     signOut(state) {
       state.isLogged = false;
-      state.loggedUser = {};
+      state.loggedUser = {role: 5};
       state.authToken = '';
     }
   },
@@ -64,14 +72,17 @@ export default {
       commit('setPostSignInError', '')
       axios.post(`${url}/auth`, payload)
         .then(res => {
-
+          const user = res.data;
+          const userRoleId = ROLES[user.role]
+          user.role = userRoleId
           commit('setIsLogged', true)
-          commit('setUserFromSignIn', res.data)
+          commit('setUserFromSignIn', user)
           root.dispatch('setAuthToken', res.data.auth.token)
           router.push('/')
           return res
         })
         .catch(rej => {
+          console.log(rej)
           commit('setPostSignInError', 'Wrong credentials')
           return rej
         })

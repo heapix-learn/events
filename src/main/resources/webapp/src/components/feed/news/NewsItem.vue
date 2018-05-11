@@ -4,7 +4,7 @@
     <div class="news-item col s12">
       <h3 class="header">{{news.title}}</h3>
       <router-link v-if="!($route.path.match('preview') || !isLogged)" :to="'news/edit/' + news.id">
-        <a class="waves-effect green btn-floating edit-news-button"><i class="material-icons left ">edit</i></a>
+        <a v-if="loggedUserRole <= 2" class="waves-effect green btn-floating edit-news-button"><i class="material-icons left ">edit</i></a>
       </router-link>
       <div class="card horizontal">
         <div class="card-stacked">
@@ -36,7 +36,8 @@ export default {
     },
     computed: {
       ...mapGetters([
-        'isLogged'
+        'isLogged',
+        'loggedUserRole'
       ])
     }
 }

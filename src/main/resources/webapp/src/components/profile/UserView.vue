@@ -20,6 +20,7 @@
               </h3> 
               <h5>{{currentUser.firstPhone}} {{currentUser.lastPhone}}</h5>
               <h5>{{currentUser.email}}</h5>
+              <!-- <h5 v-if="loggedUserRole <= 2">{{currentUser.adminNote}}</h5> -->
             </div>
         </div>
       </div>
@@ -41,6 +42,7 @@ export default {
   methods: {
     ...mapActions([
       'getUserById',
+      'getUserByIdAdmin',
       'clearCurrentUser'
     ]),
   showButtons() {
@@ -51,14 +53,19 @@ export default {
   computed: {
     ...mapGetters([
       'currentUser',
-      'loggedUser'
+      'loggedUser',
+      'loggedUserRole'
     ])
   },
   components: {
     Modal
   },
   mounted() {
-    this.getUserById(this.$route.params.id);
+    // if (this.loggedUserRole <= 2) {
+    //   this.getUserByIdAdmin(this.$route.params.id);
+    // } else {
+      this.getUserById(this.$route.params.id);
+    // }
     this.showButtons();
   },
   beforeRouteLeave (to, from, next) {

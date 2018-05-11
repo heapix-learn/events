@@ -53,7 +53,13 @@
                     <label><span class="required-field">Role</span></label>
                     <span class="helper-text red-text" >{{errors.first('Role')}}</span>
                   </div>
-                </div>                
+                </div>
+                <!-- <div v-if="loggedUserRole <= 2" class="row">
+                  <div class="input-field col s12">
+                    <input id="admin-note" type="text" v-model="currentUser.adminNote">  
+                    <label for="admin-note">Note</label>
+                  </div>
+                </div> -->
               </form>
               <div class="row center red-text">{{postEdittedUserError}}</div>
             </div>
@@ -104,6 +110,7 @@ export default {
     ...mapGetters([
       'currentUser',
       'loggedUser',
+      'loggedUserRole',
       'postEdittedUserError',
     ]),
   },

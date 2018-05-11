@@ -11,8 +11,8 @@
       </div>
       <div class="row">
         <div class="input-field col s12">
-          <textarea id="news-text" class="materialize-textarea active" v-model="text" v-validate="'required'" name="Text"/>
-          <label :class="{active: text}" for="news-text">Text</label>
+          <textarea id="news-text" class="materialize-textarea active" v-model="body" v-validate="'required'" name="Text"/>
+          <label :class="{active: body}" for="news-text">Text</label>
           <span class="helper-text red-text">{{errors.first('Text')}}</span>
         </div>
       </div>
@@ -33,7 +33,7 @@ import { mapActions, mapGetters } from 'vuex';
     data() {
       return {
         title: '',
-        text: '',
+        body: '',
       }
     },
 
@@ -43,7 +43,7 @@ import { mapActions, mapGetters } from 'vuex';
         'clearNewsPreview',
       ]),
       previewNews(){
-        this.setNewsPreview({title: this.title, body: this.text})
+        this.setNewsPreview({title: this.title, body: this.body, id: -1})
         this.$router.push('/news/preview')
       },
       abort() {
@@ -58,7 +58,7 @@ import { mapActions, mapGetters } from 'vuex';
         'getNewsPreview'
       ]),
       disabledByFields() {
-        return !this.title || !this.text
+        return !this.title || !this.body
       }
     },
     mounted() {
@@ -67,7 +67,7 @@ import { mapActions, mapGetters } from 'vuex';
       const preview = this.getNewsPreview 
       if (preview) {
         this.title = preview.title;
-        this.text = preview.body;
+        this.body = preview.body;
       }
     },
     updated() {

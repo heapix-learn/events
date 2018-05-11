@@ -2,7 +2,7 @@
   <div class="event-shortcut container">
     <div class="row">
       <div class="col s12">
-        <router-link v-if="isLogged" :to="'events/edit/' + event.id" class="waves-effect green btn-floating edit-event-button">
+        <router-link v-if="loggedUserRole <= 2" :to="'events/edit/' + event.id" class="waves-effect green btn-floating edit-event-button">
           <i class="material-icons left ">edit</i>
         </router-link>
         <div class="card white darken-1">
@@ -28,7 +28,8 @@ export default {
   props: ['event'],
   computed: {
     ...mapGetters([
-      'isLogged'
+      'isLogged',
+      'loggedUserRole'
     ])
   },
 }

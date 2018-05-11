@@ -20,6 +20,7 @@ export default {
       pendingUserById: state => id => state.pendingUsers.find(user => user.id === id),
       postCreateNewUserError: state => state.postCreateNewUserError,
       postEdittedUserError: state => state.postEdittedUserError,
+      changePasswordServerError: state => state.changePasswordServerError,
     },
     mutations: {
       setUsers(state, users) {
@@ -73,7 +74,21 @@ export default {
             return rej
           })
       },
-      
+      // getUserByIdAdmin({commit}, id) {
+      //   return axios.get(`${url}/users/${id}`, {
+      //     headers: {
+      //       Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+      //     }
+      //   })
+      //     .then(res => {
+      //       commit('setCurrentUser', res.data)
+      //       return res
+      //     })
+      //     .catch(rej => {
+      //       console.dir(rej)
+      //       return rej
+      //     })
+      // },
       getPendingUsers({commit}) {
         return axios.get(`${url}/users/unregistered`, {
           headers: {
@@ -92,7 +107,6 @@ export default {
 
       putEdittedUser({commit}, payload) {
         commit('setPostEdittedUserError', '')
-        console.log(payload)
         return axios.put(
             `${url}/users/${payload.id}`,
             payload,
@@ -149,9 +163,6 @@ export default {
 
       postCreateNewUser({commit}, payload) {
         commit('setPostCreateNewUserError', '')
-        // return axios.post(`${url}/register`, payload)
-        console.log(payload)
-
         axios({method: 'POST', url: `${url}/register`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: payload})
           .then(res => {
             router.push({path: '/users'})

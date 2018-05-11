@@ -49,7 +49,8 @@ import { mapActions, mapGetters } from 'vuex';
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.setNewsPreview({title: this.title, text: this.body, id: this.id})
+            const prev = {title: this.currentNews.title, body: this.currentNews.body, id: this.currentNews.id}
+            this.setNewsPreview(prev)
             this.$router.push('/news/preview')
           }
         })

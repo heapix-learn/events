@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store'
 
 import CreateUser from '../components/profile/CreateUser.vue';
 import Users from '../components/profile/Users.vue';
@@ -27,9 +28,16 @@ import Signup from '../components/auth/Signup.vue';
 
 import About from '../components/feed/about/About.vue';
 
-Vue.use(Router)
+const ROUTE_ROLES = {
+  'sadm': 1,
+  'adm': 2,
+  'mod': 3,
+  'mem': 4,
+  'all': 5
+}
 
-export default new Router({
+Vue.use(Router)
+const router = new Router({
   mode: 'history',
   routes: [
     {path: '/', redirect: '/news'},
@@ -37,82 +45,109 @@ export default new Router({
     {
       path: '/events',
       component: Events,
+      name: 'all-events'
     },
     {
       path: '/about',
       component: About,
+      name: 'all-about',
     },
     {
       path: '/events/create',
-      component: EventCreate
+      component: EventCreate,
+      name: 'mod-events-create'
     },
     {
       path: '/events/create/preview',
-      component: EventCreatePreview
+      component: EventCreatePreview,
+      name: 'mod-events-create-preview'
     },
     {
       path: '/events/edit/:id',
-      component: EventCreate
-    },
-    {
-      path: '/events/preview',
-      component: EventPreview
+      component: EventCreate,
+      name: 'mod-events-edit'
     },
     {
       path: '/events/:id',
       component: EventView,
+      name: 'all-events-view'
     },
     {
       path: '/news',
       component: News,
+      name: 'all-news',
     },
     {
       path: '/news/create',
-      component: CreateNews
+      component: CreateNews,
+      name: 'mod-news-create'
     },
     {
       path: '/news/edit/:id',
-      component: EditNews
+      component: EditNews,
+      name: 'mod-news-edit',
     },
     {
       path: '/news/preview',
-      component: NewsPreview
+      component: NewsPreview,
+      name: 'mod-news-preview'
     },
     {
       path: '/news/previewedit',
-      component: NewsPreview
+      component: NewsPreview,
+      name: 'mod-news-edit-preview'
     },
     {
       path: '/users',
       component: Users,
+      name: 'adm-users'
     },
     {
       path: '/pendingusers',
       component: PendingUsers,
+      name: 'adm-users-pending'
     },
     {
       path: '/users/edit/changepassword',
       component: UserEditPassword,
+      name: 'mem-users-change-password'
     },
     {
       path: '/users/edit/:id',
       component: UserEdit,
+      name: 'mem-users-edit'
     },
     {
       path: '/users/:id',
       component: UserView,
+      name: 'mem-users-view'
     },
     {
       path: '/createuser',
       component: CreateUser,
+      name: 'adm-users-create'
     },
     {
       path: '/auth/login',
-      component: Login
+      component: Login,
+      name: 'all-login'
     },
     {
       path: '/auth/signup',
-      component: Signup
+      component: Signup,
+      name: 'all-signup'
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  const role = store.getters.loggedUserRole
+  const toPathRoleGate = ROUTE_ROLES[to.name.split('-')[0]]
+  if (role <= toPathRoleGate) {
+    next()
+  } else {
+    next('/')
+  }
+})
+
+export default router

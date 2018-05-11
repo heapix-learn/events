@@ -16,7 +16,7 @@
             <p class="center" v-if="event.capacityMin && event.capacityMax">Capacity: minimum {{event.capacityMin}} and maximum {{event.capacityMax}}</p>
             <p>Price:{{event.price !== 0 ? ' ' + event.price + '$' : ' Free!'}}</p>
           </div>
-          <div class="card-action">
+          <div v-if="isLogged" class="card-action">
             <a v-if="!showRegistration && !alreadyRegistered && !$route.path.match('preview')" @click="openRegistration" class="green-text reg-button">Registration</a>
             <a v-if="alreadyRegistered" @click="closeRegistration" class="green-text reg-button">Unsubscribe</a>
           </div>
@@ -62,7 +62,8 @@ export default {
   computed: {
     ...mapGetters([
       'loggedUser',
-      'alreadyRegistered'
+      'alreadyRegistered',
+      'isLogged'
     ])
   },
   methods: {
