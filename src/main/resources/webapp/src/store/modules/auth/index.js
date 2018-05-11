@@ -130,6 +130,7 @@ export default {
           commit('setUser', res.data);
         })
         .catch(rej => {
+          commit('setIsLogged', false)
           console.dir(rej)
         })
     },

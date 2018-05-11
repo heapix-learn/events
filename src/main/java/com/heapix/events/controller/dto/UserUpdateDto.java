@@ -12,16 +12,26 @@ public class UserUpdateDto {
     private String lastName;
     private String phone1;
     private String phone2;
+    private String annotations;
 
-    public UserUpdateDto(String email, String firstName, String lastName, String password, String phone1, String phone2) {
+    public UserUpdateDto(String email, String firstName, String lastName, String password, String phone1, String phone2, String annotations) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone1 = phone1;
         this.phone2 = phone2;
+        this.annotations = annotations;
     }
 
     public UserUpdateDto() {
+    }
+
+    public String getAnnotations() {
+        return annotations;
+    }
+
+    public void setAnnotations(String annotations) {
+        this.annotations = annotations;
     }
 
     public String getEmail() {
