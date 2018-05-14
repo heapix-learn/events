@@ -9,7 +9,7 @@ import events from './modules/events'
 Vue.use(Vuex)
 
 
-export const url = 'http://5b9c9429.ngrok.io'
+export const url = 'http://12931755.ngrok.io'
 // export const url = 'http://localhost:8080'
 
 export default new Vuex.Store({

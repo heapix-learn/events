@@ -13,7 +13,7 @@ const brandNewEvent = {
   maxNumberOfRegistrations: 0,
   minNumberOfRegistrations: 0,
   price: 0,
-  fields: [],
+  inputs: [],
 }
 
 export default {

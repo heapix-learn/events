@@ -18,10 +18,13 @@
             <p>Price:{{newEvent.price !== 0 ? ' ' + newEvent.price + '$' : ' Free!'}}</p>
           </div>
           <div class="card-action">
+            <a v-if="!showSignUp" @click="showSignUp = !showSignUp" class="waves-effect">Sign Up</a>
           </div>
         </div>
       </div>
     </div>
+
+    <form-generator-view v-if="showSignUp" :form-inputs="newEvent.inputs"></form-generator-view>
 
     <div class="create-event-buttons row center">
       <a @click="publish" class="waves-effect green waves-light btn">Publish</a>
@@ -32,12 +35,19 @@
 
 <script>
 import Modal from '../../utils/Modal.vue'
+import FormGeneratorView from './FormGeneratorView.vue'
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'EventCreatePreview',
+  data () {
+    return {
+      showSignUp: false
+    }
+  },
   components: {
-    Modal
+    Modal,
+    FormGeneratorView
   },
   computed: {
     ...mapGetters([

@@ -23,24 +23,16 @@
         </div>
       </div>
     </div>
-    <div v-if="showRegistration" class="row">
-      <div class="col s12">
-        <h5 class="center">Register for the event</h5>
-        <form @submit.prevent>
-          <div class="input-field" v-for="(label, index) in event.labels" :key="index">
-            <input @blur="inputOnBlur" :id="label.label + '-reg-form'" type="text" v-model="eventRegistrationForm[label.label]" v-validate="'required'" :name="label.label">
-            <label :for="label.label + '-reg-form'">{{label.label}}</label>
-            <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first(label.label)}}</span>
-          </div>
-          <a v-if="!$route.path.match('preview')" @click="eventSignUp" :class="{disabled: errors.items.length > 0}" class="waves-effect green waves-light btn event-btn-signup col s2 offset-s5">Sign up</a>
-        </form>
-      </div>
+    <div v-if="showRegistration && isLogged" class="row">
+      <form-generator-view v-if="showRegistration" :form-inputs="event.inputs"></form-generator-view>
+      <a v-if="!showRegistration && !alreadyRegistered && !$route.path.match('preview')" @click="openRegistration" class="green-text reg-button">Registration</a>
     </div>
   </div>
 </template>
 
 <script>
 import Modal from '../../utils/Modal.vue'
+import FormGeneratorView from './FormGeneratorView.vue' 
 import { mapGetters, mapActions } from 'vuex';
 
 export default {
@@ -57,7 +49,8 @@ export default {
     }
   },
   components: {
-    Modal
+    Modal,
+    FormGeneratorView
   },
   computed: {
     ...mapGetters([

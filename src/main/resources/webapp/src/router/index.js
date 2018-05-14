@@ -16,6 +16,7 @@ import EventCreatePreview from '../components/feed/events/EventCreatePreview.vue
 import EventItem from '../components/feed/events/EventItem.vue';
 import EventPreview from '../components/feed/events/EventPreview.vue';
 import EventView from '../components/feed/events/EventView.vue';
+import FormGenerator from '../components/feed/events/FormGenerator.vue';
 
 import News from '../components/feed/news/News.vue';
 import CreateNews from '../components/feed/news/CreateNews.vue';
@@ -136,6 +137,11 @@ const router = new Router({
       path: '/auth/signup',
       component: Signup,
       name: 'all-signup'
+    },
+    {
+      path: '/formgenerator',
+      component: FormGenerator,
+      name: 'all-form-generator'
     }
   ]
 })
