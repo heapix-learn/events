@@ -53,6 +53,17 @@
           <span class="helper-text red-text" >{{errors.first('Max capacity')}}</span>
         </div>
       </div>        
+      <div class="row">
+        <div class="input-field col s5 offset-s3">
+          <select v-model="role">
+            <option value="5">All</option>
+            <option value="4">Members</option>
+            <option value="3">Moderators</option>
+            <option value="2">Administrators</option>
+          </select>
+          <label>Visible for</label>
+        </div>
+      </div>        
     </form>
 
     <h4 class="center">Event registration</h4>
@@ -79,6 +90,7 @@ export default {
       inputs: [],
       date: '',
       time: '',
+      role: '5',
     }
   },
   watch: {
@@ -111,6 +123,7 @@ export default {
           this.newEvent.date = this.date
           this.newEvent.time = this.time
           this.newEvent.inputs = this.inputs
+          this.newEvent.role = this.role
           this.setNewEvent(this.newEvent)
           this.$router.push('/events/create/preview')
         }
@@ -136,6 +149,7 @@ export default {
     this.date = this.newEvent.date
     this.time = this.newEvent.time
     this.inputs = this.newEvent.inputs
+    this.role = this.newEvent.role
 
     if (this.isEdit) {
       if (this.newEvent.id < 0) {
