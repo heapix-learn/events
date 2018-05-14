@@ -8,6 +8,7 @@ import PendingUsers from '../components/profile/PendingUsers.vue';
 import UserEdit from '../components/profile/UserEdit.vue';
 import UserView from '../components/profile/UserView.vue';
 import UserEditPassword from '../components/profile/UserEditPassword.vue';
+import RegisteredForEventUsers from '../components/profile/RegisteredForEventUsers.vue';
 
 import Events from '../components/feed/events/Events.vue';
 import CreateEditEvent from '../components/feed/events/CreateEditEvent.vue';
@@ -84,6 +85,11 @@ const router = new Router({
       path: '/events/:id',
       component: EventView,
       name: 'all-events-view'
+    },
+    {
+      path: '/events/:id/users',
+      component: RegisteredForEventUsers,
+      name: 'mod-events-view'
     },
     {
       path: '/news',

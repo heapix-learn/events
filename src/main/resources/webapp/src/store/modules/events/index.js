@@ -22,6 +22,7 @@ export default {
     events: [],
     newEvent: Object.assign({}, brandNewEvent),
     certainEvent: Object.assign({}, brandNewEvent),
+    registeredForEventUsers: [],
     preview: null,
     alreadyRegistered : false
   },
@@ -33,7 +34,7 @@ export default {
     certainEvent: state => state.certainEvent,
     alreadyRegistered: state => state.alreadyRegistered,
     newEvent: state => state.newEvent,
-    
+    registeredForEventUsers: state => state.registeredForEventUsers,
   },
   mutations: {
     setEvents(state, payload) {
@@ -61,6 +62,9 @@ export default {
     },
     setNewEvent(state, payload) {
       state.newEvent = payload
+    },
+    setRegisteredForEventUsers(state, payload) {
+      state.registeredForEventUsers = payload
     }
 },
   actions: {    
@@ -169,14 +173,14 @@ export default {
         })
     },
     unsubscribe({commit}, eventId) {
-        axios.delete(`${url}/events/registration/${eventId}`,  {headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}})
-            .then(res => {
-                commit('alreadyRegistered', false)
-            })
-            .catch(rej => {
-                console.dir(rej)
-                return rej
-            })
+      axios.delete(`${url}/events/registration/${eventId}`,  {headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}})
+          .then(res => {
+              commit('alreadyRegistered', false)
+          })
+          .catch(rej => {
+              console.dir(rej)
+              return rej
+          })
     },
     setEventPreview({commit}, event) {
       commit('setEventPreview', event)
@@ -188,18 +192,18 @@ export default {
       commit('clearNewEvent')
     },
     userAlreadyRegistered({commit}, eventId) {
-        return axios.get(`${url}/events/registration/${eventId}`, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
-            }
-        })
-            .then(res => {
-              commit('alreadyRegistered', !!res.data)
-            })
-            .catch(rej => {
-                console.dir(rej)
-                return rej
-            })
+      return axios.get(`${url}/events/registration/${eventId}`, {
+          headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+          }
+      })
+          .then(res => {
+            commit('alreadyRegistered', !!res.data)
+          })
+          .catch(rej => {
+              console.dir(rej)
+              return rej
+          })
     },
     setNewEvent({commit}, newEvent) {
       commit('setNewEvent', newEvent)
@@ -216,6 +220,21 @@ export default {
       .catch(rej => {
         console.dir(rej)
       })
+    },
+    getRegisteredForEventUsers({commit}, id) {
+      return axios.get(`${url}/events/users/${id}`, {
+        headers: {
+          Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+        }
+      })
+        .then(res => {
+          commit('setRegisteredForEventUsers', res.data)
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
     }
   }
 }
