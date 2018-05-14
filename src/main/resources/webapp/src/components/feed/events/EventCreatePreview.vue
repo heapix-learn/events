@@ -24,7 +24,7 @@
       </div>
     </div>
 
-    <form-generator-view v-if="showSignUp" :form-inputs="newEvent.inputs"></form-generator-view>
+    <form-generator-view v-if="showSignUp" :form-inputs="newEvent.inputs" :isPreview="true" :userFormInput="formSignUp"></form-generator-view>
 
     <div class="create-event-buttons row center">
       <a @click="publish" class="waves-effect green waves-light btn">Publish</a>
@@ -42,7 +42,8 @@ export default {
   name: 'EventCreatePreview',
   data () {
     return {
-      showSignUp: false
+      showSignUp: false,
+      formSignUp: {} 
     }
   },
   components: {
@@ -70,6 +71,11 @@ export default {
     goBack() {
       this.$router.go(-1)
     }
+  },
+  mounted () {
+    this.newEvent.inputs.map(input => {
+      this.formSignUp[input.label] = ''
+    })
   },
   beforeRouteLeave (to, from, next) {
     if (to.path === '/events/create' || to.path.search(/edit/) !== -1) {

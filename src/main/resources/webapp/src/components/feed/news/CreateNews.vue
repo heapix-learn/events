@@ -16,6 +16,17 @@
           <span class="helper-text red-text">{{errors.first('Text')}}</span>
         </div>
       </div>
+      <div class="row">
+        <div class="input-field col s5 offset-s3">
+          <select v-model="role">
+            <option value="5">All</option>
+            <option value="4">Members</option>
+            <option value="3">Moderators</option>
+            <option value="2">Administrators</option>
+          </select>
+          <label>Visible for</label>
+        </div>
+      </div>
     </form>
     <div class="create-news-buttons row center">
       <a @click="previewNews" :class="{disabled: errors.items.length > 0 || disabledByFields}" class="waves-effect green waves-light btn">Preview</a>
@@ -34,6 +45,7 @@ import { mapActions, mapGetters } from 'vuex';
       return {
         title: '',
         body: '',
+        role: '5'
       }
     },
 
@@ -43,7 +55,7 @@ import { mapActions, mapGetters } from 'vuex';
         'clearNewsPreview',
       ]),
       previewNews(){
-        this.setNewsPreview({title: this.title, body: this.body, id: -1})
+        this.setNewsPreview({title: this.title, body: this.body, role: this.role, id: -1})
         this.$router.push('/news/preview')
       },
       abort() {
@@ -68,6 +80,7 @@ import { mapActions, mapGetters } from 'vuex';
       if (preview) {
         this.title = preview.title;
         this.body = preview.body;
+        this.role = preview.role
       }
     },
     updated() {

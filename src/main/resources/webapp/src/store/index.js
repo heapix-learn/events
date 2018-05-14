@@ -5,11 +5,12 @@ import auth from './modules/auth'
 import users from './modules/users'
 import news from './modules/news'
 import events from './modules/events'
+import about from './modules/about'
 
 Vue.use(Vuex)
 
 
-export const url = 'http://12931755.ngrok.io'
+export const url = 'http://82be25fb.ngrok.io'
 // export const url = 'http://localhost:8080'
 
 export default new Vuex.Store({
@@ -34,6 +35,7 @@ export default new Vuex.Store({
     auth,
     users,
     news,
-    events
+    events,
+    about
   }
 })

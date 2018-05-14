@@ -1,6 +1,5 @@
 <template>
   <div class="event-item container">
-
     <div class="row">
       <div class="col s12">
         <div class="card white darken-1">
@@ -24,8 +23,8 @@
       </div>
     </div>
     <div v-if="showRegistration && isLogged" class="row">
-      <form-generator-view v-if="showRegistration" :form-inputs="event.inputs"></form-generator-view>
-      <a v-if="!showRegistration && !alreadyRegistered && !$route.path.match('preview')" @click="openRegistration" class="green-text reg-button">Registration</a>
+      <form-generator-view v-if="showRegistration" :form-inputs="event.inputs" :isPreview="false" :userFormInput="formSignUp"></form-generator-view>
+      <a @click="eventSignUp" class="green btn col s2 offset-s5">Registration</a>
     </div>
   </div>
 </template>
@@ -42,10 +41,8 @@ export default {
     return {
       isPreview: !this.$route.path.match(/preview/),
       showRegistration: false,
-      eventRegistrationForm: {
-
-      },
       isSignUpFieldsEmpty: true,
+      formSignUp: {} 
     }
   },
   components: {
@@ -77,26 +74,18 @@ export default {
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.signUpForEvent(this.$route.params.id)
+            this.signUpForEvent({id: this.$route.params.id, info: JSON.stringify(this.formSignUp)})
           }
         })
     },
-
-    inputOnBlur() {
-      for (let key in this.eventRegistrationForm) {
-        if (this.eventRegistrationForm[key] === '') {
-          this.isSignUpFieldsEmpty = true;
-          return
-        }
-      }
-      this.isSignUpFieldsEmpty = false
-      return
-    }
   },
   mounted() {
     M.Modal.init(document.querySelectorAll('.modal'));
     this.userAlreadyRegistered(this.$route.params.id);
     this.userRegistered = this.alreadyRegistered;
+    this.event.inputs.map(input => {
+      this.formSignUp[input.label] = ''
+    })
   }
 }
 </script>

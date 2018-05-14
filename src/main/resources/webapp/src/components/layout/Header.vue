@@ -37,6 +37,7 @@
                 <li><router-link to="/auth/signup">Signup</router-link></li>
             </template>
             <li :class="activePath('/about')"><router-link to="/about">About</router-link></li>
+            <li v-if="loggedUser.role <= 2" :class="activePath('/about/edit')"><router-link to="/about/edit">Edit About</router-link></li>
           </ul>
         </div>
       </div>

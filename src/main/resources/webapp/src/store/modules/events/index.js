@@ -27,11 +27,13 @@ export default {
   },
   getters: {
     allEvents: state => state.events,
+    allSortedEvents: state => state.events.slice().sort((a, b) => b.id - a.id) ,
     getEventById: state => id => state.events.find(event => event.id === id),
     getEventPreview: state => state.preview,
     certainEvent: state => state.certainEvent,
     alreadyRegistered: state => state.alreadyRegistered,
     newEvent: state => state.newEvent,
+    
   },
   mutations: {
     setEvents(state, payload) {
@@ -96,6 +98,7 @@ export default {
             description: res.data.info,
             location: res.data.location,
             price: res.data.price,
+            inputs: JSON.parse(res.data.inputs),
             capacityMin: res.data.minNumberOfRegistrations,
             capacityMax: res.data.maxNumberOfRegistrations
           });
@@ -156,8 +159,8 @@ export default {
           console.dir(rej)
         })
     },
-    signUpForEvent({commit}, id) {
-      axios({method: 'POST', url: `${url}/events/registration`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: {"eventId": id}})
+    signUpForEvent({commit}, data) {
+      axios({method: 'POST', url: `${url}/events/registration`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data})
         .then(res => {
           router.push({path: '/events'})
         })

@@ -28,6 +28,8 @@ import Login from '../components/auth/Login.vue';
 import Signup from '../components/auth/Signup.vue';
 
 import About from '../components/feed/about/About.vue';
+import AboutEdit from '../components/feed/about/AboutEdit.vue';
+import AboutPreview from '../components/feed/about/AboutPreview.vue';
 
 const ROUTE_ROLES = {
   'sadm': 1,
@@ -47,6 +49,16 @@ const router = new Router({
       path: '/events',
       component: Events,
       name: 'all-events'
+    },
+    {
+      path: '/about/edit',
+      component: AboutEdit,
+      name: 'adm-about-edit',
+    },
+    {
+      path: '/about/preview',
+      component: AboutPreview,
+      name: 'adm-about-preview',
     },
     {
       path: '/about',
@@ -149,6 +161,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const role = store.getters.loggedUserRole
   const toPathRoleGate = ROUTE_ROLES[to.name.split('-')[0]]
+  console.log(`role${role} and toRole${toPathRoleGate}`)
   if (role <= toPathRoleGate) {
     next()
   } else {
