@@ -1,29 +1,25 @@
 package com.heapix.events.controller;
 
+import com.heapix.events.config.security.UserAuth;
 import com.heapix.events.controller.bo.CreateResponseBo;
 import com.heapix.events.controller.bo.EventInfoBo;
 import com.heapix.events.controller.converter.EventConverter;
 import com.heapix.events.controller.dto.CreateEventDto;
 import com.heapix.events.controller.dto.UpdateEventDto;
 import com.heapix.events.persistence.model.Event;
+import com.heapix.events.persistence.model.enums.UserRole;
 import com.heapix.events.service.EventService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author mgergalov
@@ -41,14 +37,15 @@ public class EventController {
     @GetMapping
     @PreAuthorize("permitAll()")
     public List<EventInfoBo> getAllEvents() {
-        //impl
-        return eventService.getAll();
+        return eventService.getByRole(getUserRole().getId());
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public EventInfoBo getEventInfo(@NotNull @PathVariable long id) throws NotFoundException {
-        return eventService.getEventInfo(id);
+    public EventInfoBo getEventInfo(@NotNull @PathVariable long id) throws Exception {
+        EventInfoBo event = eventService.getEventInfo(id);
+        if(event.getRole() < getUserRole().getId()) throw new Exception("access denied");
+        return event;
     }
 
     @PostMapping
@@ -74,6 +71,13 @@ public class EventController {
         //impl
         eventService.remove(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    private UserRole getUserRole() {
+        UserRole role = UserRole.ANONYMOUS_USER;
+        UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (currUser != null) role = UserRole.getByName(currUser.getAuthorities().iterator().next().getAuthority());
+        return role;
     }
 
 }

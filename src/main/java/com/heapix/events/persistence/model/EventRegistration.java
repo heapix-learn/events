@@ -18,11 +18,11 @@ public class EventRegistration {
     private Long id;
     private Long userId;
     private Long eventId;
-    @ElementCollection
-    private Map<String, String> info =  new HashMap<>();
+    @Lob
+    private String info;
 
 
-    public EventRegistration(Long userId, Long eventId, Map<String, String> info) {
+    public EventRegistration(Long userId, Long eventId, String info) {
         this.userId = userId;
         this.eventId = eventId;
         this.info = info;
@@ -32,11 +32,11 @@ public class EventRegistration {
         this.id = id;
     }
 
-    public Map<String, String> getInfo() {
+    public String getInfo() {
         return info;
     }
 
-    public void setInfo(Map<String, String> info) {
+    public void setInfo(String info) {
         this.info = info;
     }
 

@@ -4,6 +4,7 @@ import com.heapix.events.config.security.JwtTokenProvider;
 import com.heapix.events.config.security.UserAuth;
 import com.heapix.events.controller.bo.CreateResponseBo;
 import com.heapix.events.controller.bo.EventRegistrationBo;
+import com.heapix.events.controller.bo.UserAdminBo;
 import com.heapix.events.controller.dto.NewEventRegistrationDto;
 import com.heapix.events.service.EventRegistrationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author mgergalov
@@ -27,9 +30,16 @@ public class EventRegistrationController {
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
-    public ResponseEntity<EventRegistrationBo> getEventRegistration(@PathVariable long id) {
+    public ResponseEntity<EventRegistrationBo> getEventRegistrationForUser(@PathVariable long id) {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         EventRegistrationBo response = eventRegistrationService.getEventRegistration(id, currUser.getId());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/users")
+    @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
+    public ResponseEntity<List<EventRegistrationBo>> getEventRegistrations(@PathVariable long id) {
+        List<EventRegistrationBo> response = eventRegistrationService.getEventRegistrations(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

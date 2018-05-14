@@ -37,6 +37,12 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<EventInfoBo> getByRole(Long role) {
+        List<Event> events = eventRepository.findByRoleGreaterThanEqual(role);
+        return eventConverter.toDtos(events);
+    }
+
+    @Override
     public UpdateResponseBo updateEvent(Event event, Long id) {
         Event entity = eventRepository.getOne(id);
         entity.setDate(event.getDate());
@@ -51,6 +57,7 @@ public class EventServiceImpl implements EventService {
     public CreateResponseBo createEvent(Event event) {
         return new CreateResponseBo(eventRepository.save(event).getId());
     }
+
 
     @Override
     public void remove(Long id) {

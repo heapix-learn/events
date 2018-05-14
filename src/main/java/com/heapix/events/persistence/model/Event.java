@@ -1,7 +1,6 @@
 package com.heapix.events.persistence.model;
 
 import java.util.Date;
-import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -14,6 +13,7 @@ public class Event {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
+    private Long role;
     private String firstName;
     private Date date;
     private String location;
@@ -22,11 +22,12 @@ public class Event {
     private int price;
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
-    @ElementCollection
-    private List<String> fields;
+    @Lob
+    private String inputs;
 
-    public Event(String firstName, Date date, String location, String info, int price, int minNumberOfRegistrations,
-                 int maxNumberOfRegistrations, List<String> fields) {
+    public Event(Long role, String firstName, Date date, String location, String info, int price, int minNumberOfRegistrations,
+                 int maxNumberOfRegistrations, String inputs) {
+        this.role = role;
         this.firstName = firstName;
         this.date = date;
         this.location = location;
@@ -34,7 +35,7 @@ public class Event {
         this.price = price;
         this.minNumberOfRegistrations = minNumberOfRegistrations;
         this.maxNumberOfRegistrations = maxNumberOfRegistrations;
-        this.fields = fields;
+        this.inputs = inputs;
     }
 
     public Event() {
@@ -54,12 +55,20 @@ public class Event {
                 '}';
     }
 
-    public List<String> getFields() {
-        return fields;
+    public Long getRole() {
+        return role;
     }
 
-    public void setFields(List<String> fields) {
-        this.fields = fields;
+    public void setRole(Long role) {
+        this.role = role;
+    }
+
+    public String getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(String inputs) {
+        this.inputs = inputs;
     }
 
     public Long getId() {

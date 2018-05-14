@@ -4,13 +4,22 @@ import java.util.Map;
 
 public class EventRegistrationBo {
     private Long id;
-    private Map<String, String> info;
+    private String info;
+    private UserAdminBo user;
 
-    public Map<String, String> getInfo() {
+    public UserAdminBo getUser() {
+        return user;
+    }
+
+    public void setUser(UserAdminBo user) {
+        this.user = user;
+    }
+
+    public String getInfo() {
         return info;
     }
 
-    public void setInfo(Map<String, String> info) {
+    public void setInfo(String info) {
         this.info = info;
     }
 
@@ -22,8 +31,9 @@ public class EventRegistrationBo {
         this.id = id;
     }
 
-    public EventRegistrationBo(Long id, Map<String, String> info) {
+    public EventRegistrationBo(Long id, String info, UserAdminBo user) {
         this.id = id;
         this.info = info;
+        this.user = user;
     }
 }

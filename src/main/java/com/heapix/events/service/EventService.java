@@ -16,6 +16,7 @@ public interface EventService {
     CreateResponseBo createEvent(Event event);
     EventInfoBo getEventInfo(Long id) throws NotFoundException;
     List<EventInfoBo> getAll();
+    List<EventInfoBo> getByRole(Long role);
     UpdateResponseBo updateEvent(Event event, Long id);
     void remove(Long id);
 

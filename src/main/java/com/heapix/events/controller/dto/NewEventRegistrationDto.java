@@ -8,22 +8,23 @@ import java.util.Map;
 public class NewEventRegistrationDto {
 
     private Long eventId;
-    private Map<String, String> info;
+    private String info;
 
 
-    public NewEventRegistrationDto(Long eventId) {
+    public NewEventRegistrationDto(Long eventId, String info) {
         this.eventId = eventId;
+        this.info =  info;
     }
 
     public NewEventRegistrationDto() {
     }
 
 
-    public Map<String, String> getInfo() {
+    public String getInfo() {
         return info;
     }
 
-    public void setInfo(Map<String, String> info) {
+    public void setInfo(String info) {
         this.info = info;
     }
 

@@ -1,13 +1,8 @@
 package com.heapix.events.controller.dto;
 
-import com.heapix.events.persistence.model.Location;
-import lombok.Data;
-
 import java.util.Date;
-import java.util.List;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  * @author mgergalov
@@ -28,28 +23,38 @@ public class UpdateEventDto {
 
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
-    private List<String> fields;
+    private String inputs;
+    private Long role;
 
     public UpdateEventDto(@NotNull @NotEmpty Date date, @NotNull @NotEmpty String location,
                           @NotNull @NotEmpty String info, int minNumberOfRegistrations, int maxNumberOfRegistrations,
-                          List<String> fields) {
+                          String inputs, Long role) {
         this.date = date;
         this.location = location;
         this.info = info;
         this.minNumberOfRegistrations = minNumberOfRegistrations;
         this.maxNumberOfRegistrations = maxNumberOfRegistrations;
-        this.fields = fields;
+        this.inputs = inputs;
+        this.role = role;
     }
 
     public UpdateEventDto() {
     }
 
-    public List<String> getFields() {
-        return fields;
+    public String getInputs() {
+        return inputs;
     }
 
-    public void setFields(List<String> fields) {
-        this.fields = fields;
+    public void setInputs(String inputs) {
+        this.inputs = inputs;
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
     }
 
     public Date getDate() {

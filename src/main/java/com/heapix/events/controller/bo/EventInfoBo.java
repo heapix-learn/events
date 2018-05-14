@@ -19,10 +19,11 @@ public class EventInfoBo {
     private int price;
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
-    private List<String> fields;
+    private String fields;
+    private Long role;
 
     public EventInfoBo(Long id, String firstName, Date date, String location, String info, int price,
-                       int minNumberOfRegistrations, int maxNumberOfRegistrations, List<String> fields) {
+                       int minNumberOfRegistrations, int maxNumberOfRegistrations, String fields, Long role) {
         this.id = id;
         this.firstName = firstName;
         this.date = date;
@@ -32,17 +33,26 @@ public class EventInfoBo {
         this.minNumberOfRegistrations = minNumberOfRegistrations;
         this.maxNumberOfRegistrations = maxNumberOfRegistrations;
         this.fields = fields;
+        this.role = role;
     }
 
     public EventInfoBo() {
     }
 
-    public List<String> getFields() {
+    public String getFields() {
         return fields;
     }
 
-    public void setFields(List<String> fields) {
+    public void setFields(String fields) {
         this.fields = fields;
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
     }
 
     public Long getId() {
