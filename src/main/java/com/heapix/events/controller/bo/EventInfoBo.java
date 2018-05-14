@@ -1,10 +1,6 @@
 package com.heapix.events.controller.bo;
 
-import com.heapix.events.persistence.model.Location;
-import lombok.Data;
-
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author mgergalov
@@ -19,11 +15,11 @@ public class EventInfoBo {
     private int price;
     private int minNumberOfRegistrations;
     private int maxNumberOfRegistrations;
-    private String fields;
+    private String inputs;
     private Long role;
 
     public EventInfoBo(Long id, String firstName, Date date, String location, String info, int price,
-                       int minNumberOfRegistrations, int maxNumberOfRegistrations, String fields, Long role) {
+                       int minNumberOfRegistrations, int maxNumberOfRegistrations, String inputs, Long role) {
         this.id = id;
         this.firstName = firstName;
         this.date = date;
@@ -32,19 +28,19 @@ public class EventInfoBo {
         this.price = price;
         this.minNumberOfRegistrations = minNumberOfRegistrations;
         this.maxNumberOfRegistrations = maxNumberOfRegistrations;
-        this.fields = fields;
+        this.inputs = inputs;
         this.role = role;
     }
 
     public EventInfoBo() {
     }
 
-    public String getFields() {
-        return fields;
+    public String getInputs() {
+        return inputs;
     }
 
-    public void setFields(String fields) {
-        this.fields = fields;
+    public void setInputs(String inputs) {
+        this.inputs = inputs;
     }
 
     public Long getRole() {

@@ -65,7 +65,8 @@ public class EventConverterImpl implements EventConverter {
             eventInfoBo.setPrice(event.getPrice());
             eventInfoBo.setMinNumberOfRegistrations(event.getMinNumberOfRegistrations());
             eventInfoBo.setMaxNumberOfRegistrations(event.getMaxNumberOfRegistrations());
-            eventInfoBo.setFields(event.getInputs());
+            eventInfoBo.setRole(event.getRole());
+            eventInfoBo.setInputs(event.getInputs());
             return eventInfoBo;
         }
     }

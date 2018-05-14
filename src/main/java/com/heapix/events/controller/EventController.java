@@ -43,8 +43,8 @@ public class EventController {
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
     public EventInfoBo getEventInfo(@NotNull @PathVariable long id) throws Exception {
-        EventInfoBo event = eventService.getEventInfo(id);
-        if(event.getRole() < getUserRole().getId()) throw new Exception("access denied");
+         EventInfoBo event = eventService.getEventInfo(id);
+        if( event != null && event.getRole() < getUserRole().getId()) throw new Exception("access denied");
         return event;
     }
 
