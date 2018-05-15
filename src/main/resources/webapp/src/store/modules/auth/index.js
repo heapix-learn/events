@@ -94,8 +94,8 @@ export default {
       commit('setPostSignInError', '')
       axios.post(`${url}/auth`, payload)
         .then(res => {
-          router.push('/auth/endsignup')
-          return
+          // router.push('/auth/endsignup')
+          // return
           const user = res.data;
           const userRoleId = ROLES[user.role]
           user.role = userRoleId
