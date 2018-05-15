@@ -74,7 +74,7 @@ export default {
           if (this.errors.items.length > 0) {
             return
           } else {
-            this.signUpForEvent({id: this.$route.params.id, info: JSON.stringify(this.formSignUp)})
+            this.signUpForEvent({eventId: this.$route.params.id, info: JSON.stringify(this.formSignUp)})
           }
         })
     },
