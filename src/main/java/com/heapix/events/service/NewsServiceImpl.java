@@ -47,6 +47,11 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
+    public List<News> getByRole(Long role) {
+        return newsRepository.findAllByRoleGreaterThanEqual(role);
+    }
+
+    @Override
     public UpdateResponseBo update(String body, Long newsId) {
         News news = newsRepository.getOne(newsId);
         news.setBody(body);

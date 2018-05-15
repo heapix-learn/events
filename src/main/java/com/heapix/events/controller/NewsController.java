@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static com.heapix.events.controller.EventUtils.getUserRole;
+
 /**
  * @author mgergalov
  */
@@ -35,13 +37,15 @@ public class NewsController {
     @GetMapping
     @PreAuthorize("permitAll()")
     public List<News> getAllNews() {
-        return newsService.getAll();
+        return newsService.getByRole(getUserRole().getId());
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("permitAll()")
-    public News getNews(@NotNull @PathVariable("id") long id) throws NotFoundException {
-        return newsService.findNews(id);
+    public News getNews(@NotNull @PathVariable("id") long id) throws Exception {
+        News news = newsService.findNews(id);
+        if(news != null && news.getRole() < getUserRole().getId()) throw new Exception("access denied");
+        return news;
     }
 
     @PostMapping

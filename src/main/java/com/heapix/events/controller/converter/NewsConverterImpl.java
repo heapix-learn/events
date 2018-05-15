@@ -19,6 +19,7 @@ public class NewsConverterImpl implements NewsConverter {
             News news = new News();
             news.setTitle(dto.getTitle());
             news.setBody(dto.getBody());
+            news.setRole(dto.getRole());
             return news;
         }
     }

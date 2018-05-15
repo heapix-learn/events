@@ -13,5 +13,6 @@ import java.util.List;
 public interface NewsRepository extends JpaRepository<News, Long> {
 
     List<News> findTop10ByOrderByCreatedDateAsc();
+    List<News> findAllByRoleGreaterThanEqual(Long role);
 
 }

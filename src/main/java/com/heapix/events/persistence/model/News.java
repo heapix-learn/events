@@ -28,16 +28,25 @@ public class News {
     private String body;
     private Date createdDate;
     private Date lastModifiedDate;
+    private Long role;
 
     public News() {
     }
 
-    public News(Long userId, String title, String body, Date createdDate, Date lastModifiedDate) {
+    public News(Long userId, String title, String body, Date createdDate, Date lastModifiedDate, Long role) {
         this.userId = userId;
         this.title = title;
         this.body = body;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
     }
 
     public Long getId() {

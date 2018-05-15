@@ -18,6 +18,16 @@ public class CreateNewsDto {
     @NotEmpty
     @NotNull
     private String body;
+    @NotNull
+    private  Long role;
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
+    }
 
     public CreateNewsDto() { }
 

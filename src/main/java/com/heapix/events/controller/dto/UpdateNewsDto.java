@@ -12,12 +12,22 @@ import javax.validation.constraints.NotNull;
 public class UpdateNewsDto {
 
     private String body;
+    private Long role;
 
-    public UpdateNewsDto(String body) {
+    public UpdateNewsDto(String body, Long role) {
         this.body = body;
+        this.role = role;
     }
 
     public UpdateNewsDto() {
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
     }
 
     public String getBody() {

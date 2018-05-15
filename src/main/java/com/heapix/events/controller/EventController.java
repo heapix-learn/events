@@ -21,6 +21,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static com.heapix.events.controller.EventUtils.getUserRole;
+
 /**
  * @author mgergalov
  */
@@ -73,14 +75,6 @@ public class EventController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    private UserRole getUserRole() {
-        UserRole role = UserRole.ANONYMOUS_USER;
-        if(SecurityContextHolder.getContext().getAuthentication().getPrincipal().equals("anonymousUser")){
-            return UserRole.ANONYMOUS_USER;
-        }
-        UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (currUser != null) role = UserRole.getByName(currUser.getAuthorities().iterator().next().getAuthority());
-        return role;
-    }
+
 
 }
