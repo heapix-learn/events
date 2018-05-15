@@ -18,6 +18,19 @@ export default {
     loggedUser: {role: 5},
     postSignUpError: '',
     postSignInError: '',
+    publicEndSignUpForm: [
+      {
+        label: 'Age',
+        type: 'number',
+      },
+      {
+        label: 'Sex',
+        options: 'female, male',
+        type: 'select'
+      }
+    ],
+    // publicEndSignUpForm: [],
+    endSignUpForm: [],
   },
   getters: {
     isLogged: state => state.isLogged,
@@ -29,6 +42,9 @@ export default {
 
     postSignInError: state => state.postSignInError,
     postSignUpError: state => state.postSignUpError,
+
+    endSignUpForm: state => state.endSignUpForm,
+    publicEndSignUpForm: state => state.publicEndSignUpForm,
   },
   mutations: {
     setIsLogged(state, isLogged) {
@@ -63,6 +79,12 @@ export default {
       state.isLogged = false;
       state.loggedUser = {role: 5};
       state.authToken = '';
+    },
+    setEndSignUpForm(state, form) {
+      state.endSignUpForm = form
+    },
+    setPublicEndSignUpForm(state, form) {
+      state.publicEndSignUpForm = form
     }
   },
   actions: {
@@ -72,6 +94,8 @@ export default {
       commit('setPostSignInError', '')
       axios.post(`${url}/auth`, payload)
         .then(res => {
+          router.push('/auth/endsignup')
+          return
           const user = res.data;
           const userRoleId = ROLES[user.role]
           user.role = userRoleId
@@ -111,19 +135,34 @@ export default {
         })
     },
 
+    postEndSignUp({commit}, payload) {
+      return axios.put(`${url}/reg-form`, payload)
+        .then(res => {
+          router.push('/')
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+        .then(res => {
+          commit('toggleLoading')
+          return res
+        })
+    },
+
     signOut({commit}) {
       commit('signOut')
       localStorage.removeItem("eventAppToken");
       router.push('/')
       location.reload();
     },
-
     getLoggedUser({commit, state}) {
       axios.get(`${url}/users/me`,
           {
-              headers: {
-                  Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
-              }
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+            }
           })
         .then(res => {
           console.log('set current user to ' + res.data.email);
@@ -134,8 +173,36 @@ export default {
           console.dir(rej)
         })
     },
+    postPublicEndSignUpForm({commit}, form) {
+      return axios.post(`${url}/reg-form`, JSON.stringify(form))
+        .then(res => {
+          router.push('/users')
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+    },
+    getPublicEndSignUpForm({commit, state}) {
+      return axios.get(`${url}/reg-form`)
+        .then(res => {
+          state.publicEndSignUpForm = JSON.parse(red.data)
+          return res
+        })
+        .catch(rej => {
+          console.dir(rej)
+          return rej
+        })
+    },
     clearSignInErrorMessage({commit}) {
       commit('setPostSignInError', '')
+    },
+    setEndSignUpForm({commit}, form) {
+      commit('setEndSignUpForm', form)
+    },
+    setPublicEndSignUpForm({commit}, form) {
+      commit('setPublicEndSignUpForm', form)
     }
   }
 }

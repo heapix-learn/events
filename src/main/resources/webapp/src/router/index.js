@@ -9,6 +9,8 @@ import UserEdit from '../components/profile/UserEdit.vue';
 import UserView from '../components/profile/UserView.vue';
 import UserEditPassword from '../components/profile/UserEditPassword.vue';
 import RegisteredForEventUsers from '../components/profile/RegisteredForEventUsers.vue';
+import EndSignUpFormEdit from '../components/profile/EndSignUpFormEdit.vue';
+import EndSignUpFormView from '../components/profile/EndSignUpFormView.vue';
 
 import Events from '../components/feed/events/Events.vue';
 import CreateEditEvent from '../components/feed/events/CreateEditEvent.vue';
@@ -27,6 +29,7 @@ import NewsPreview from '../components/feed/news/NewsPreview.vue';
 import AuthVuew from '../components/auth/AuthView.vue';
 import Login from '../components/auth/Login.vue';
 import Signup from '../components/auth/Signup.vue';
+import EndSignUp from '../components/auth/EndSignUp.vue';
 
 import About from '../components/feed/about/About.vue';
 import AboutEdit from '../components/feed/about/AboutEdit.vue';
@@ -142,6 +145,16 @@ const router = new Router({
       name: 'mem-users-view'
     },
     {
+      path: '/endsignup',
+      component: EndSignUpFormEdit,
+      name: 'adm-end-form'
+    },
+    {
+      path: '/endsignuppreview',
+      component: EndSignUpFormView,
+      name: 'adm-end-form-preview'
+    },
+    {
       path: '/createuser',
       component: CreateUser,
       name: 'adm-users-create'
@@ -154,6 +167,11 @@ const router = new Router({
     {
       path: '/auth/signup',
       component: Signup,
+      name: 'all-signup'
+    },
+    {
+      path: '/auth/endsignup',
+      component: EndSignUp,
       name: 'all-signup'
     },
     {

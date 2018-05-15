@@ -43,6 +43,12 @@
             Pending Users
           </button>
         </router-link>
+        <router-link to="/endsignup">
+          <button class="btn white black-text waves-effect waves-light sb-inner-btn" type="submit" name="action">
+            <i class="material-icons left">assignment_ind</i>
+            End signup form
+          </button>
+        </router-link>
       </div>
     </li>
 
