@@ -25,6 +25,7 @@ public interface UserService {
     DeleteResponseBo blockUser(Long id);
     List<UserAdminBo> getUnregisteredUsers();
     List<UserAdminBo> getRegisteredUsers();
+    User saveUserAdditionalInfo(String info, Long id);
     void allowRegistration(Long userId);
     User changePassword(ChangePasswordDto password, Long userId) throws Exception;
 

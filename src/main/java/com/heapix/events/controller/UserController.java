@@ -72,6 +72,7 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator','Moderator', 'Member')")
     public ResponseEntity removeUser(@PathVariable long id) {

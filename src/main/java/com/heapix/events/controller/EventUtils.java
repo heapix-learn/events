@@ -1,6 +1,7 @@
 package com.heapix.events.controller;
 
 import com.heapix.events.config.security.UserAuth;
+import com.heapix.events.persistence.model.User;
 import com.heapix.events.persistence.model.enums.UserRole;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -13,5 +14,9 @@ class EventUtils {
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (currUser != null) role = UserRole.getByName(currUser.getAuthorities().iterator().next().getAuthority());
         return role;
+    }
+
+    static Long getUserId() {
+        return ((UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
     }
 }
