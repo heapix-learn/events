@@ -39,6 +39,8 @@ export default {
     } else {
       this.inputs = this.endSignUpForm
     }
+    console.log(this.inputs);
+    
     M.updateTextFields();
   },
   updated () {

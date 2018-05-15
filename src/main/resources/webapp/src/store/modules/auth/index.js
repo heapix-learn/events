@@ -94,8 +94,12 @@ export default {
       commit('setPostSignInError', '')
       axios.post(`${url}/auth`, payload)
         .then(res => {
-          // router.push('/auth/endsignup')
-          // return
+          console.dir(res)
+          if (!res.data.infoProvided) {
+            root.dispatch('setAuthToken', res.data.auth.token)
+            router.push('/auth/endsignup')
+            return
+          }
           const user = res.data;
           const userRoleId = ROLES[user.role]
           user.role = userRoleId
@@ -136,7 +140,11 @@ export default {
     },
 
     postEndSignUp({commit}, payload) {
-      return axios.put(`${url}/reg-form`, payload)
+      const info = []
+      for (let i in payload) {
+        info.push({[i]: payload[i]})
+      }
+      axios({method: 'PUT', url: `${url}/reg-form`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: {inputs: JSON.stringify(info)}})
         .then(res => {
           router.push('/')
           return res

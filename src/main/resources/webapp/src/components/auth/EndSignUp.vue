@@ -13,7 +13,7 @@ export default {
   name: 'EndSignUp',
   data () {
     return {
-      inputs: [],
+      inputs: {},
     }
   },
   computed: {
