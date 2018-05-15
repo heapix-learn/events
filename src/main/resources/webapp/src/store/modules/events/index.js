@@ -222,7 +222,7 @@ export default {
       })
     },
     getRegisteredForEventUsers({commit}, id) {
-      return axios.get(`${url}/events/users/${id}`, {
+      return axios.get(`${url}/events/registration/${id}/users`, {
         headers: {
           Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
         }
