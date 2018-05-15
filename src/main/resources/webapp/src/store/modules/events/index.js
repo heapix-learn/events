@@ -228,7 +228,12 @@ export default {
         }
       })
         .then(res => {
-          commit('setRegisteredForEventUsers', res.data)
+          let users = res.data;
+          users.forEach(u => {
+            u.info = JSON.parse(u.info);
+            u.showInfo = false;
+          });
+          commit('setRegisteredForEventUsers', users);
           return res
         })
         .catch(rej => {
