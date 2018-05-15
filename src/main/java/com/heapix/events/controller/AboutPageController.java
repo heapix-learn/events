@@ -24,13 +24,14 @@ public class AboutPageController {
     private AboutPageService aboutPageService;
 
     @GetMapping
-    public AboutPage getAllNews() {
+    @PreAuthorize("permitAll()")
+    public AboutPage getAboutPage() {
         return aboutPageService.getAboutPage();
     }
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator')")
-    public ResponseEntity updateNews(@RequestBody UpdateAboutPageDto pageDto) {
+    public ResponseEntity updateAboutPage(@RequestBody UpdateAboutPageDto pageDto) {
         //impl
         aboutPageService.updateAboutPage(pageDto);
         return new ResponseEntity(HttpStatus.OK);
