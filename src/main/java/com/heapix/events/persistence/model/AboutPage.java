@@ -1,34 +1,31 @@
-package com.heapix.events.controller.dto;
+package com.heapix.events.persistence.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
 
 /**
  * @author mgergalov
  */
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class CreateNewsDto {
+@Entity
+public class AboutPage {
 
-    @NotEmpty
-    @NotNull
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private Long id;
     private String title;
-    @NotEmpty
-    @NotNull
+    @Lob
     private String body;
-    @NotNull
-    private  Long role;
 
-    public Long getRole() {
-        return role;
+    public AboutPage(String title, String body) {
+        this.title = title;
+        this.body = body;
     }
-
-    public void setRole(Long role) {
-        this.role = role;
-    }
-
-    public CreateNewsDto() { }
 
     public String getTitle() {
         return title;
@@ -44,5 +41,8 @@ public class CreateNewsDto {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public AboutPage() {
     }
 }
