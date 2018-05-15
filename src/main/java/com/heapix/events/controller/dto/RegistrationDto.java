@@ -10,16 +10,26 @@ public class RegistrationDto {
     private String lastName;
     private String password;
     private Long role;
+    private String inputs;
 
-    public RegistrationDto(String email, String firstName, String lastName, String password, Long role) {
+    public RegistrationDto(String email, String firstName, String lastName, String password, Long role, String inputs) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
         this.role = role;
+        this.inputs = inputs;
     }
 
     public RegistrationDto() {
+    }
+
+    public String getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(String inputs) {
+        this.inputs = inputs;
     }
 
     public String getEmail() {

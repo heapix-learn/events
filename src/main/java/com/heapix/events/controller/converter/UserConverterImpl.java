@@ -29,6 +29,7 @@ public class UserConverterImpl implements UserConverter {
             userAdminBo.setPhone1(user.getPhone1());
             userAdminBo.setPhone2(user.getPhone2());
             userAdminBo.setRole(user.getRole());
+            userAdminBo.setInputs(user.getInputs() );
             return userAdminBo;
         }
     }

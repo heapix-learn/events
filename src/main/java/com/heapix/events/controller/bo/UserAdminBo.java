@@ -13,8 +13,10 @@ public class UserAdminBo {
     private String phone1;
     private String phone2;
     private Long role;
+    private String inputs;
+    private Boolean infoProvided;
 
-    public UserAdminBo(Long id, String annotations, String email, String firstName, String lastName, String phone1, String phone2, Long role) {
+    public UserAdminBo(Long id, String annotations, String email, String firstName, String lastName, String phone1, String phone2, Long role, String inputs, Boolean infoProvided) {
         this.id = id;
         this.annotations = annotations;
         this.email = email;
@@ -23,9 +25,27 @@ public class UserAdminBo {
         this.phone1 = phone1;
         this.phone2 = phone2;
         this.role = role;
+        this.inputs = inputs;
+        this.infoProvided = infoProvided;
     }
 
     public UserAdminBo() {
+    }
+
+    public Boolean getInfoProvided() {
+        return infoProvided;
+    }
+
+    public void setInfoProvided(Boolean infoProvided) {
+        this.infoProvided = infoProvided;
+    }
+
+    public String getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(String inputs) {
+        this.inputs = inputs;
     }
 
     public Long getId() {

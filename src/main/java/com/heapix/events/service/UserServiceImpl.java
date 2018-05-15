@@ -40,6 +40,7 @@ public class UserServiceImpl implements UserService {
             newUser.setFirstName(user.getFirstName());
             newUser.setLastName(user.getLastName());
             newUser.setEmail(user.getEmail());
+            newUser.setInputs(user.getInputs());
             User response = userRepository.save(newUser);
             return new CreateResponseBo(response.getId());
         } else throw new Exception("user already registered");

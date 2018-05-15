@@ -1,11 +1,6 @@
 package com.heapix.events.persistence.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * @author mgergalov
@@ -41,8 +36,12 @@ public class User {
 
     @Column(name = "role")
     private Long role;
+    @Lob
+    private String inputs;
 
-    public User(String annotations, String email, String firstName, String lastName, String password, String phone1, String phone2, Long role) {
+    private Boolean infoProvided;
+
+    public User(String annotations, String email, String firstName, String lastName, String password, String phone1, String phone2, Long role, String inputs, Boolean infoProvided) {
         this.annotations = annotations;
         this.email = email;
         this.firstName = firstName;
@@ -51,9 +50,27 @@ public class User {
         this.phone1 = phone1;
         this.phone2 = phone2;
         this.role = role;
+        this.inputs = inputs;
+        this.infoProvided = infoProvided;
     }
 
     public User() {
+    }
+
+    public Boolean getInfoProvided() {
+        return infoProvided;
+    }
+
+    public void setInfoProvided(Boolean infoProvided) {
+        this.infoProvided = infoProvided;
+    }
+
+    public String getInputs() {
+        return inputs;
+    }
+
+    public void setInputs(String inputs) {
+        this.inputs = inputs;
     }
 
     public Long getId() {
