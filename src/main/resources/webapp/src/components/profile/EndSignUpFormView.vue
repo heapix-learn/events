@@ -26,10 +26,10 @@ export default {
   },
   methods: {
     ...mapActions([
-      'putPublicEndSignUpForm'
+      'postPublicEndSignUpForm',
     ]),
     publish () {
-      this.putPublicEndSignUpForm(this.endSignUpForm) //TODO SEND TO SERVER
+      this.postPublicEndSignUpForm(this.endSignUpForm) //TODO SEND TO SERVER
       this.$router.push('/users')
     }
   }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="generated-form row">
-            <div v-for="(value, key) in info" class="card-content black-text">
+            <div v-for="(value, key) in info" :key="key" class="card-content black-text">
                 <div v-if="value.type === 'img'" class="row">
                     <img  class="small" :src="value.image" alt="logo">
                 </div>

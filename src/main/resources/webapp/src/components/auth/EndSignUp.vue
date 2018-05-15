@@ -33,6 +33,12 @@ export default {
       this.postEndSignUp(this.inputs)
     }
   },
+  mounted () {
+    M.FormSelect.init(document.querySelectorAll('select'))
+  },
+  updated () {
+    M.FormSelect.init(document.querySelectorAll('select'))
+  },
   created () {
     this.getPublicEndSignUpForm()
   }

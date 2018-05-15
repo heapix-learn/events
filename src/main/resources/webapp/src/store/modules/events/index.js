@@ -130,6 +130,7 @@ export default {
     putEvent({commit, state}) {
       const event = state.newEvent
       event.date = `${event.date}T${event.time}:00.000Z`
+      event.inputs = JSON.stringify(event.inputs)
       axios({method: 'PUT', url: `${url}/events/${event.id}`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: event})
         .then(res => {
           router.push({path: '/events'})

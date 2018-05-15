@@ -66,8 +66,10 @@
       </div>        
     </form>
 
-    <h4 class="center">Event registration</h4>
-    <form-generator :formInputs="inputs"></form-generator>
+    <template v-if="!isEdit">
+      <h4 class="center">Event registration</h4>
+      <form-generator :formInputs="inputs"></form-generator>
+    </template>
 
     <div class="create-event-buttons row center">
       <a @click="previewEvent" :class="{disabled: errors.items.length > 0}" class="waves-effect green waves-light btn">Preview</a>
@@ -94,6 +96,16 @@ export default {
     }
   },
   watch: {
+    newEvent () {
+      if (this.date === '' && this.time === '') {
+        const fullDate = this.newEvent.date.split('T')
+        let date = fullDate[0]
+        const fullTime = fullDate[1].split(':')
+        let time = `${fullTime[0]}:${fullTime[1]}`
+        this.date = date;
+        this.time = time;
+      }
+    }
   },
   components: {
     Modal,
@@ -151,14 +163,18 @@ export default {
     this.inputs = this.newEvent.inputs
     this.role = this.newEvent.role
 
+
+
     if (this.isEdit) {
       if (this.newEvent.id < 0) {
         this.setOldEventAsNewEvent(this.$route.params.id)
+        console.log(this.newEvent.date)
       }
     }
   },
   updated() {
     M.updateTextFields();
+
   },
   beforeRouteLeave (to, from, next) {
     if (to.path !== '/events/create/preview') {

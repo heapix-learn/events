@@ -15,6 +15,12 @@ export default {
       inputs: []
     }
   },
+  watch: {
+    publicEndSignUpForm () {
+      if (this.endSignUpForm.length <= 0)
+      this.inputs = this.publicEndSignUpForm
+    }
+  },
   computed: {
     ...mapGetters([
       'endSignUpForm',
@@ -26,7 +32,8 @@ export default {
   },
   methods: {
     ...mapActions([
-      'setEndSignUpForm'
+      'setEndSignUpForm',
+      'getPublicEndSignUpForm'
     ]),
     previewSignUpForm() {
       this.setEndSignUpForm(this.inputs)
@@ -39,12 +46,13 @@ export default {
     } else {
       this.inputs = this.endSignUpForm
     }
-    console.log(this.inputs);
-    
     M.updateTextFields();
   },
   updated () {
     M.updateTextFields();
+  },
+  created () {
+    this.getPublicEndSignUpForm()
   }
 }
 </script>

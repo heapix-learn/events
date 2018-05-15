@@ -18,18 +18,7 @@ export default {
     loggedUser: {role: 5},
     postSignUpError: '',
     postSignInError: '',
-    publicEndSignUpForm: [
-      {
-        label: 'Age',
-        type: 'number',
-      },
-      {
-        label: 'Sex',
-        options: 'female, male',
-        type: 'select'
-      }
-    ],
-    // publicEndSignUpForm: [],
+    publicEndSignUpForm: [],
     endSignUpForm: [],
   },
   getters: {
@@ -182,7 +171,7 @@ export default {
         })
     },
     postPublicEndSignUpForm({commit}, form) {
-      return axios.post(`${url}/reg-form`, JSON.stringify(form))
+      axios({method: 'POST', url: `${url}/reg-form`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: {inputs: JSON.stringify(form)}})
         .then(res => {
           router.push('/users')
           return res
@@ -193,9 +182,9 @@ export default {
         })
     },
     getPublicEndSignUpForm({commit, state}) {
-      return axios.get(`${url}/reg-form`)
+      axios({method: 'GET', url: `${url}/reg-form`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}})
         .then(res => {
-          state.publicEndSignUpForm = JSON.parse(red.data)
+          commit('setPublicEndSignUpForm', JSON.parse(res.data.inputs))
           return res
         })
         .catch(rej => {

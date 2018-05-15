@@ -17,7 +17,7 @@
               Capacity: minimum {{newEvent.minNumberOfRegistrations}} and maximum {{newEvent.maxNumberOfRegistrations}}</p>
             <p>Price:{{newEvent.price !== 0 ? ' ' + newEvent.price + '$' : ' Free!'}}</p>
           </div>
-          <div class="card-action">
+          <div v-if="!isEdit" class="card-action">
             <a v-if="!showSignUp" @click="showSignUp = !showSignUp" class="waves-effect">Sign Up</a>
           </div>
         </div>
@@ -43,7 +43,8 @@ export default {
   data () {
     return {
       showSignUp: false,
-      formSignUp: {} 
+      formSignUp: {} ,
+      isEdit: this.$route.path.match(/edit/),
     }
   },
   components: {
@@ -73,9 +74,11 @@ export default {
     }
   },
   mounted () {
-    this.newEvent.inputs.map(input => {
-      this.formSignUp[input.label] = ''
-    })
+    if (!this.isEdit) {
+      this.newEvent.inputs.map(input => {
+        this.formSignUp[input.label] = ''
+      })
+    }
   },
   beforeRouteLeave (to, from, next) {
     if (to.path === '/events/create' || to.path.search(/edit/) !== -1) {
