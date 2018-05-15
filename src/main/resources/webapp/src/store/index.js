@@ -10,7 +10,7 @@ import about from './modules/about'
 Vue.use(Vuex)
 
 
-export const url = 'http://82be25fb.ngrok.io'
+export const url = 'http://18.188.143.172:8080'
 // export const url = 'http://localhost:8080'
 
 export default new Vuex.Store({

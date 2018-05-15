@@ -19,7 +19,7 @@
         <template v-else-if="field.type === 'image'">
             <form class="col s6 offset-s3">
               <div class="file-field input-field">
-                <div class="btn">
+                <div class="btn green">
                   <span>File</span>
                   <input :disabled="isPreview" type="file">
                 </div>
