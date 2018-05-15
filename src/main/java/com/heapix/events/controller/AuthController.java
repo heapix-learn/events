@@ -70,7 +70,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<? extends AuthDto> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) {
+    public ResponseEntity createAuthenticationToken(@RequestBody JwtAuthenticationRequest authRequest) {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword());
         Authentication authentication = authenticationManager.authenticate(token);
@@ -79,7 +79,9 @@ public class AuthController {
 
         UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserAdminBo user = userService.findUser(currUser.getId());
-
+        if(user.getRole().equals(UserRole.ANONYMOUS_USER.getId())){
+            return ResponseEntity.ok(new String("Сonfirmation of your account in progress"));
+        }
         return ResponseEntity.ok(new AuthDto(new JwtAuthenticationResponse(jwtToken),user));
     }
 }
