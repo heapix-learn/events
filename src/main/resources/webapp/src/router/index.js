@@ -185,7 +185,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   const role = store.getters.loggedUserRole
   const toPathRoleGate = ROUTE_ROLES[to.name.split('-')[0]]
-  console.log(`role${role} and toRole${toPathRoleGate}`)
   if (role <= toPathRoleGate) {
     next()
   } else {

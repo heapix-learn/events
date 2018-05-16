@@ -1,8 +1,10 @@
 <template>
   <div>
     <form-generator-view :form-inputs="endSignUpForm" :isPreview="true" :userFormInput="inputs"></form-generator-view>
-    <a @click="publish" class="waves-effect col s1 offset-s5 green waves-light btn">Publish</a>
-    <a @click="$router.go(-1)" class="waves-effect col s1 blue waves-light btn">Back</a>
+    <div class="publish-back-buttons">
+      <a @click="publish" class="waves-effect col s1 offset-s5 green waves-light btn">Publish</a>
+      <a @click="$router.go(-1)" class="waves-effect col s1 blue waves-light btn">Back</a>
+    </div>
   </div>
 </template>
 
@@ -37,5 +39,8 @@ export default {
 </script>
 
 <style>
-
+.publish-back-buttons a{
+  margin-left: 5px;
+  margin-right: 5px;
+}
 </style>

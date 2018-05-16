@@ -21,7 +21,12 @@
               <h5>{{currentUser.firstPhone}} {{currentUser.lastPhone}}</h5>
               <h5>{{currentUser.email}}</h5>
               <h5 v-if="loggedUserRole <= 2">{{currentUser.annotations}}</h5>
-            </div>
+              <div v-for="(input, index) in inputs" :key="index">
+                <h5 v-for="(value, key) in input" :key="key">
+                  {{key}}: {{value}}
+                </h5>
+              </div>
+            </div> 
         </div>
       </div>
     </div>
@@ -36,7 +41,7 @@ export default {
   data () {
     return {
       isMyProfile: false,
-      hasEditRights: false
+      hasEditRights: false,
     }
   },
   methods: {
@@ -54,18 +59,21 @@ export default {
     ...mapGetters([
       'currentUser',
       'loggedUser',
-      'loggedUserRole'
-    ])
+      'loggedUserRole',
+    ]),
+    inputs () {
+      if (this.currentUser.inputs) {
+        return JSON.parse(this.currentUser.inputs)
+      } else {
+        return null
+      }
+    }
   },
   components: {
     Modal
   },
   mounted() {
-    // if (this.loggedUserRole <= 2) {
-    //   this.getUserByIdAdmin(this.$route.params.id);
-    // } else {
-      this.getUserById(this.$route.params.id);
-    // }
+    this.getUserById(this.$route.params.id);
     this.showButtons();
   },
   beforeRouteLeave (to, from, next) {
