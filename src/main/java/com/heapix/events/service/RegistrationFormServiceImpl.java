@@ -5,6 +5,8 @@ import com.heapix.events.persistence.repository.RegistrationFormRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RegistrationFormServiceImpl implements RegistrationFormService {
 
@@ -13,7 +15,12 @@ public class RegistrationFormServiceImpl implements RegistrationFormService {
 
     @Override
     public RegistrationForm getRegistrationForm() {
-        return formRepository.findAll().get(0);
+        List<RegistrationForm> forms = formRepository.findAll();
+        if(forms.isEmpty()){
+            return null;
+        } else {
+            return forms.get(0);
+        }
     }
 
     @Override
