@@ -5,6 +5,7 @@ import com.heapix.events.controller.bo.UserAdminBo;
 import com.heapix.events.controller.bo.UserSelfBo;
 import com.heapix.events.controller.dto.ChangePasswordDto;
 import com.heapix.events.controller.dto.UserUpdateDto;
+import com.heapix.events.persistence.model.enums.UserRole;
 import com.heapix.events.service.UserService;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,15 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator', 'Member')")
     public ResponseEntity updateUser(@NotEmpty @RequestBody UserUpdateDto userUpdateDto,
                                       @PathVariable long id) {
-        userService.update(userUpdateDto, id);
+        UserAuth currUser = (UserAuth) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long currUserRole = userService.findUser(currUser.getId()).getRole();
+        if(currUserRole.equals(UserRole.SYSTEM_SUPER_ADMIN.getId())){
+            userService.update(userUpdateDto, id, userUpdateDto.getRole());
+        } else if (currUserRole <= UserRole.SYSTEM_ADMIN_USER.getId() && userService.findUser(id).getRole() > 2) {
+            userService.update(userUpdateDto, id, userUpdateDto.getRole());
+        } else {
+            userService.update(userUpdateDto, id, null);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 

@@ -20,7 +20,7 @@ public interface UserService {
     List<User> getAll();
     UserAdminBo findUser(Long id);
     UserAdminBo findUser(String email);
-    void update(UserUpdateDto userUpdateDto, Long userId);
+    void update(UserUpdateDto userUpdateDto, Long userId, Long role);
     DeleteResponseBo delete(Long id);
     DeleteResponseBo blockUser(Long id);
     List<UserAdminBo> getUnregisteredUsers();

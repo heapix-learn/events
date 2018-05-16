@@ -13,14 +13,16 @@ public class UserUpdateDto {
     private String phone1;
     private String phone2;
     private String annotations;
+    private Long role;
 
-    public UserUpdateDto(String email, String firstName, String lastName, String password, String phone1, String phone2, String annotations) {
+    public UserUpdateDto(String email, String firstName, String lastName, String phone1, String phone2, String annotations, Long role) {
         this.email = email;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phone1 = phone1;
         this.phone2 = phone2;
         this.annotations = annotations;
+        this.role = role;
     }
 
     public UserUpdateDto() {
@@ -72,5 +74,13 @@ public class UserUpdateDto {
 
     public void setPhone2(String phone2) {
         this.phone2 = phone2;
+    }
+
+    public Long getRole() {
+        return role;
+    }
+
+    public void setRole(Long role) {
+        this.role = role;
     }
 }

@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void update(UserUpdateDto userUpdateDto, Long userId) {
+    public void update(UserUpdateDto userUpdateDto, Long userId, Long role) {
         User entity = userRepository.getOne(userId);
         entity.setEmail(userUpdateDto.getEmail());
         entity.setFirstName(userUpdateDto.getFirstName());
@@ -74,6 +74,9 @@ public class UserServiceImpl implements UserService {
         entity.setPhone1(userUpdateDto.getPhone1());
         entity.setPhone2(userUpdateDto.getPhone2());
         entity.setAnnotations(userUpdateDto.getAnnotations());
+        if(role!=null){
+            entity.setRole(role);
+        }
         userRepository.save(entity);
     }
 
