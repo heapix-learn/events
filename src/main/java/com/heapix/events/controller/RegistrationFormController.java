@@ -1,13 +1,18 @@
 package com.heapix.events.controller;
 
 import com.heapix.events.persistence.model.RegistrationForm;
-import com.heapix.events.persistence.model.User;
 import com.heapix.events.service.RegistrationFormService;
 import com.heapix.events.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("reg-form")
@@ -19,6 +24,7 @@ public class RegistrationFormController {
     private UserService userService;
 
     @GetMapping
+    @PreAuthorize("permitAll()")
     public RegistrationForm getRegistrationForm() {
         return formService.getRegistrationForm();
     }
@@ -29,6 +35,7 @@ public class RegistrationFormController {
     }
 
     @PutMapping
+    @PreAuthorize("permitAll()")
     public ResponseEntity saveRegistrationInfo(@RequestBody RegistrationForm inputs) {
         userService.saveUserAdditionalInfo(inputs.getInputs(), EventUtils.getUserId());
         return new ResponseEntity(HttpStatus.OK);

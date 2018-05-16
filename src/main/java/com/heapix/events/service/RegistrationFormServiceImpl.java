@@ -13,7 +13,7 @@ public class RegistrationFormServiceImpl implements RegistrationFormService {
 
     @Override
     public RegistrationForm getRegistrationForm() {
-        return formRepository.findById(1L).orElse(null);
+        return formRepository.findAll().get(0);
     }
 
     @Override

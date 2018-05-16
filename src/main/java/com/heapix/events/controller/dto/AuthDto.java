@@ -19,7 +19,7 @@ public class AuthDto {
         this.id = user.getId();
         this.firstName = user.getFirstName();
         this.role = UserRole.getById(user.getRole()).getRole();
-        this.infoProvided = UserRole.ANONYMOUS_USER.getId().equals(user.getRole()) && !user.getInfoProvided();
+        this.infoProvided = !UserRole.ANONYMOUS_USER.getId().equals(user.getRole()) && user.getInfoProvided();
     }
 
     public AuthDto() {
