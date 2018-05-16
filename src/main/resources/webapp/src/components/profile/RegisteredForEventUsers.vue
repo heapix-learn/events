@@ -1,10 +1,10 @@
 <template>
-  <div class="registered-users">
+  <div class="registered-users reg-users-padding">
     <div class="users-list">
       <div v-for="data in registeredForEventUsers" :key="data.id" class="col m8 offset-m2">
         <div class="card horizontal">
           <div class="card-stacked">
-            <div class="card-content users-list-card-content valign-wrapper row">
+            <div class="card-content users-list-card-content valign-wrapper row row-users-event">
               <div class="user-name col l3">
                 <p>{{data.user.firstName}} {{data.user.lastName}}</p>
               </div>
@@ -53,4 +53,10 @@ export default {
 .cursor {
   cursor: pointer;
 }
+  .reg-users-padding {
+    padding-top: 20px;
+  }
+  .row-users-event {
+    margin-bottom: 0px !important;
+  }
 </style>
