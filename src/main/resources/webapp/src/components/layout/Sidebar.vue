@@ -22,6 +22,17 @@
         </router-link>
       </div>
     </li>
+    <li>
+      <div class="collapsible-header green white-text"><i class="material-icons">line_weight</i>About</div>
+      <div class="collapsible-body sb-menu-item">
+        <router-link to="/about/edit">
+          <button class="btn white black-text waves-effect waves-light sb-inner-btn" type="submit" name="action">
+            <i class="material-icons left">line_style</i>
+            Edit about
+          </button>
+        </router-link>
+      </div>
+    </li>
     <li v-if="loggedUser.role < 3">
       <div class="collapsible-header green white-text"><i class="material-icons">person</i>Users</div>
       <div class="collapsible-body sb-menu-item">

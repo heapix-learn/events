@@ -83,7 +83,13 @@ export default {
       commit('setPostSignInError', '')
       axios.post(`${url}/auth`, payload)
         .then(res => {
-          console.dir(res)
+          console.log(res)
+          console.log(res.data)
+          if (res.data === 'Сonfirmation of your account in progress') {
+            console.log('adasdad')
+            commit('setPostSignInError', 'Сonfirmation of your account in progress')
+            return
+          }
           if (!res.data.infoProvided) {
             root.dispatch('setAuthToken', res.data.auth.token)
             router.push('/auth/endsignup')
@@ -99,6 +105,7 @@ export default {
           return res
         })
         .catch(rej => {
+          console.log('im in catch')
           console.log(rej)
           commit('setPostSignInError', 'Wrong credentials')
           return rej
@@ -118,7 +125,11 @@ export default {
           return res
         })
         .catch(rej => {
-          commit('setPostSignUpError', 'Failed to sign up')
+          if (rej.response) {
+            commit('setPostSignUpError', rej.response.data.message)
+          } else {
+            commit('setPostSignUpError', 'Failed to sign up')
+          }
           console.dir(rej)
           return rej
         })

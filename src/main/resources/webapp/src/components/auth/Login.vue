@@ -17,7 +17,7 @@
               <span class="helper-text red-text" data-error="wrong" data-success="right">{{errors.first('password')}}</span>
             </div>
           </div>
-          <div v-if="postSignInError" class="server-error center red-text">{{'Wrong credentials!'}}</div>
+          <div v-if="postSignInError" class="server-error center red-text">{{postSignInError}}</div>
           <div class="center-align submit-buttons">
             <a @click="signInPost" :class="{disabled: errors.items.length > 0 || disabledByFields}" class="waves-effect waves-light btn-large green">Login</a>
             <router-link to="signup" class="btn-flat green-text">Don't have account?</router-link>

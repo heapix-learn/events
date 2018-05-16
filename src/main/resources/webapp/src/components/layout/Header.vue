@@ -21,23 +21,11 @@
                 </ul>
               </li>
             </template>
-            <!-- <ul class="collapsible">
-              <li>
-                <div class="collapsible-header">My profile</div>
-                <div class="collapsible-body">
-                  <ul>
-                    <router-link :to="'/users/' + loggedUser.id">My profile</router-link>
-                    <a @click="$store.dispatch('signOut')">Logout</a>
-                  </ul>
-                </div>
-              </li>
-            </ul> -->
             <template v-else>
                 <li key="login"><router-link to="/auth/login">Login</router-link></li>
                 <li><router-link to="/auth/signup">Signup</router-link></li>
             </template>
             <li :class="activePath('/about')"><router-link to="/about">About</router-link></li>
-            <li v-if="loggedUser.role <= 2" :class="activePath('/about/edit')"><router-link to="/about/edit">Edit About</router-link></li>
           </ul>
         </div>
       </div>

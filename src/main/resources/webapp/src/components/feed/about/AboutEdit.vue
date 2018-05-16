@@ -1,12 +1,15 @@
 <template>
-
   <div class="row">
     <h3 class="center">Edit About</h3>
     <form class="col s12">
       <div class="row">
         <div class="input-field col s12">
-          <textarea v-model="layout" id="about-textarea" class="materialize-textarea"></textarea>
-          <label for="textarea1">About</label>
+          <textarea v-model="layout.title" id="title-textarea" class="materialize-textarea"></textarea>
+          <label for="title-textarea">Title</label>
+        </div>
+        <div class="input-field col s12">
+          <textarea v-model="layout.body" id="body-textarea" class="materialize-textarea"></textarea>
+          <label for="body-textarea">Body</label>
         </div>
       </div>
     </form>
@@ -21,31 +24,30 @@ export default {
   name: 'AboutEdit',
   computed: {
     ...mapGetters([
-      'layout'
+      'layout',
+      'publicLayout',
     ]),
-    layout: {
-      get () {
-        return this.$store.getters.layout
-      },
-      set (value) {
-        this.$store.commit('setLayout', value)
-      }
-    }
   },
   methods: {
     ...mapActions([
-      'setLayout'
+      'setLayout',
+      'getAbout'
     ]),
     previewAbout () {
+      this.setLayout({title: this.layout.title, body: this.layout.body})
       this.$router.push('/about/preview')
     }
   },
   updated() {
     M.updateTextFields();
-    M.textareaAutoResize(document.querySelector('#about-textarea'));
+    // M.textareaAutoResize(document.querySelector('#body-textarea'));
   },
   mounted() {
+    if (this.layout.title === '' && this.layout.body === '') {
+      this.getAbout()
+    }
     M.updateTextFields();
+    M.textareaAutoResize(document.querySelector('#body-textarea'));
   }
 }
 </script>

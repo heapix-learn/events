@@ -5,7 +5,7 @@ import {url} from '../../index'
 export default {
   state: {
     publicLayout: '',
-    layout: ''
+    layout: {title: '', body: ''},
   },
   getters: {
     layout: state => state.layout,
@@ -18,7 +18,7 @@ export default {
   actions: {    
     setLayout: ({commit}, layout) => commit('setLayout', layout),
     putAbout({commit, state}) {
-      return axios.put(`${url}/about`, state.layout)
+      axios({method: 'PUT', url: `${url}/about`, headers: {Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')}, data: state.layout})
         .then(res => {
           commit('setPublicLayout', layout)
           router.push({path: '/about'})
@@ -33,6 +33,9 @@ export default {
       return axios.get(`${url}/about`)
         .then(res => {
           commit('setPublicLayout', res.data)
+          if (state.layout.title === '' && state.layout.body === '') {
+            commit('setLayout', res.data)
+          }
           return res
         })
         .catch(rej => {
