@@ -1,20 +1,20 @@
 <template>
-    <div class="col s12">
-        <div class="generated-form row center">
+        <div class="generated-form s12">
+            <div class="row center">
             <span v-if="info">
-                    <label style="text-align: center">Registration form info</label>
-            <div v-for="(value, key) in info" :key="key" class="card-content black-text">
-                <div v-if="value.type === 'img'" class="row">
+                    <label class="col s12">Registration form info</label>
+            <div v-for="(value, key) in info" :key="key" class="card-content black-text padding-user-preview">
+                <div v-if="value.type === 'img'" class="">
                     <label class="col s12">{{key}}</label>
                     <img  class="small" :src="value.image" alt="logo">
                 </div>
                 <div v-else class="row">
-                    <p class="">{{key}} : <span>{{value}}</span></p>
+                    <p class="col s12">{{key}} : <span>{{value}}</span></p>
                 </div>
             </div>
             </span>
+            </div>
         </div>
-    </div>
 </template>
 
 
@@ -32,5 +32,9 @@
         width: 200px;
         height: 200px;
         border-radius: 100px;
+    }
+    .padding-user-preview {
+        padding-top: 2px !important;
+        padding-bottom: 2px !important;
     }
 </style>
