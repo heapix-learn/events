@@ -14,12 +14,14 @@
       </div>
       <div class="row">
         <div class="input-field col s6">
-          <input @change="changeDate" id="datepicker" v-model="date" type="text" class="datepicker">
+          <input @change="changeDate" id="datepicker" v-model="date" type="text" v-validate="'required'" name="Date" onkeydown="return false" class="datepicker">
           <label for="datepicker">Date</label>
+          <span class="helper-text red-text" >{{errors.first('Date')}}</span>
         </div>
         <div class="input-field col s6">
-          <input @change="changeTime" id="timepicker" v-model="time" type="text" class="timepicker">
+          <input @change="changeTime" id="timepicker" v-model="time" type="text" v-validate="'required'" name="Time" onkeydown="return false" class="timepicker">
           <label for="timepicker">Time</label>
+          <span class="helper-text red-text" >{{errors.first('Time')}}</span>
         </div>
       </div>
       <div class="row">
