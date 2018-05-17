@@ -126,7 +126,7 @@ export default {
       },
 
       changePassword({commit}, payload) {
-        commit('changePasswordServerError', '')
+        commit('setChangePasswordServerError', '')
         return axios.put(
             `${url}/users/password`,
             payload,
@@ -140,13 +140,13 @@ export default {
             return res
           })
           .catch(rej => {
-            commit('changePasswordServerError', rej)
+            commit('setChangePasswordServerError', rej.response.data.message)
           })
       },
 
       unsubscribeUser({commit, state}, payload) {
         return axios.delete(
-            `${url}/users/${payload.id}`,
+            `${url}/users`,
             {
                 headers: {
                     Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
@@ -154,6 +154,8 @@ export default {
             })
           .then(res => {
             router.push({path: '/'})
+            this.commit('signOut')
+            M.toast({html: 'You were unsubscribed!', classes: 'green center'})
             return res
           })
           .catch(rej => {
