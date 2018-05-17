@@ -50,7 +50,8 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public List<News> getByRole(Long role) {
-        return newsRepository.findAllByRoleGreaterThanEqual(role);
+//        return newsRepository.findAllByRoleGreaterThanEqual(role);
+        return newsRepository.findAllByRoleGreaterThanEqualOrderByCreatedDateDesc(role);
     }
 
     @Override
@@ -58,7 +59,7 @@ public class NewsServiceImpl implements NewsService {
         News news = newsRepository.getOne(newsId);
         news.setBody(newsDto.getBody());
         news.setRole(newsDto.getRole());
-        news.setLastModifiedDate(new Date());
+        news.setCreatedDate(new Date());
         return new UpdateResponseBo(newsRepository.save(news).getId());
     }
 

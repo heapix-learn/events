@@ -44,7 +44,7 @@ export default {
 }
 .edit-event-button {
   position: absolute;
-  margin:  10px 10px;
+  margin:  20px;
   top: 0;
   right: 0;
 }
