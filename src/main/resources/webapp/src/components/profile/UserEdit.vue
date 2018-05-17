@@ -64,6 +64,7 @@
               <div class="row center red-text">{{postEdittedUserError}}</div>
             </div>
           <a v-if="currentUser.id === loggedUser.id" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1 modal-trigger" href="#unsub">Unsubscribe</a>
+          <a v-else-if="loggedUser.role < 4" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1" @click="block(currentUser.id)">Block User</a>
         </div>
       </div>
     </div>
@@ -87,6 +88,7 @@ export default {
       'putEdittedUser',
       'unsubscribeUser',
       'getUserById',
+      'blockUser'
     ]),
 
     showButtons() {
@@ -103,8 +105,11 @@ export default {
         })
     },
     unsubscribe() {
-      this.unsubscribeUser(this.currentUser)
+      this.unsubscribeUser()
     },
+      block(id) {
+        this.blockUser(id);
+      }
   },
   computed: {
     ...mapGetters([

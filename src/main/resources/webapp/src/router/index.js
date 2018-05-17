@@ -172,7 +172,7 @@ const router = new Router({
     {
       path: '/auth/endsignup',
       component: EndSignUp,
-      name: 'all-signup'
+      name: 'all-end-signup'
     },
     {
       path: '/formgenerator',

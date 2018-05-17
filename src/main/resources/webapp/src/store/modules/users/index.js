@@ -144,7 +144,24 @@ export default {
           })
       },
 
-      unsubscribeUser({commit, state}, payload) {
+    blockUser({commit, state}, id) {
+        return axios.delete(
+            `${url}/users/${id}`,
+            {
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+                }
+            })
+            .then(res => {
+                router.push({path: '/users'});
+            })
+            .catch(rej => {
+                console.dir(rej)
+                return rej
+            })
+    },
+
+      unsubscribeUser({commit, state}) {
         return axios.delete(
             `${url}/users`,
             {

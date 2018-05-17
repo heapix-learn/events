@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("reg-form")
 public class RegistrationFormController {
@@ -37,7 +39,11 @@ public class RegistrationFormController {
     @PutMapping
     @PreAuthorize("permitAll()")
     public ResponseEntity saveRegistrationInfo(@RequestBody RegistrationForm inputs) {
-        userService.saveUserAdditionalInfo(inputs.getInputs(), EventUtils.getUserId());
+        RegistrationForm form = formService.getRegistrationForm();
+        if( !Objects.equals(inputs.getInputs(), "[]") ||
+                form == null || form.getInputs() == null || form.getInputs().isEmpty() || form.getInputs().equals("[]")) {
+            userService.saveUserAdditionalInfo(inputs.getInputs(), EventUtils.getUserId());
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
 }

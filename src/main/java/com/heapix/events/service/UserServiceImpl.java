@@ -9,6 +9,7 @@ import com.heapix.events.controller.dto.RegistrationDto;
 import com.heapix.events.controller.dto.UserUpdateDto;
 import com.heapix.events.persistence.model.User;
 import com.heapix.events.persistence.model.enums.UserRole;
+import com.heapix.events.persistence.repository.EventRegistrationRepository;
 import com.heapix.events.persistence.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EventRegistrationRepository eventRegRepository;
     @Autowired
     private PasswordEncoder encoder;
     @Autowired
@@ -90,6 +93,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public DeleteResponseBo delete(Long id) {
+        eventRegRepository.deleteAllByUserId(id);
         userRepository.deleteById(id);
         return new DeleteResponseBo(id);
     }
@@ -111,6 +115,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUserAdditionalInfo(String info, Long id) {
         User entity = userRepository.getOne(id);
+
         entity.setInputs(info);
         entity.setInfoProvided(true);
        return userRepository.save(entity);

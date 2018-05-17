@@ -90,19 +90,19 @@ export default {
             commit('setPostSignInError', 'Сonfirmation of your account in progress')
             return
           }
-          if (!res.data.infoProvided) {
-            root.dispatch('setAuthToken', res.data.auth.token)
-            router.push('/auth/endsignup')
-            return
-          }
           const user = res.data;
-          const userRoleId = ROLES[user.role]
+          const userRoleId = ROLES[user.role];
           user.role = userRoleId
           commit('setIsLogged', true)
           commit('setUserFromSignIn', user)
           root.dispatch('setAuthToken', res.data.auth.token)
+          if (!res.data.infoProvided) {
+              router.push('/auth/endsignup')
+              return;
+          }
           router.push('/')
-          return res
+          return res;
+
         })
         .catch(rej => {
           console.log('im in catch')
