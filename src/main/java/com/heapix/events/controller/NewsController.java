@@ -57,7 +57,7 @@ public class NewsController {
         return new ResponseEntity(response, HttpStatus.OK);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
     public ResponseEntity updateNews(@RequestBody UpdateNewsDto news, @PathVariable long id) {
         //impl
