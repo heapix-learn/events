@@ -63,8 +63,8 @@
               </form>
               <div class="row center red-text">{{postEdittedUserError}}</div>
             </div>
-          <a v-if="currentUser.id === loggedUser.id" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1 modal-trigger" href="#unsub">Unsubscribe</a>
-          <a v-else-if="loggedUser.role < 4" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1" @click="block(currentUser.id)">Block User</a>
+          <a v-if="currentUser.id === loggedUser.id && loggedUser.role > 1" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1 modal-trigger" href="#unsub">Unsubscribe</a>
+          <a v-else-if="currentUser.id !== loggedUser.id && loggedUser.role < 4" class="waves-effect waves blue darken-2 btn edit-button eb-unsub z-depth-1" @click="block(currentUser.id)">Block User</a>
         </div>
       </div>
     </div>

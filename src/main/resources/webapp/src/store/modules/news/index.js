@@ -92,7 +92,11 @@ export default {
     },
 
     putNews({commit}, payload) {
-      return axios.put(`${url}/news`, payload)
+      return axios.put(`${url}/news/${payload.id}`, payload, {
+          headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+          }
+      })
         .then(res => {
           commit('clearNewsPreview')
           router.push({path: '/news'})
@@ -105,7 +109,11 @@ export default {
     },
 
     deleteNews({commit}, id) {
-      return axios.delete(`${url}/news/${id}`)
+      return axios.delete(`${url}/news/${id}`, {
+          headers: {
+              Authorization: 'Bearer ' + localStorage.getItem('eventAppToken')
+          }
+      })
         .then(res => {
           router.push({path: '/news'})
           return res
