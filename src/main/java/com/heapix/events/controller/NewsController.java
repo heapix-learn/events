@@ -59,9 +59,9 @@ public class NewsController {
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('Super Administrator', 'Administrator', 'Moderator')")
-    public ResponseEntity updateNews(@RequestBody UpdateNewsDto eventDto, @PathVariable long id) {
+    public ResponseEntity updateNews(@RequestBody UpdateNewsDto news, @PathVariable long id) {
         //impl
-        return new ResponseEntity(newsService.update(eventDto.getBody(), id), HttpStatus.OK);
+        return new ResponseEntity(newsService.update(news, id), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

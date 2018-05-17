@@ -3,6 +3,8 @@ package com.heapix.events.service;
 import com.heapix.events.controller.bo.CreateResponseBo;
 import com.heapix.events.controller.bo.UpdateResponseBo;
 import com.heapix.events.controller.converter.NewsConverter;
+import com.heapix.events.controller.dto.UpdateEventDto;
+import com.heapix.events.controller.dto.UpdateNewsDto;
 import com.heapix.events.persistence.model.News;
 import com.heapix.events.persistence.repository.NewsRepository;
 import com.heapix.events.persistence.repository.UserRepository;
@@ -52,9 +54,10 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public UpdateResponseBo update(String body, Long newsId) {
+    public UpdateResponseBo update(UpdateNewsDto newsDto, Long newsId) {
         News news = newsRepository.getOne(newsId);
-        news.setBody(body);
+        news.setBody(newsDto.getBody());
+        news.setRole(newsDto.getRole());
         news.setLastModifiedDate(new Date());
         return new UpdateResponseBo(newsRepository.save(news).getId());
     }

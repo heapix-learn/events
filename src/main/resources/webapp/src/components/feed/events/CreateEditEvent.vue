@@ -39,7 +39,7 @@
       <div class="row">
         <div class="input-field col s12">
           <textarea id="event-description" class="materialize-textarea" v-model="eventData.description" v-validate="'required'" name="Description"/>
-          <label :class="{active: eventData.description}" for="event-text">Description</label>
+          <label :class="{active: eventData.description}" for="event-description">Description</label>
           <span class="helper-text red-text" >{{errors.first('Description')}}</span>
         </div>
       </div>

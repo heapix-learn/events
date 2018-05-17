@@ -18,6 +18,17 @@
           <span class="helper-text red-text">{{errors.first('Text')}}</span>
         </div>
       </div>
+      <div class="row">
+        <div class="input-field col s5 offset-s3">
+          <select v-model="currentNews.role">
+            <option value="5">All</option>
+            <option value="4">Members</option>
+            <option value="3">Moderators</option>
+            <option value="2">Administrators</option>
+          </select>
+          <label>Visible for</label>
+        </div>
+      </div>
     </form>
     <div class="create-news-buttons row center">
       <a @click="previewNews" :class="{disabled: errors.items.length > 0}" class="waves-effect green waves-light btn">Preview</a>
@@ -49,7 +60,7 @@ import { mapActions, mapGetters } from 'vuex';
           if (this.errors.items.length > 0) {
             return
           } else {
-            const prev = {title: this.currentNews.title, body: this.currentNews.body, id: this.currentNews.id}
+            const prev = {title: this.currentNews.title, body: this.currentNews.body, id: this.currentNews.id, role: this.currentNews.role }
             this.setNewsPreview(prev)
             this.$router.push('/news/preview')
           }
