@@ -14,31 +14,32 @@
               <form class="col s10">
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_name" type="text" v-model="currentUser.firstName" v-validate="'required|alpha'" name="First Name" :disabled="isManager || !(currentUser.firstName==loggedUser.firstName)">
+
+                    <input id="first_name" type="text" v-model="currentUser.firstName" v-validate="'required|alpha'" name="First Name" :disabled="!(currentUser.firstName==loggedUser.firstName)">
                     <label class="active text-green" for="first_name"><span class="required-field">First Name</span></label>
                     <span class="helper-text red-text" >{{errors.first('First Name')}}</span>
                   </div>
                   <div class="input-field col s6">
-                    <input id="last_name" type="text" v-model="currentUser.lastName" v-validate="'alpha'" name="Last Name" :disabled="isManager || !(currentUser.firstName==loggedUser.firstName)">
+                    <input id="last_name" type="text" v-model="currentUser.lastName" v-validate="'alpha'" name="Last Name" :disabled="!(currentUser.firstName==loggedUser.firstName)">
                     <label class="active" for="last_name"><span class="required-field">Last Name</span></label>
                     <span class="helper-text red-text" >{{errors.first('Last Name')}}</span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s6">
-                    <input id="first_phone" type="text" placeholder="+123456789" v-model="currentUser.phone1" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number" :disabled="isManager || !(currentUser.firstName==loggedUser.firstName)">
+                    <input id="first_phone" type="text" placeholder="+123456789" v-model="currentUser.phone1" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number" :disabled="!(currentUser.firstName==loggedUser.firstName)">
                     <label class="active text-green" for="first_phone"><span class="required-field">Phone number</span></label>
                     <span class="helper-text red-text" >{{errors.first('Phone number') ? 'Phone number starts from `+` and has length is from 9 to 12' : ''}}</span>
                   </div>
                   <div class="input-field col s6">
-                    <input id="secondary_phone" type="text" v-model="currentUser.lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2" :disabled="isManager || !(currentUser.firstName==loggedUser.firstName)">
+                    <input id="secondary_phone" type="text" v-model="currentUser.lastPhone" v-validate="{ regex: /^\+([0-9]{9,12})$/ }" name="Phone number 2" :disabled="!(currentUser.firstName==loggedUser.firstName)">
                     <label class="active" for="secondary_phone">Phone number</label>
                     <span class="helper-text red-text" >{{errors.first('Phone number 2') ? 'Phone number starts from `+` and has length is from 9 to 12' : ''}}</span>
                   </div>
                 </div>
                 <div class="row">
                   <div class="input-field col s12">
-                    <input id="email" type="email" v-model="currentUser.email" v-validate="'required|email'" name="Email" :disabled="isManager || !(currentUser.firstName==loggedUser.firstName)">
+                    <input id="email" type="email" v-model="currentUser.email" v-validate="'required|email'" name="Email" :disabled="!(currentUser.firstName==loggedUser.firstName)">
                     <label class="active" for="email"><span class="required-field">Email</span></label>
                     <span class="helper-text red-text" >{{errors.first('Email')}}</span>
                   </div>
